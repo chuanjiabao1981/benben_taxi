@@ -7,6 +7,14 @@ BenbenTaxi::Application.routes.draw do
       resources :users,only: [] do
         collection do
           post 'create_driver'
+          post 'create_passenger'
+        end
+      end
+      resources :sessions do
+        collection do
+          post 'driver_signin'
+          post 'passenger_signin'
+          post 'signout'
         end
       end
     end

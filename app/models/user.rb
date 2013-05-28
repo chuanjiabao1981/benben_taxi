@@ -20,10 +20,10 @@ class User < ActiveRecord::Base
 	before_save :create_remember_token
 	has_secure_password
 
+	validates :mobile,  		:uniqueness => { :scope => :role }
 	validates :account        ,:uniqueness => true,format:{with:VALID_ACCOUNT_REGEX},:unless => Proc.new {|u| u.is_driver? or u.is_passenger?}
 	validates :mobile         ,:length => {:is => 11 },
 								format: {with:VALID_MOBILE_REGEX} , 
-								:uniqueness => true ,
 								:unless => Proc.new {|u| u.is_super_admin? or u.is_zone_admin? } 
 									
 	validates :role           ,:inclusion => {  :in => ROLE_TYPE,:message   => "%{value} 不合法的用户类型!" }
@@ -35,18 +35,21 @@ class User < ActiveRecord::Base
 
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
-	def build_a_user(params={})
-		a = User.new(params)
-		a.status = USER_DEFAULT_STATUS[self.role]
-	end
-
-	def self.build_driver(params={})
+	def self.build_a_user(params={},role)
 		a 			= User.new(params)
-		a.role   	= ROLE_DRIVER
+		a.role 		= role
 		a.status 	= USER_DEFAULT_STATUS[a.role]
 		a.tenant    = Tenant.find_tenant params
 		a
 	end
+
+	def self.build_driver(params={})
+		User.build_a_user(params,ROLE_DRIVER)
+	end
+	def self.build_passenger(params={})
+		User.build_a_user(params,ROLE_PASSENGER)
+	end
+
 
 
 	def is_passenger?
