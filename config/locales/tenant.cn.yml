@@ -1,0 +1,7 @@
+cn:
+  activerecord:
+    models:
+      tenant: 地域
+    attributes:
+      tenant:
+        name: 地域名称

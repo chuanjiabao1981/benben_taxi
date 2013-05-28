@@ -1,0 +1,28 @@
+cn:
+  activerecord:
+    errors:
+      messages:
+        wrong_size: "文件大小不对(文件大小为 %{file_size})"
+        size_too_small: "文件太小了(文件至少 %{file_size})"
+        size_too_big: "文件太大了 (文件最大 %{file_size})"
+        inclusion: "不包含于列表中"  
+        exclusion: "是保留关键字"  
+        invalid: "是无效的"  
+        confirmation: "与确认值不匹配"  
+        accepted: "必须是可被接受的"  
+        empty: "不能留空"  
+        blank: "不能为空"  
+        too_long: "过长（最长为 %{count} 个字符）"  
+        too_short: "過短（最短为 %{count} 个字符）"  
+        wrong_length: "长度非法（必须为 %{count} 个字符）"  
+        taken: "已经被使用"  
+        not_a_number: "不是数字"  
+        greater_than: "必须大于 %{count}"  
+        greater_than_or_equal_to: "必须大于或等于 %{count}"  
+        equal_to: "必须等于 %{count}"  
+        less_than: "必须小于 %{count}"  
+        less_than_or_equal_to: "必须小于或等于 %{count}"  
+        odd: "必须为单数"  
+        even: "必须为双数"
+        super_admin_with_tenant: 超级管理员不可以属于任何承租人
+        resolve_submitter_not_match: 无权限提交

@@ -1,0 +1,18 @@
+digraph TaxiRequest{
+	Waiting_Driver_Response [shape = box ];
+	Waiting_Passenger_Confirm;
+	TimeOut [shape = box];
+	Successed [shape =box];
+	Canceled_By_Passenger [shape = box];
+
+	Waiting_Driver_Response    -> Waiting_Passenger_Confirm [label="Driver_Confirm"];
+	Waiting_Driver_Response    -> Canceled_By_Passenger [label="Passenger_Cancel"];
+	Waiting_Driver_Response    -> TimeOut [label="TimeOut"];
+	Waiting_Passenger_Confirm -> Successed [label="Passenger_Confirm"];
+	Waiting_Passenger_Confirm -> TimeOut[label="TimeOut"];
+	Waiting_Passenger_Confirm -> Canceled_By_Passenger [label="Passenger_Cancel"];
+	Waiting_Passenger_Confirm -> Waiting_Passenger_Confirm [label="Driver_Confirm"];
+	Canceled_By_Passenger     -> Canceled_By_Passenger [label="Driver_Confirm"];
+	Successed                -> Successed [label="Driver_Confirm"];
+	TimeOut 				 -> TimeOut [label="Driver_Confirm"];
+} 

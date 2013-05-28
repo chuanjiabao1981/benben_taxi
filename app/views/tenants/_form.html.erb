@@ -1,0 +1,12 @@
+<%= simple_form_for tenant ,:html => { :class => 'form-horizontal'  } do |f|%>
+<%= f.error_notification %>
+<%= f.error :base , :error_method => :to_sentence %>
+<fieldset>
+	<%= f.input :name %>
+	<%= f.error :base %>
+</fieldset>
+<div class="form-actions">
+	<%= f.button :submit , :class => 'btn btn-primary' %>
+	<%= link_to I18n.t('views.text.cancel'), tenants_path, :class => 'btn btn-gray' %>
+</div>
+<% end %>

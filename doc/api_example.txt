@@ -1,0 +1,2 @@
+curl -i -H "Content-Type: application/json" -X POST -d   "{\"user\":{\"mobile\":\"15910676326\",\"password\":\"8\",\"password_confirmation\":\"8\"}}" http://localhost/api/v1/users/create_driver
+

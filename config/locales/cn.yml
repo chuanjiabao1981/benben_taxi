@@ -1,0 +1,57 @@
+cn:
+  helpers:
+    submit:
+      create: "创建%{model} "
+      update: "更新%{model} "
+  views:
+    text:
+      new: 新建
+      edit: 编辑
+      destroy: 删除
+      confirm: "确定删除此%{model}吗?"
+      signin: 登录
+      signout: 退出
+      unauthorized: 未授权的访问!
+      handle: 处理
+      rehandle: 重新处理
+      action: 操作
+      cancel: 取消
+      index: 列表
+      show: 查看
+      search: 查询
+      nono: 编号
+      goback: 返回
+      checkin: 到岗统计
+      add_track_point: 模拟轨迹
+      date: 日期
+      first_checkin_time: 到岗时间
+      is_checkin: 是否到岗
+      track: 轨迹
+      track_back: 轨迹回放
+      create: 创建
+  simple_form:
+    labels:
+      search:
+        location: 位置
+        is_closed: 问题是否被处理
+        state: 问题状态
+        level: 严重程度
+        responsible_person: 问题责任人
+        submitter: 问题提交人
+        needed_resolve: 等待解决
+        needed_verify: 等待审核
+      track:
+        day: 日期
+        start_time: 开始时间
+        end_time: 结束时间
+        user: 人员
+      checkin:
+        location: 到岗位置
+        distance: 到岗范围
+        organization: 机构
+        user: 人员
+        start_day: 开始日期
+        end_day: 结束日期
+    hints:
+      checkin:
+        distance: 进入此范围均属到岗(单位:米)

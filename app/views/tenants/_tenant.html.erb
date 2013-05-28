@@ -1,0 +1,7 @@
+<tr>
+	<td><%= tenant.name %></td>
+	<td>
+		<%= link_to I18n.t('views.text.edit') , edit_tenant_path(tenant) %>
+		<%= delete_link(tenant) %>
+	</td>
+</tr>
