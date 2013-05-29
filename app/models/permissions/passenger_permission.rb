@@ -1,13 +1,10 @@
 module Permissions
   class PassengerPermission < BasePermission
     def initialize(user)
-      #allow :users, [:new, :create, :edit, :update]
-      #allow :sessions, [:new, :create, :destroy]
-      #allow :topics, [:index, :show, :new, :create]
-      #allow :topics, [:edit, :update] do |topic|
-      #  topic.user_id == user.id
-      #end
-      #allow_param :topic, :name
+      super(user)
+      allow "api/v1/taxi_requests"    , [:create]
+      allow_param :taxi_request,[:passenger_mobile,:passenger_lat,:passenger_lng,:waiting_time_range]
+
     end
   end
 end

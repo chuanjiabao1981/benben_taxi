@@ -1,0 +1,14 @@
+cn:
+  activerecord:
+    models:
+      taxi_request: 打车
+    attributes:
+      taxi_request:
+        passenger: 乘客
+        passenger_mobile: 乘客手机
+        passenger_location: 乘客位置
+        timeout: 超时
+        driver: 出租车司机
+        driver_mobile: 出租车司机手机
+        driver_location: 出租车司机位置
+        driver_response_time: 出租车司机响应时间

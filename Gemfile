@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://ruby.taobao.org/'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0.rc1'
@@ -43,6 +43,13 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'simple_form'
 
 gem 'bootstrap-sass', '~> 2.3.1.2'
+
+gem 'state_machine','~> 1.2.0'
+
+gem 'ruby-graphviz'
+
+gem 'validates_timeliness', '~> 3.0'
+
 
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development

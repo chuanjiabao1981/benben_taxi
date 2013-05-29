@@ -2,3 +2,7 @@ curl -i -H "Content-Type: application/json" -X POST -d   "{\"user\":{\"mobile\":
 
 curl -i -H "Content-Type: application/json" -X POST -d   "{\"session\":{\"mobile\":\"15910676326\",\"password\":\"8\"}}" http://localhost:8080/api/v1/sessions/driver_signin
 
+
+
+
+curl -i -H "Content-Type: application/json" -X POST -d   "{\"taxi_request\":{\"passenger_mobile\":\"15910676326\",\"passenger_lng\":\"8\",\"passenger_lat\":\"8\"}}"  -H "Cookie: remember_token=z90ZZRYEsfc9_EtFzDWFIQ" http://localhost:8080/api/v1/taxi_requests

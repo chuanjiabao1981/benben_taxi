@@ -11,11 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130527115609) do
+ActiveRecord::Schema.define(version: 20130529011652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "taxi_requests", force: true do |t|
+    t.string   "state"
+    t.integer  "lock_version"
+    t.integer  "passenger_id"
+    t.string   "passenger_mobile"
+    t.spatial  "passenger_location",   limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.datetime "timeout"
+    t.integer  "driver_id"
+    t.string   "driver_mobile"
+    t.spatial  "driver_location",      limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.datetime "driver_response_time"
+    t.integer  "tenant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "taxi_requests", ["passenger_location"], :name => "index_taxi_requests_on_passenger_location", :spatial => true
+  add_index "taxi_requests", ["state"], :name => "index_taxi_requests_on_state"
+  add_index "taxi_requests", ["timeout"], :name => "index_taxi_requests_on_timeout"
 
   create_table "tenants", force: true do |t|
     t.string   "name"

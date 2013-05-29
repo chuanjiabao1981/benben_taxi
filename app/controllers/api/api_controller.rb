@@ -15,6 +15,8 @@ module Api
     #后续的Controller，Model，和View可以使用
     around_action :scope_current_tenant
   
+    skip_before_action  :verify_authenticity_token
+
   
     private 
     	def current_permission
@@ -25,7 +27,7 @@ module Api
     	end
     	def authorize
     	  if current_permission.allow?(params[:controller], params[:action], current_resource)
-          current_permission.permit_params! params
+          s=current_permission.permit_params! params
         else  
           return render json:json_base_errors(I18n.t('views.text.unauthorized'))
     	  end
