@@ -48,7 +48,9 @@ gem 'state_machine','~> 1.2.0'
 
 gem 'ruby-graphviz'
 
-gem 'validates_timeliness', '~> 3.0'
+gem 'carrierwave'
+
+
 
 
 # Use Capistrano for deployment

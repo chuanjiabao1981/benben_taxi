@@ -4,6 +4,7 @@ class CreateTaxiRequests < ActiveRecord::Migration
 			t.string 			:state
 			t.integer 			:lock_version
 			t.references 		:passenger
+			t.string  			:passenger_voice
 			t.string 	 		:passenger_mobile
 			t.point 	 		:passenger_location,:geographic => true,:srid=>4326		
 			t.timestamp 		:timeout

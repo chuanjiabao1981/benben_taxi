@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20130529011652) do
     t.string   "state"
     t.integer  "lock_version"
     t.integer  "passenger_id"
+    t.string   "passenger_voice"
     t.string   "passenger_mobile"
     t.spatial  "passenger_location",   limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime "timeout"
