@@ -32,8 +32,8 @@ class TaxiRequest < ActiveRecord::Base
 	scope :by_distance,lambda { |driver_location,radius|
 		where("ST_DWithin(ST_GeographyFromText('SRID=4326;#{driver_location.to_s}'),passenger_location,#{radius})");
 	}
-	scope :within,lambda {
-		where("created_at <= ? " ,(MAX_WAITING_TIME_RANGE*2).minutes.ago)
+	scope :within,lambda {|s|
+		where("created_at <= ? " ,s.minutes.ago)
 	}
 	scope :by_state,lambda {|state='Waiting_Driver_Response'|
 		where('state = ?',state)
@@ -54,7 +54,7 @@ class TaxiRequest < ActiveRecord::Base
 		return [] if params[:lng].nil? or params[:lat].nil?
 		params[:radius] ||=DEFAULT_SEARCH_RADIUS
 		driver_location = "POINT (#{params[:lng]} #{params[:lat]})"
-		s=TaxiRequest.all.by_distance(driver_location,params[:radius]).by_state.within.order("created_at DESC")
+		s=TaxiRequest.all.by_distance(driver_location,params[:radius]).by_state.within(MAX_WAITING_TIME_RANGE*2).order("created_at DESC")
 		s.as_json(:only=>[:id],:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url])
 	end
 	def self.build_taxi_request(params,current_user)
