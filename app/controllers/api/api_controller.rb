@@ -27,7 +27,7 @@ module Api
     	end
     	def authorize
     	  if current_permission.allow?(params[:controller], params[:action], current_resource)
-          s=current_permission.permit_params! params
+          current_permission.permit_params! params
         else  
           return render json:json_base_errors(I18n.t('views.text.unauthorized'))
     	  end
