@@ -2,9 +2,9 @@ require 'net/http'
 require 'json'
 require "base64"
 class TestApi
-	#@host = 'localhost'
 	def initialize
-		@host = 'v2.365check.net'
+		@host = 'localhost'
+		#@host = 'v2.365check.net'
 		@port = '8081'
 	end
 
@@ -25,12 +25,34 @@ class TestApi
 
 			}
 		}.to_json
-		request_header ={'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie[:token_value]}"}
+		request_header ={'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
 		self.get_response(path,request_header,body)
 	end
 
+	def create_driver_track_point_api
+		path = "/api/v1/driver_track_points"
+		cookie = JSON.parse(self.driver_signin_api)
+		body   = {
+			driver_track_point:{
+				mobile:"15910676326",
+				lat:"8",
+				lng:"8",
+				radius: 100,
+				coortype: 'gsm'
+			}
+		}.to_json
+		request_header = {'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
+		self.get_response(path,request_header,body)
+	end
+	def driver_signin_api
+		path = "/api/v1/sessions/driver_signin"
+		_signin(path)
+	end
 	def passenger_signin_api
 		path = "/api/v1/sessions/passenger_signin"
+		_signin(path)
+	end
+	def _signin(path)
 		body = {session:{mobile:"15910676326",password:"8"}}.to_json
 		request_header = {'Content-Type' =>'application/json'}
 		self.get_response(path,request_header,body)
@@ -47,7 +69,8 @@ end
 
 s = TestApi.new
 #s.passenger_signin_api
-s.create_taxi_request_api
+#s.create_taxi_request_api
+s.create_driver_track_point_api
 
 
 

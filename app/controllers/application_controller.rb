@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 	include SessionsHelper
 
   protect_from_forgery
-  before_filter :authorize
+  before_action :authorize
 
   delegate :allow?, to: :current_permission
   helper_method :allow?
@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   #把当前的tenant,传递给Tenant.current_id
   #后续的Controller，Model，和View可以使用
-  around_filter :scope_current_tenant
+  around_action :scope_current_tenant
 
 
   private 

@@ -18,6 +18,8 @@ BenbenTaxi::Application.routes.draw do
         end
       end
       resources :taxi_requests,only:[:create]
+
+      resources :driver_track_points,only:[:create]
     end
   end
 
