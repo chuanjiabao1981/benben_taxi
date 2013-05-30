@@ -33,7 +33,7 @@ class TaxiRequest < ActiveRecord::Base
 		where("ST_DWithin(ST_GeographyFromText('SRID=4326;#{driver_location.to_s}'),passenger_location,#{radius})");
 	}
 	scope :within,lambda {|s|
-		where("created_at <= ? " ,s.minutes.ago)
+		where("created_at >= ? " ,s.minutes.ago)
 	}
 	scope :by_state,lambda {|state='Waiting_Driver_Response'|
 		where('state = ?',state)
