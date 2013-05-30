@@ -17,6 +17,7 @@ s = Base64.encode64(contents)
 		passenger_lat: "8",
 		passenger_lng: "8",
 		passenger_voice: s,
+		passenger_voice_format: 'mp3',
 		waiting_time_range: 12,
 
 	}

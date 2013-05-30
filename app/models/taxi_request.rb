@@ -23,7 +23,7 @@ class TaxiRequest < ActiveRecord::Base
 
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
-	attr_accessor :passenger_lng,:passenger_lat,:waiting_time_range
+	attr_accessor :passenger_lng,:passenger_lat,:waiting_time_range,:passenger_voice_format
 
 	def self.build_taxi_request(params,current_user)
 		if params and params[:passenger_lng] and params[:passenger_lat]
@@ -84,9 +84,10 @@ class TaxiRequest < ActiveRecord::Base
 		tempfile.binmode
 		tempfile.write(Base64.decode64(params[:passenger_voice]))
 		tempfile.rewind()
+		voice_format = params[:passenger_voice_format].nil? ?  "m4a" : params[:passenger_voice_format]
 		uploaded_file = ActionDispatch::Http::UploadedFile.new(
 					:tempfile => tempfile, 
-					:filename => ORIGINAL_FILENAME)
+					:filename => "#{ORIGINAL_FILENAME}.#{voice_format}")
 	end
 
 end
