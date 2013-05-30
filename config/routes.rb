@@ -17,7 +17,7 @@ BenbenTaxi::Application.routes.draw do
           post 'signout'
         end
       end
-      resources :taxi_requests,only:[:create]
+      resources :taxi_requests,only:[:create,:index]
 
       resources :driver_track_points,only:[:create]
     end

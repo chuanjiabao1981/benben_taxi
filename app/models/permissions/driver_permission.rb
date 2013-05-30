@@ -12,6 +12,9 @@ module Permissions
       allow "api/v1/driver_track_points"    , [:create]
       allow_param :driver_track_point,[:mobile,:lng,:lat,:radius,:coortype]
 
+      allow "api/v1/taxi_requests", [:index]
+      #allow_param :taxi_request,[:lat,:lng,:radius]
+
     end
   end
 end

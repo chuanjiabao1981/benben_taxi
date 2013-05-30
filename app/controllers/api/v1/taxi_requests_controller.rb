@@ -7,4 +7,8 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 			render json: json_errors(taxi_request.errors)
 		end
 	end
+	def index
+		r = TaxiRequest.get_latest_taxi_requests(params)
+		render json: r
+	end
 end

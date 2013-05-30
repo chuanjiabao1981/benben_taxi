@@ -1,3 +1,4 @@
+#encoding:utf-8
 class TaxiRequest < ActiveRecord::Base
 
 	require 'carrierwave/orm/activerecord'
@@ -17,14 +18,45 @@ class TaxiRequest < ActiveRecord::Base
 
 
 	DEFAULT_WAITING_TIME_RANGE = 5
+	#5公里
+	DEFAULT_SEARCH_RADIUS 	   = 5000 
 	MAX_WAITING_TIME_RANGE 	   = 20
 	TMP_FILE_NAME 			   = 'benben_taxi'
 	ORIGINAL_FILENAME 		   = 'benben_taxi_passenger_voice'
+
 
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
 	attr_accessor :passenger_lng,:passenger_lat,:waiting_time_range,:passenger_voice_format
 
+	scope :by_distance,lambda { |driver_location,radius|
+		where("ST_DWithin(ST_GeographyFromText('SRID=4326;#{driver_location.to_s}'),passenger_location,#{radius})");
+	}
+	scope :within,lambda {
+		where("created_at <= ? " ,(MAX_WAITING_TIME_RANGE*2).minutes.ago)
+	}
+	scope :by_state,lambda {|state='Waiting_Driver_Response'|
+		where('state = ?',state)
+	}
+
+	def passenger_lng
+		self.passenger_location.x
+	end
+	def passenger_lat
+		self.passenger_location.y
+	end
+
+	def passenger_voice_url
+		self.passenger_voice.url
+	end
+
+	def self.get_latest_taxi_requests(params)
+		return [] if params[:lng].nil? or params[:lat].nil?
+		params[:radius] ||=DEFAULT_SEARCH_RADIUS
+		driver_location = "POINT (#{params[:lng]} #{params[:lat]})"
+		s=TaxiRequest.all.by_distance(driver_location,params[:radius]).by_state.within.order("created_at DESC")
+		s.as_json(:only=>[:id],:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url])
+	end
 	def self.build_taxi_request(params,current_user)
 		if params and params[:passenger_lng] and params[:passenger_lat]
 			passenger_location="POINT(#{params[:passenger_lng]} #{params[:passenger_lat]})"
