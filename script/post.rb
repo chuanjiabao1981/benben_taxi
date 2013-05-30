@@ -3,7 +3,7 @@ require 'json'
 require "base64"
 class TestApi
 	def initialize
-		@host = 'localhost'
+		#@host = 'localhost'
 		@host = 'v2.365check.net'
 		@port = '8081'
 	end
