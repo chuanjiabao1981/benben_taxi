@@ -4,7 +4,7 @@ require "base64"
 class TestApi
 	def initialize
 		@host = 'localhost'
-		#@host = 'v2.365check.net'
+	#	@host = 'v2.365check.net'
 		@port = '8081'
 	end
 
@@ -26,7 +26,7 @@ class TestApi
 			}
 		}.to_json
 		request_header ={'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
-		self.get_response(path,request_header,body)
+		self.post_request(path,request_header,body)
 	end
 
 	def create_driver_track_point_api
@@ -42,7 +42,13 @@ class TestApi
 			}
 		}.to_json
 		request_header = {'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
-		self.get_response(path,request_header,body)
+		self.post_request(path,request_header,body)
+	end
+	def taxi_requests_index_api
+		cookie = JSON.parse(self.driver_signin_api)
+		path ="/api/v1/taxi_requests?lat=8&lng=8&radius=10"
+		request_header = {'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
+		self.get_request(path,request_header)
 	end
 	def driver_signin_api
 		path = "/api/v1/sessions/driver_signin"
@@ -55,22 +61,31 @@ class TestApi
 	def _signin(path)
 		body = {session:{mobile:"15910676326",password:"8"}}.to_json
 		request_header = {'Content-Type' =>'application/json'}
-		self.get_response(path,request_header,body)
+		self.post_request(path,request_header,body)
 	end
 
-	def get_response(path,header,body)
+	def post_request(path,header,body)
 		request 		= Net::HTTP::Post.new(path, initheader = header )
 		request.body 	= body
 		response = Net::HTTP.new(@host, @port).start {|http| http.request(request) }
 		puts "Response #{response.code} #{response.message}: #{response.body}"
 		response.body
 	end
+
+	def get_request(path,header)
+		request = Net::HTTP::Get.new(path,initheader = header)
+		response = Net::HTTP.new(@host, @port).start {|http| http.request(request) }
+		puts response.body
+	end
+
+
 end
 
 s = TestApi.new
 #s.passenger_signin_api
 #s.create_taxi_request_api
-s.create_driver_track_point_api
+#s.create_driver_track_point_api
+s.taxi_requests_index_api
 
 
 
