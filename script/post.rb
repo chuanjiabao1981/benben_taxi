@@ -31,11 +31,11 @@ class TestApi
 	def answer_taxi_request_api
 		request_header = self.get_driver_head
 		taxi_request   = JSON.parse(self.create_taxi_request_api)
-		path           = "/api/v1/taxi_requests/#{taxi_request["id"]}/answer"
+		path           = "/api/v1/taxi_requests/#{taxi_request["id"]}/response"
 		body 		   ={
 			taxi_response:{
 				driver_mobile:"15910676326",
-								driver_lat:"8",
+				driver_lat:"8",
 				driver_lng:"8"
 			}
 		}.to_json
