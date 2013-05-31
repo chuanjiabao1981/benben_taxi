@@ -20,9 +20,12 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 		end
 	end
 
+	def show
+		render json:current_resource.get_json
+	end
+
 	private 
 	def current_resource
-
 		@current_resource ||= TaxiRequest.find(params[:id]) if params[:id]
 	end
 

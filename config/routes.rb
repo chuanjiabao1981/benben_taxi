@@ -17,7 +17,7 @@ BenbenTaxi::Application.routes.draw do
           post 'signout'
         end
       end
-      resources :taxi_requests,only:[:create,:index] do
+      resources :taxi_requests,only:[:create,:index,:show] do
         member do
           post 'response',action: :answer
         end

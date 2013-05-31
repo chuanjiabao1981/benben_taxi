@@ -27,7 +27,7 @@ class TaxiRequest < ActiveRecord::Base
 
 	DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S = 20
 
-
+	DEFUALT_JSON_RESULT 					 = {:only=>[:id,:state],:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url]}
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
 	attr_accessor :passenger_lng,:passenger_lat,:waiting_time_range,:passenger_voice_format
@@ -60,7 +60,7 @@ class TaxiRequest < ActiveRecord::Base
 		params[:radius] ||=DEFAULT_SEARCH_RADIUS
 		driver_location = "POINT (#{params[:lng]} #{params[:lat]})"
 		s=TaxiRequest.all.by_distance(driver_location,params[:radius]).by_state.within(MAX_WAITING_TIME_RANGE*2).order("created_at DESC")
-		s.as_json(:only=>[:id],:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url])
+		s.as_json(DEFUALT_JSON_RESULT)
 	end
 	def self.build_taxi_request(params,current_user)
 		if params and params[:passenger_lng] and params[:passenger_lat]
@@ -74,6 +74,10 @@ class TaxiRequest < ActiveRecord::Base
 		a.timeout 				= s.minutes.since
 		a.passenger_voice 		= get_http_uploader_file(params)
 		a
+	end
+
+	def get_json
+		self.as_json(DEFUALT_JSON_RESULT)
 	end
 		
 	#测试状态
