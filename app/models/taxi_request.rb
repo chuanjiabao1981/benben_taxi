@@ -18,11 +18,14 @@ class TaxiRequest < ActiveRecord::Base
 
 
 	DEFAULT_WAITING_TIME_RANGE = 5
+
 	#5公里
-	DEFAULT_SEARCH_RADIUS 	   = 5000 
-	MAX_WAITING_TIME_RANGE 	   = 20
-	TMP_FILE_NAME 			   = 'benben_taxi'
-	ORIGINAL_FILENAME 		   = 'benben_taxi_passenger_voice'
+	DEFAULT_SEARCH_RADIUS 	   				= 5000 
+	MAX_WAITING_TIME_RANGE 	   				= 20
+	TMP_FILE_NAME 			   				= 'benben_taxi'
+	ORIGINAL_FILENAME 		   				= 'benben_taxi_passenger_voice'
+
+	DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S = 20
 
 
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
@@ -51,6 +54,8 @@ class TaxiRequest < ActiveRecord::Base
 	end
 
 	def self.get_latest_taxi_requests(params)
+
+		Rails.logger.debug("00001112312341234124134231")
 		return [] if params[:lng].nil? or params[:lat].nil?
 		params[:radius] ||=DEFAULT_SEARCH_RADIUS
 		driver_location = "POINT (#{params[:lng]} #{params[:lat]})"
@@ -69,6 +74,19 @@ class TaxiRequest < ActiveRecord::Base
 		a.timeout 				= s.minutes.since
 		a.passenger_voice 		= get_http_uploader_file(params)
 		a
+	end
+		
+	#测试状态
+	def driver_response(params,current_driver)
+		self.state_event 				= 'Driver_Confirm'
+		self.driver_mobile				= params[:driver_mobile]
+		self.driver_id 					= current_driver.id
+		if params and params[:driver_lng] and params[:driver_lat]
+			self.driver_location = "POINT(#{params[:driver_lng]} #{params[:driver_lat]})"
+		end
+		self.driver_response_time 		= Time.now
+		self.timeout 					= DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S.seconds.since
+		self.save
 	end
 
 

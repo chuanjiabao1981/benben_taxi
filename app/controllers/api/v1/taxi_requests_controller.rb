@@ -9,6 +9,21 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 	end
 	def index
 		r = TaxiRequest.get_latest_taxi_requests(params)
-		render json: r
+		return render json: r
 	end
+
+	def answer
+		if current_resource.driver_response(params[:taxi_response],current_user)
+			render json: @current_resource.as_json(only:[:id,:state,:timeout])
+		else
+			render json: json_errors(@current_resource.errors)
+		end
+	end
+
+	private 
+	def current_resource
+
+		@current_resource ||= TaxiRequest.find(params[:id]) if params[:id]
+	end
+
 end

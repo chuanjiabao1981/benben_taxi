@@ -3,8 +3,8 @@ require 'json'
 require "base64"
 class TestApi
 	def initialize
-		#@host = 'localhost'
-		@host = 'v2.365check.net'
+		@host = 'localhost'
+		#@host = 'v2.365check.net'
 		@port = '8081'
 	end
 
@@ -28,7 +28,19 @@ class TestApi
 		request_header ={'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
 		self.post_request(path,request_header,body)
 	end
-
+	def answer_taxi_request_api
+		request_header = self.get_driver_head
+		taxi_request   = JSON.parse(self.create_taxi_request_api)
+		path           = "/api/v1/taxi_requests/#{taxi_request["id"]}/answer"
+		body 		   ={
+			taxi_response:{
+				driver_mobile:"15910676326",
+								driver_lat:"8",
+				driver_lng:"8"
+			}
+		}.to_json
+		self.post_request(path,request_header,body)
+	end
 	def create_driver_track_point_api
 		path = "/api/v1/driver_track_points"
 		cookie = JSON.parse(self.driver_signin_api)
@@ -45,9 +57,8 @@ class TestApi
 		self.post_request(path,request_header,body)
 	end
 	def taxi_requests_index_api
-		cookie = JSON.parse(self.driver_signin_api)
 		path ="/api/v1/taxi_requests?lat=8&lng=8&radius=10"
-		request_header = {'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
+		request_header = self.get_passenger_head
 		self.get_request(path,request_header)
 	end
 	def driver_signin_api
@@ -63,7 +74,14 @@ class TestApi
 		request_header = {'Content-Type' =>'application/json'}
 		self.post_request(path,request_header,body)
 	end
-
+	def get_driver_head
+		cookie = JSON.parse(self.driver_signin_api)
+		request_header ={'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
+	end
+	def get_passenger_head
+		cookie = JSON.parse(self.driver_signin_api)
+		request_header = {'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
+	end
 	def post_request(path,header,body)
 		request 		= Net::HTTP::Post.new(path, initheader = header )
 		request.body 	= body
@@ -85,7 +103,8 @@ s = TestApi.new
 #s.passenger_signin_api
 #s.create_taxi_request_api
 #s.create_driver_track_point_api
-s.taxi_requests_index_api
+#s.taxi_requests_index_api
+s.answer_taxi_request_api
 
 
 
