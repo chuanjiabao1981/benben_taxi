@@ -19,7 +19,7 @@ BenbenTaxi::Application.routes.draw do
       end
       resources :taxi_requests,only:[:create,:index] do
         member do
-          post 'answer'
+          post 'response',action: :answer
         end
       end
       resources :driver_track_points,only:[:create]
