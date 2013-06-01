@@ -4,7 +4,7 @@ require "base64"
 class TestApi
 	def initialize
 		@host = 'localhost'
-		#@host = 'v2.365check.net'
+		@host = 'v2.365check.net'
 		@port = '8081'
 	end
 

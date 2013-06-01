@@ -12,7 +12,7 @@ module Permissions
       allow "api/v1/driver_track_points"    , [:create]
       allow_param :driver_track_point,[:mobile,:lng,:lat,:radius,:coortype]
 
-      allow "api/v1/taxi_requests", [:index,:show]
+      allow "api/v1/taxi_requests", [:index]
       allow "api/v1/taxi_requests", [:answer] do |t|
         t && t.tenant_id == user.tenant_id
       end

@@ -3,6 +3,7 @@ module Permissions
     include SharedPermissions
     def initialize(user)
       all_allowed_permissions(user)
+      all_passenger_driver_allowed_permissions(user)
     end
     def allow?(controller, action, resource = nil)
       allowed = @allow_all || @allowed_actions[[controller.to_s, action.to_s]]
