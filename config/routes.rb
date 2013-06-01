@@ -8,6 +8,7 @@ BenbenTaxi::Application.routes.draw do
         collection do
           post 'create_driver'
           post 'create_passenger'
+          get  'nearby_driver'
         end
       end
       resources :sessions do

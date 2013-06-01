@@ -7,6 +7,9 @@ class Api::V1::UsersController < Api::ApiController
 		user = User.build_passenger(params[:user])
 		create_user(user)
 	end
+	def nearby_driver
+		render json: DriverTrackPoint.get_latest_drivers(params)
+	end
 
 	private
 	def create_user(user)
