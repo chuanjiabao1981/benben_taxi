@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130530125952) do
+ActiveRecord::Schema.define(version: 20130601072535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,15 +37,17 @@ ActiveRecord::Schema.define(version: 20130530125952) do
     t.integer  "passenger_id"
     t.string   "passenger_voice"
     t.string   "passenger_mobile"
-    t.spatial  "passenger_location",   limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.spatial  "passenger_location",     limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime "timeout"
     t.integer  "driver_id"
     t.string   "driver_mobile"
-    t.spatial  "driver_location",      limit: {:srid=>4326, :type=>"point", :geographic=>true}
+    t.spatial  "driver_location",        limit: {:srid=>4326, :type=>"point", :geographic=>true}
     t.datetime "driver_response_time"
     t.integer  "tenant_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "passenger_cancel_time"
+    t.datetime "passenger_confirm_time"
   end
 
   add_index "taxi_requests", ["passenger_location"], :name => "index_taxi_requests_on_passenger_location", :spatial => true

@@ -13,10 +13,29 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 	end
 
 	def answer
-		if current_resource.driver_response(params[:taxi_response],current_user)
-			render json: @current_resource.as_json(only:[:id,:state,:timeout])
+		taxi_request = current_resource
+		if taxi_request.driver_response(params[:taxi_response],current_user)
+			render json: taxi_request.get_json
 		else
-			render json: json_errors(@current_resource.errors)
+			render json: json_errors(taxi_request.errors)
+		end
+	end
+
+	def cancel 
+		taxi_request = current_resource
+		if taxi_request.passenger_cancel(nil,current_user)
+			render json: taxi_request.get_json
+		else
+			render json: json_errors(taxi_request.errors)
+		end
+	end
+
+	def confirm
+		taxi_request = current_resource
+		if taxi_request.passenger_confirm(nil,current_user)
+			render json: taxi_request.get_json
+		else
+			render json: json_errors(taxi_request.errors)
 		end
 	end
 

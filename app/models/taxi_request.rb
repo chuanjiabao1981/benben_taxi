@@ -27,10 +27,14 @@ class TaxiRequest < ActiveRecord::Base
 
 	DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S = 20
 
-	DEFUALT_JSON_RESULT 					 = {:only=>[:id,:state],:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url]}
+	DEFUALT_JSON_RESULT 					 = {
+													:only	 => [:id,:state,:passenger_mobile,:driver_mobile],
+													:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url,:driver_lat,:driver_lng]
+											   }
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
 	attr_accessor :passenger_lng,:passenger_lat,:waiting_time_range,:passenger_voice_format
+	attr_accessor :response_driver,:response_info
 
 	scope :by_distance,lambda { |driver_location,radius|
 		where("ST_DWithin(ST_GeographyFromText('SRID=4326;#{driver_location.to_s}'),passenger_location,#{radius})");
@@ -41,7 +45,12 @@ class TaxiRequest < ActiveRecord::Base
 	scope :by_state,lambda {|state='Waiting_Driver_Response'|
 		where('state = ?',state)
 	}
-
+	def driver_lat
+		self.driver_location.try(:y)
+	end
+	def driver_lng
+		self.driver_location.try(:x)
+	end
 	def passenger_lng
 		self.passenger_location.x
 	end
@@ -54,8 +63,6 @@ class TaxiRequest < ActiveRecord::Base
 	end
 
 	def self.get_latest_taxi_requests(params)
-
-		Rails.logger.debug("00001112312341234124134231")
 		return [] if params[:lng].nil? or params[:lat].nil?
 		params[:radius] ||=DEFAULT_SEARCH_RADIUS
 		driver_location = "POINT (#{params[:lng]} #{params[:lat]})"
@@ -79,22 +86,33 @@ class TaxiRequest < ActiveRecord::Base
 	def get_json
 		self.as_json(DEFUALT_JSON_RESULT)
 	end
-		
+	def passenger_confirm(params,current_passenger)
+		self.state_event				= 'Passenger_Confirm'
+		self.save
+	end
+	#测试状态
+	def passenger_cancel(params,current_passenger)
+		self.state_event 				= 'Passenger_Cancel'
+		self.save
+	end
+	#测试状态
+	def passenger_confirm(params,current_passenger)
+		self.state_event 				= 'Passenger_Confirm'
+		self.save
+	end
 	#测试状态
 	def driver_response(params,current_driver)
+		#优化如果非waiting_driver_confirm 直接返回
+		self.response_driver 			= current_driver
+		self.response_info 				= params
 		self.state_event 				= 'Driver_Confirm'
-		self.driver_mobile				= params[:driver_mobile]
-		self.driver_id 					= current_driver.id
-		if params and params[:driver_lng] and params[:driver_lat]
-			self.driver_location = "POINT(#{params[:driver_lng]} #{params[:driver_lat]})"
-		end
-		self.driver_response_time 		= Time.now
-		self.timeout 					= DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S.seconds.since
 		self.save
 	end
 
-
 	state_machine :initial => :Waiting_Driver_Response do
+		before_transition any => :Canceled_By_Passenger ,:do => :set_passenger_cancel_time
+		before_transition :Waiting_Passenger_Confirm => :Success ,:do => :set_passenger_confirm_time
+		before_transition :Waiting_Driver_Response   => :Waiting_Passenger_Confirm, :do => :set_response_info
 		around_transition do |taxi_request, transition, block|
 			Rails.logger.debug "before #{transition.event}: #{taxi_request.state} "
 			block.call
@@ -102,6 +120,7 @@ class TaxiRequest < ActiveRecord::Base
 		end
 
 		state :Waiting_Driver_Response do
+			transition :to => :Waiting_Driver_Response      ,:on => :Passenger_Confirm
 			transition :to => :Canceled_By_Passenger 		,:on => :Passenger_Cancel
 			transition :to => :Waiting_Passenger_Confirm 	,:on => :Driver_Confirm
 			transition :to => :TimeOut						,:on => :TimeOut
@@ -143,5 +162,20 @@ class TaxiRequest < ActiveRecord::Base
 					:tempfile => tempfile, 
 					:filename => "#{ORIGINAL_FILENAME}.#{voice_format}")
 	end
-
+	private 
+	def set_passenger_cancel_time
+		self.passenger_cancel_time = Time.now
+	end
+	def set_passenger_confirm_time
+		self.passenger_confirm_time = Time.now
+	end
+	def set_response_info
+		self.driver_mobile				= self.response_info[:driver_mobile]
+		self.driver_id 					= self.response_driver.id
+		if self.response_info and self.response_info[:driver_lng] and self.response_info[:driver_lat]
+			self.driver_location = "POINT(#{self.response_info[:driver_lng]} #{self.response_info[:driver_lat]})"
+		end
+		self.driver_response_time 		= Time.now
+		self.timeout 					= DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S.seconds.since
+	end
 end

@@ -33,12 +33,14 @@ class TestApi
 		request_header 	= self.get_driver_head
 		taxi_request   = JSON.parse(self.create_taxi_request_api)
 		path 			= "/api/v1/taxi_requests/#{taxi_request["id"]}"
+		#path 			= "/api/v1/taxi_requests/31	"
 		self.get_request(path,request_header)
 	end
-	def answer_taxi_request_api
+	def answer_taxi_request_api(taxi_request=nil)
 		request_header = self.get_driver_head
-		taxi_request   = JSON.parse(self.create_taxi_request_api)
+		taxi_request   ||= JSON.parse(self.create_taxi_request_api)
 		path           = "/api/v1/taxi_requests/#{taxi_request["id"]}/response"
+		#path           = "/api/v1/taxi_requests/45/response"
 		body 		   ={
 			taxi_response:{
 				driver_mobile:"15910676326",
@@ -47,6 +49,19 @@ class TestApi
 			}
 		}.to_json
 		self.post_request(path,request_header,body)
+	end
+	def confirm_taxi_request_api
+		request_header = self.get_passenger_head
+		taxi_request   = JSON.parse(self.create_taxi_request_api)
+		answer_taxi_request_api(taxi_request)
+		path 		   = "/api/v1/taxi_requests/#{taxi_request["id"]}/confirm"
+		self.post_request(path,request_header,nil)
+	end
+	def cancel_taxi_request_api
+		taxi_request  = JSON.parse(self.create_taxi_request_api)
+		request_header = self.get_passenger_head
+		path 		   = "/api/v1/taxi_requests/#{taxi_request["id"]}/cancel"
+		self.post_request(path,request_header,nil)
 	end
 	def create_driver_track_point_api
 		path = "/api/v1/driver_track_points"
@@ -86,7 +101,7 @@ class TestApi
 		request_header ={'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
 	end
 	def get_passenger_head
-		cookie = JSON.parse(self.driver_signin_api)
+		cookie = JSON.parse(self.passenger_signin_api)
 		request_header = {'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
 	end
 	def post_request(path,header,body)
@@ -112,6 +127,8 @@ s = TestApi.new
 #s.create_driver_track_point_api
 #s.taxi_requests_index_api
 #s.answer_taxi_request_api
-s.show_taxi_request_api
+#s.show_taxi_request_api
+#s.cancel_taxi_request_api
+#s.confirm_taxi_request_api
 
 
