@@ -14,7 +14,7 @@ module Permissions
 
       allow "api/v1/taxi_requests", [:index,:show]
       allow "api/v1/taxi_requests", [:answer] do |t|
-        t && t.tenant_id == user.id
+        t && t.tenant_id == user.tenant_id
       end
       allow_param :taxi_response,[:driver_mobile,:driver_lng,:driver_lat]
     end
