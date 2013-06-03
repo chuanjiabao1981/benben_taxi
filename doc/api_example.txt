@@ -6,3 +6,8 @@ curl -i -H "Content-Type: application/json" -X POST -d   "{\"session\":{\"mobile
 
 
 curl -i -H "Content-Type: application/json" -X POST -d   "{\"taxi_request\":{\"passenger_mobile\":\"15910676326\",\"passenger_lng\":\"8\",\"passenger_lat\":\"8\"}}"  -H "Cookie: remember_token=z90ZZRYEsfc9_EtFzDWFIQ" http://localhost:8080/api/v1/taxi_requests
+
+
+
+
+curl -i -H "Content-Type: application/json" -X POST -d   "{\"user\":{\"mobile\":\"13810025096\",\"password\":\"8\",\"password_confirmation\":\"8\"}}" http://v2.365check.net:8081/api/v1/users/create_driver

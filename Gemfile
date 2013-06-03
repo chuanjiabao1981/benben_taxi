@@ -1,4 +1,5 @@
 source 'http://ruby.taobao.org/'
+#source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0.rc1'
@@ -49,6 +50,13 @@ gem 'state_machine','~> 1.2.0'
 gem 'ruby-graphviz'
 
 gem 'carrierwave'
+
+gem 'daemons'
+
+
+
+
+
 
 
 

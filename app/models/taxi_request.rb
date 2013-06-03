@@ -45,6 +45,14 @@ class TaxiRequest < ActiveRecord::Base
 	scope :by_state,lambda {|state='Waiting_Driver_Response'|
 		where('state = ?',state)
 	}
+
+	scope :timeout_taxi_requests ,lambda {
+		where('(state=? or state=?) and 
+			   (timeout is not null and timeout <= ?)',
+			   'Waiting_Driver_Response',
+			   'Waiting_Passenger_Confirm',
+			   Time.now)
+	}
 	def driver_lat
 		self.driver_location.try(:y)
 	end
@@ -81,6 +89,11 @@ class TaxiRequest < ActiveRecord::Base
 		a.timeout 				= s.minutes.since
 		a.passenger_voice 		= get_http_uploader_file(params)
 		a
+	end
+
+	def set_timeout
+		self.state_event = 'TimeOut'
+		self.save
 	end
 
 	def get_json
