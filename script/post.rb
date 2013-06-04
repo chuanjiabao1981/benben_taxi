@@ -39,8 +39,9 @@ class TestApi
 
 	def get_latest_drvier_api
 		path 			= "/api/v1/users/nearby_driver?lat=8&lng=8"
-		create_driver_track_point_api("15910676326")
-		create_driver_track_point_api("13810025096")
+		path 			= "/api/v1/users/nearby_driver?lat=22.540545&lng=113.959805"
+		#create_driver_track_point_api("15910676326")
+		#create_driver_track_point_api("13810025096")
 		self.get_request(path,self.get_passenger_head)
 	end
 	def answer_taxi_request_twice
@@ -138,14 +139,14 @@ end
 
 s = TestApi.new
 #s.passenger_signin_api
-#s.create_taxi_request_api
+s.create_taxi_request_api
 #s.create_driver_track_point_api
-s.taxi_requests_index_api
+#s.taxi_requests_index_api
 #s.answer_taxi_request_api
 #s.show_taxi_request_api
 #s.cancel_taxi_request_api
 #s.confirm_taxi_request_api
 #s.answer_taxi_request_twice
-#s.get_latest_drvier_api
+s.get_latest_drvier_api
 
 
