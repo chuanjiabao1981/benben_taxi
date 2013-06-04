@@ -91,39 +91,62 @@ class TaxiRequest < ActiveRecord::Base
 		a
 	end
 
-	def set_timeout
-		self.state_event = 'TimeOut'
-		self.save
-	end
-
 	def get_json
 		self.as_json(DEFUALT_JSON_RESULT)
 	end
-	def passenger_confirm(params,current_passenger)
-		self.state_event				= 'Passenger_Confirm'
-		self.save
+	def set_timeout
+		ensure_no_confilit do
+			self.state_event = 'TimeOut'
+			self.save
+		end
 	end
-	#测试状态
+	def passenger_confirm(params,current_passenger)
+		ensure_no_confilit do
+			self.state_event				= 'Passenger_Confirm'
+			self.save
+		end
+	end
 	def passenger_cancel(params,current_passenger)
-		self.state_event 				= 'Passenger_Cancel'
-		self.save
+		ensure_no_confilit do
+			self.state_event 				= 'Passenger_Cancel'
+			self.save
+		end
 	end
-	#测试状态
 	def passenger_confirm(params,current_passenger)
-		self.state_event 				= 'Passenger_Confirm'
-		self.save
+		ensure_no_confilit do
+			self.state_event 				= 'Passenger_Confirm'
+			self.save
+		end
 	end
-	#测试状态
 	def driver_response(params,current_driver)
-		#优化如果非waiting_driver_confirm 直接返回
-		self.response_driver 			= current_driver
-		self.response_info 				= params
-		self.state_event 				= 'Driver_Confirm'
-		self.save
+		ensure_no_confilit do
+			self.response_driver 			= current_driver
+			self.response_info 				= params
+			self.state_event 				= 'Driver_Confirm'
+			self.save
+		end
+	end
+
+	def ensure_no_confilit
+		n = 0
+		begin
+			yield
+		rescue ActiveRecord::StaleObjectError
+			n = n + 1
+			old_state 			= self.state
+			old_lock_version	= self.lock_version
+			self.reload
+			Rails.logger.info "Conflict #{self.id} old state is [#{old_state}][#{old_lock_version}] new state is [#{self.state}][#{self.lock_version}] Reload #{n}"
+			if  n < 2
+				retry
+			else
+				self
+			end
+		end
 	end
 
 	state_machine :initial => :Waiting_Driver_Response do
-		before_transition any => :Canceled_By_Passenger ,:do => :set_passenger_cancel_time
+		before_transition all => :Canceled_By_Passenger ,:do => :set_passenger_cancel_time
 		before_transition :Waiting_Passenger_Confirm => :Success ,:do => :set_passenger_confirm_time
 		before_transition :Waiting_Driver_Response   => :Waiting_Passenger_Confirm, :do => :set_response_info
 		around_transition do |taxi_request, transition, block|
@@ -139,8 +162,10 @@ class TaxiRequest < ActiveRecord::Base
 			transition :to => :TimeOut						,:on => :TimeOut
 		end
 
-		state :Canceled_By_Passenger do
-			transition :to => :Canceled_By_Passenger 		,:on => :any
+		event all do
+			transition :Canceled_By_Passenger => :Canceled_By_Passenger
+			transition :Success 			  => :Success
+			transition :TimeOut 			  => :TimeOut
 		end
 
 		state :Waiting_Passenger_Confirm do
@@ -153,14 +178,6 @@ class TaxiRequest < ActiveRecord::Base
 			transition :to => :Success 					,:on => :Passenger_Confirm
 			transition :to => :Waiting_Passenger_Confirm 	,:on => :Driver_Confirm
 			transition :to => :TimeOut 						,:on => :TimeOut
-		end
-
-		state :Success do
-			transition :to => :Success 							,:on => :any
-		end
-
-		state :TimeOut do
-			transition :to => :TimeOut 							,:on => :any
 		end
 	end
 
