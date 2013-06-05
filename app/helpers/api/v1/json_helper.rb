@@ -1,3 +1,4 @@
+#encoding:utf-8
 module Api
 	module V1
 		module JsonHelper
@@ -15,6 +16,9 @@ module Api
 
 			def json_response=(o)
 				@_json_response = o
+			end
+			def json_params_null_errors
+				json_base_errors("参数不可为空!")
 			end
 			def json_errors(errors_data)
 				json_response[JSON_ERRORS]=errors_data

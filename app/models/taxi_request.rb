@@ -140,6 +140,7 @@ class TaxiRequest < ActiveRecord::Base
 			if  n < 2
 				retry
 			else
+				Rails.logger.info "Fail Confilict!"
 				self
 			end
 		end
