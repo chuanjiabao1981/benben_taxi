@@ -1,0 +1,7 @@
+<tr>
+	<td><%= user.account %></td>
+	<td>
+		<%= link_to I18n.t('views.text.edit') , edit_user_path(user) %>
+		<%= delete_link(user) %>
+	</td>
+</tr>

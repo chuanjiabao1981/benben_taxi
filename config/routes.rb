@@ -30,6 +30,7 @@ BenbenTaxi::Application.routes.draw do
   end
 
   root :to => 'main#overview'
+  resources :users
 
   get '/signin',  to: 'sessions#new'
   delete '/signout', to: 'sessions#destroy'

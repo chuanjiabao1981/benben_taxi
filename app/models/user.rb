@@ -39,7 +39,9 @@ class User < ActiveRecord::Base
 		a 			= User.new(params)
 		a.role 		= role
 		a.status 	= USER_DEFAULT_STATUS[a.role]
-		a.tenant    = Tenant.find_tenant params
+		if role == User::ROLE_DRIVER or role == User::ROLE_PASSENGER
+			a.tenant    = Tenant.find_tenant params
+		end
 		a
 	end
 
@@ -48,6 +50,9 @@ class User < ActiveRecord::Base
 	end
 	def self.build_passenger(params={})
 		User.build_a_user(params,ROLE_PASSENGER)
+	end
+	def self.build_zone_admin(params={})
+		User.build_a_user(params,ROLE_ZONE_ADMIN)
 	end
 
 

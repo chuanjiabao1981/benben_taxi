@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130601072535) do
+ActiveRecord::Schema.define(version: 20130606135820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20130601072535) do
     t.datetime "updated_at"
   end
 
+  add_index "driver_track_points", ["driver_id"], :name => "index_driver_track_points_on_driver_id"
   add_index "driver_track_points", ["location"], :name => "index_driver_track_points_on_location", :spatial => true
   add_index "driver_track_points", ["tenant_id"], :name => "index_driver_track_points_on_tenant_id"
 

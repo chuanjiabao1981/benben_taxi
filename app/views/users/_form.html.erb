@@ -1,0 +1,16 @@
+<%= simple_form_for user ,:html => { :class => 'form-horizontal'  } do |f|%>
+<%= f.error_notification %>
+<%= f.error :base , :error_method => :to_sentence %>
+<fieldset>
+	<%= f.input :account %>
+	<%= f.input :mobile %>
+	<%= f.association :tenant, collection: Tenant.all.collect {|t| [t.name,t.id]} %>
+
+	<%= f.input :password %>
+	<%= f.input :password_confirmation %>
+</fieldset>
+<div class="form-actions">
+	<%= f.button :submit , :class => 'btn btn-primary' %>
+	<%= link_to I18n.t('views.text.cancel'), users_path, :class => 'btn btn-gray' %>
+</div>
+<% end %>

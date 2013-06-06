@@ -4,7 +4,7 @@ require "base64"
 class TestApi
 	def initialize
 		@host = 'localhost'
-		#@host = 'v2.365check.net'
+		@host = 'v2.365check.net'
 		@port = '8081'
 	end
 
@@ -89,7 +89,9 @@ class TestApi
 			}
 		}.to_json
 		request_header = {'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
-		self.post_request(path,request_header,body)
+		100.times do 
+			self.post_request(path,request_header,body)
+		end
 	end
 	def taxi_requests_index_api
 		path ="/api/v1/taxi_requests?lat=8&lng=8&radius=10"
@@ -139,8 +141,10 @@ end
 
 s = TestApi.new
 #s.passenger_signin_api
-s.create_taxi_request_api
-#s.create_driver_track_point_api
+#s.create_taxi_request_api
+a = Time.now
+s.create_driver_track_point_api
+puts (Time.now - a)/100
 #s.taxi_requests_index_api
 #s.answer_taxi_request_api
 #s.show_taxi_request_api

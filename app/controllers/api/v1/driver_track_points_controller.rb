@@ -8,4 +8,7 @@ class Api::V1::DriverTrackPointsController <  Api::ApiController
 			render json: json_errors(driver_track_point.errors)
 		end
 	end
+	def index
+		return render json: [] if params[:drivers].nil?
+	end
 end
