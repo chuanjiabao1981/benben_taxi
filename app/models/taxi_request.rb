@@ -70,12 +70,29 @@ class TaxiRequest < ActiveRecord::Base
 		self.passenger_voice.url
 	end
 
-	def self.get_latest_taxi_requests(params)
+	def taxi_request_desc
+	end
+
+	def self.get_nearby_taxi_requests(params)
 		return [] if params[:lng].nil? or params[:lat].nil?
 		params[:radius] ||=DEFAULT_SEARCH_RADIUS
 		driver_location = "POINT (#{params[:lng]} #{params[:lat]})"
 		s=TaxiRequest.all.by_distance(driver_location,params[:radius]).by_state.within(MAX_WAITING_TIME_RANGE*2).order("created_at DESC")
 		s.as_json(DEFUALT_JSON_RESULT)
+	end
+	def self.get_latest_taxi_requests
+		s=TaxiRequest.all.order("created_at DESC").limit(10);
+		#s.as_json(:only=>[:passenger_mobile],:methods=>[:passenger_lng,:passenger_lat,:taxi_request_desc])
+		r = []
+		s.each do |t|
+			_t = {}
+			_t[:lat] 	= t.passenger_lat
+			_t[:lng] 	= t.passenger_lng
+			#_t[:desc] 	= "#{t.created_at.strftime("%m-%d %H:%M")} #{t.state}"
+			_t[:desc]   = "乘客"
+			r <<_t
+		end
+		r.as_json
 	end
 	def self.build_taxi_request(params,current_user)
 		if params and params[:passenger_lng] and params[:passenger_lat]
@@ -145,6 +162,8 @@ class TaxiRequest < ActiveRecord::Base
 			end
 		end
 	end
+
+
 
 	state_machine :initial => :Waiting_Driver_Response do
 		before_transition all => :Canceled_By_Passenger ,:do => :set_passenger_cancel_time

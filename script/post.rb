@@ -93,8 +93,8 @@ class TestApi
 		self.post_request(path,request_header,body)
 		#end
 	end
-	def taxi_requests_index_api
-		path ="/api/v1/taxi_requests?lat=8&lng=8&radius=10"
+	def nearby_taxi_requests_api
+		path ="/api/v1/taxi_requests/nearby?lat=8&lng=8&radius=10"
 		request_header = self.get_driver_head
 		self.get_request(path,request_header)
 	end
@@ -140,15 +140,15 @@ class TestApi
 end
 
 s = TestApi.new
-#s.passenger_signin_api
-#s.create_taxi_request_api
+s.passenger_signin_api
+s.create_taxi_request_api
 s.create_driver_track_point_api
-#s.taxi_requests_index_api
-#s.answer_taxi_request_api
-#s.show_taxi_request_api
-#s.cancel_taxi_request_api
-#s.confirm_taxi_request_api
-#s.answer_taxi_request_twice
-#s.get_latest_drvier_api
+s.nearby_taxi_requests_api
+s.answer_taxi_request_api
+s.show_taxi_request_api
+s.cancel_taxi_request_api
+s.confirm_taxi_request_api
+s.answer_taxi_request_twice
+s.get_latest_drvier_api
 
 

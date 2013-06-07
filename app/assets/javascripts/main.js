@@ -14,18 +14,29 @@ getLocationIssueInfoWindow = function(location) {
   }
   return null;
 };
-showLocationList = function(map,locations) {
+removeLocation = function(map,title)
+{
+  _all_overlays = map.getOverlays();
+  i = 0;
+  while (i < _all_overlays.length) {
+    if ((_all_overlays[i] != null) && _all_overlays[i] instanceof BMap.Marker && _all_overlays[i].getTitle() == title ) {
+      map.removeOverlay(_all_overlays[i]);
+    }
+  i++;
+  }
+}
+showLocationList = function(map,locations,title) {
   if (locations != null) {
     i = 0;
     _results = [];
     while (i < locations.length) {
-      showLocation(map, locations[i]);
+      showLocation(map, locations[i],title);
       _results.push(i++);
     }
     return _results;
   }
 };
-showLocation = function(map, location) {
+showLocation = function(map, location,title) {
   var label, marker;
   label = void 0;
   marker = void 0;
@@ -37,8 +48,8 @@ showLocation = function(map, location) {
   marker = new BMap.Marker(new BMap.Point(location.lng, location.lat));
   //marker.location_info = getLocationIssueInfoWindow(location);
   label = void 0;
-  if ((location.mobile != null) && location.mobile !== "") {
-    label = new BMap.Label(location.mobile);
+  if ((location.desc != null) && location.desc !== "") {
+    label = new BMap.Label(location.desc);
     label.setOffset(new BMap.Size(15, -20));
     label.setStyle({
       position: "relative",
@@ -51,6 +62,9 @@ showLocation = function(map, location) {
     label.enableMassClear();
     marker.setLabel(label);
   }
+  marker.setTitle(title);
+
+
   marker.addEventListener("mouseover", function(e) {
     return e.target.setTop(true);
   });
@@ -67,7 +81,7 @@ showLocation = function(map, location) {
 
 showLatestDriverLocation=function(map,driver_ids)
 {
-  removeLocation(map);
+  removeLocation(map,'taxi');
   if (driver_ids == null || driver_ids.length == 0){
     return;
   }
@@ -78,23 +92,29 @@ showLatestDriverLocation=function(map,driver_ids)
         data: {"driver_ids[]":driver_ids},
         success: function(data,status,jqXHR){
           if (data != null){
-            showLocationList(map,data);
+            showLocationList(map,data,'taxi');
           }
         }
       })
 }
 
-removeLocation = function(map)
+showLatesTaxiRequests=function(map)
 {
-  _all_overlays = map.getOverlays();
-  i = 0;
-  while (i < _all_overlays.length) {
-    if ((_all_overlays[i] != null) && _all_overlays[i] instanceof BMap.Marker ) {
-      map.removeOverlay(_all_overlays[i]);
+  removeLocation(map,'taxi_request');
+
+  $.ajax({
+    url:     '/api/v1/taxi_requests',
+    dataType: "json",
+    success : function(data,status,jqXHR){
+      if (data != null){
+        showLocationList(map,data,'taxi_request');
+      }
     }
-  i++;
   }
+  )
 }
+
+
 $(function(){
   $('#drivers_list input:checkbox').click(function(){
     var driver_ids = $('div#driver_ids').data('driver-ids')
@@ -127,5 +147,6 @@ $(function() {
       showLatestDriverLocation(map,$('div#driver_ids').data('driver-ids'))
     },
     1000);
+    setInterval(function(){showLatesTaxiRequests(map)},2000);
   }
 });

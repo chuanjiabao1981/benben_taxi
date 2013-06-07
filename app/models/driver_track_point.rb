@@ -48,9 +48,11 @@ class DriverTrackPoint < ActiveRecord::Base
 			s = DriverTrackPoint.by_driver_id(i).order('created_at DESC').limit(1)				
 			r<<s[0] if s.size == 1
 		end
-		k=r.as_json(only:[:id,:created_at,:driver_id,:mobile],:methods=>[:lat,:lng])
-		Rails.logger.debug(k)
-		k
+		r.as_json(only:[:id,:driver_id],:methods=>[:lat,:lng,:desc])
+	end
+	def desc
+		"#{self.mobile}
+		#{self.created_at.strftime("%m-%d %H:%M")}"
 	end
 	def lat
 		self.location.try(:y)

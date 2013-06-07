@@ -8,12 +8,31 @@ class TaxiRequestTimeoutCheck
 		@driver_mobiles = ["15910676326","13810025096"]
 		@driver_lng    = driver_lng
 		@driver_lat    = driver_lat
+		@passengers	   = [
+						   {
+						   		mobile: "11111111111",
+						   		lng:113.999805,
+						   		lat:22.550666,
+						   },
+						   {
+						   		mobile: "22222222222",
+						   		lng:113.889800,
+						   		lat:22.560666
+						   }	
+		]
+		check_passengers
 	end
 	def check
+		loop_counter = 0
+
 		loop do
 			check_time_out_taxi_requests
 			response_taxi_request
 			add_driver_track_point
+			if (loop_counter % 60 == 0)
+				add_taxi_requests
+			end
+			loop_counter = loop_counter + 1
 			sleep(1)
 		end
 	end
@@ -22,6 +41,37 @@ class TaxiRequestTimeoutCheck
 	end
 
 	private 
+	def check_passengers
+		@passengers.each do |p|
+			if not User.find_by mobile: p[:mobile],role: User::ROLE_PASSENGER
+				User.build_passenger(mobile: p[:mobile],password: '8',password_confirmation: '8').save
+				puts "not found"
+			end
+		end
+	end
+	def add_taxi_requests
+		@passengers.each do |p|
+
+			current_passenger  = User.find_by mobile: p[:mobile],role: User::ROLE_PASSENGER
+
+			params = {}
+			params[:passenger_mobile] = p[:mobile]
+			params[:passenger_lng] = get_random(p[:lng])
+			params[:passenger_lat] = get_random(p[:lat])
+
+			if current_passenger
+				r=TaxiRequest.build_taxi_request(params,current_passenger)
+				r.tenant_id = current_passenger.tenant_id
+				if r.save
+					logger.info "taxi requests at #{params[:passenger_lng]} #{params[:passenger_lat]} #{p[:mobile]}";
+				else
+					logger.warn r.errors.full_messages
+				end
+			else
+				logger.warn "No Passenger Found #{p[:mobile]}"
+			end
+		end
+	end
 	def check_time_out_taxi_requests
 		start_time = Time.now
 		ss = []

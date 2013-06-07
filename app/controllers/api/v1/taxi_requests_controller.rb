@@ -9,7 +9,12 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 		end
 	end
 	def index
-		r = TaxiRequest.get_latest_taxi_requests(params)
+		r = TaxiRequest.get_latest_taxi_requests
+		return render json: r
+	end
+
+	def nearby
+		r = TaxiRequest.get_nearby_taxi_requests(params)
 		return render json: r
 	end
 
