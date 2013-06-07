@@ -2,3 +2,15 @@
 
 <div id="map-container" style="height: 450px">
 </div>
+<table class="table" id="drivers_list">
+	<% @drivers.each do |driver| %>
+		<tr>
+			<td><%= check_box_tag "driver", driver.id %></td>
+			<td><%= driver.mobile %></td>
+			<td><%= driver.try(:name) %></td>
+		</tr>
+	<% end %>
+</table>
+
+<%= content_tag "div", id: "driver_ids" do %>
+<% end %>

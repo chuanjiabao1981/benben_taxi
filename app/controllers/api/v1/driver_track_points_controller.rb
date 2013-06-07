@@ -9,6 +9,7 @@ class Api::V1::DriverTrackPointsController <  Api::ApiController
 		end
 	end
 	def index
-		return render json: [] if params[:drivers].nil?
+		#return render json: [] if params[:driver_ids].nil?
+		return render json: DriverTrackPoint.get_drivers_latest_track_point(params)
 	end
 end

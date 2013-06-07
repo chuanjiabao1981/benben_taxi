@@ -56,7 +56,9 @@ class User < ActiveRecord::Base
 	end
 
 
-
+	def self.all_drivers
+		User.where role: User::ROLE_DRIVER
+	end
 	def is_passenger?
 		self.role == ROLE_PASSENGER
 	end

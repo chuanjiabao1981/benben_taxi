@@ -14,7 +14,7 @@ class TaxiRequestTimeoutCheck
 			check_time_out_taxi_requests
 			response_taxi_request
 			add_driver_track_point
-			sleep(10)
+			sleep(1)
 		end
 	end
 	def logger
@@ -37,8 +37,8 @@ class TaxiRequestTimeoutCheck
 		@driver_mobiles.each do |mobile|
 			params= {}
 			params[:mobile] = mobile
-			params[:lat] 	= @driver_lat + Random.new.rand(0..30)/100000.0
-			params[:lng] 	= @driver_lng + Random.new.rand(0..30)/100000.0
+			params[:lat] 	= get_random(@driver_lat)
+			params[:lng] 	= get_random(@driver_lng)
 			current_driver  = User.find_by mobile: mobile, role: "driver"
 			if current_driver
 				params[:tenant_id] = current_driver.tenant_id
@@ -74,7 +74,7 @@ class TaxiRequestTimeoutCheck
 		end
 	end
 	def get_random(val)
-		 val + Random.new.rand(0..50)/100000.0
+		 val + Random.new.rand(10..400)/10000.0
 	end
 	def get_current_driver(mobile)
 		User.find_by mobile: mobile, role: "driver"

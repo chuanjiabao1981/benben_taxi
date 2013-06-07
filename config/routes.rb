@@ -25,7 +25,7 @@ BenbenTaxi::Application.routes.draw do
           post 'confirm'
         end
       end
-      resources :driver_track_points,only:[:create]
+      resources :driver_track_points,only:[:create,:index]
     end
   end
 

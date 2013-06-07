@@ -15,7 +15,9 @@ class DriverTrackPoint < ActiveRecord::Base
 	scope :within,lambda {|s|
 		where("created_at >= ? " ,s.minutes.ago)
 	}
-
+	scope :by_driver_id,lambda { |id|
+		where("driver_id = ?",id)
+	}
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
 	def self.build_driver_track_point(params,current_user)
@@ -27,7 +29,7 @@ class DriverTrackPoint < ActiveRecord::Base
 		a
 	end
 
-	def self.get_latest_drivers(params)
+	def self.get_latest_nearby_drivers(params)
 		return [] if params[:lng].nil? or params[:lat].nil?
 		passenger_location = "POINT (#{params[:lng]} #{params[:lat]})"
 		params[:radius] 	||=DEFAULT_SEARCH_RADIUS
@@ -37,6 +39,18 @@ class DriverTrackPoint < ActiveRecord::Base
 							   within(params[:time_range]).
 							   order("driver_id,created_at DESC")
 		r.as_json(:only=>[:driver_id,:created_at],:methods => [:lat,:lng])
+	end
+
+	def self.get_drivers_latest_track_point(params)
+		return [] if params[:driver_ids].nil?
+		r = []
+		params[:driver_ids].each do |i|
+			s = DriverTrackPoint.by_driver_id(i).order('created_at DESC').limit(1)				
+			r<<s[0] if s.size == 1
+		end
+		k=r.as_json(only:[:id,:created_at,:driver_id,:mobile],:methods=>[:lat,:lng])
+		Rails.logger.debug(k)
+		k
 	end
 	def lat
 		self.location.try(:y)

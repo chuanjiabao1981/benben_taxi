@@ -8,7 +8,7 @@ class Api::V1::UsersController < Api::ApiController
 		create_user(user)
 	end
 	def nearby_driver
-		render json: DriverTrackPoint.get_latest_drivers(params)
+		render json: DriverTrackPoint.get_latest_nearby_drivers(params)
 	end
 
 	private

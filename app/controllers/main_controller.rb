@@ -2,6 +2,7 @@ class MainController < ApplicationController
 	before_action :not_signin
 
 	def overview
+		@drivers = User.all_drivers
 	end
 
 	private
