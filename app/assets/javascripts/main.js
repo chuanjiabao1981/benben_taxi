@@ -67,15 +67,16 @@ showLocation = function(map, location) {
 
 showLatestDriverLocation=function(map,driver_ids)
 {
+  removeLocation(map);
   if (driver_ids == null || driver_ids.length == 0){
     return;
   }
+
   $.ajax({
         url:    '/api/v1/driver_track_points',
         dataType: "json",
         data: {"driver_ids[]":driver_ids},
         success: function(data,status,jqXHR){
-          removeLocation(map);
           if (data != null){
             showLocationList(map,data);
           }
@@ -88,7 +89,7 @@ removeLocation = function(map)
   _all_overlays = map.getOverlays();
   i = 0;
   while (i < _all_overlays.length) {
-    if ((_all_overlays[i] != null) && _all_overlays[i] instanceof BMap.Marker && (location != null)) {
+    if ((_all_overlays[i] != null) && _all_overlays[i] instanceof BMap.Marker ) {
       map.removeOverlay(_all_overlays[i]);
     }
   i++;
@@ -121,10 +122,10 @@ $(function() {
     map.addControl(new BMap.ScaleControl());
     map.addControl(new BMap.OverviewMapControl());
     map.addControl(new BMap.MapTypeControl());
-    map.centerAndZoom(point, 15);
+    map.centerAndZoom(point, 11);
     setInterval(function(){
       showLatestDriverLocation(map,$('div#driver_ids').data('driver-ids'))
     },
-    3000);
+    1000);
   }
 });
