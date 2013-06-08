@@ -89,7 +89,7 @@ class TaxiRequest < ActiveRecord::Base
 			_t[:lat] 	= t.passenger_lat
 			_t[:lng] 	= t.passenger_lng
 			#_t[:desc] 	= "#{t.created_at.strftime("%m-%d %H:%M")} #{t.state}"
-			_t[:desc]   = "乘客"
+			_t[:desc]   = "乘客 #{t.passenger_mobile}"
 			r <<_t
 		end
 		r.as_json

@@ -147,6 +147,6 @@ $(function() {
       showLatestDriverLocation(map,$('div#driver_ids').data('driver-ids'))
     },
     1000);
-    setInterval(function(){showLatesTaxiRequests(map)},2000);
+    setInterval(function(){showLatesTaxiRequests(map)},5000);
   }
 });
