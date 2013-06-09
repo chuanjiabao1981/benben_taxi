@@ -1,0 +1,19 @@
+<div id="breadcrumbs">
+	<ul class="breadcrumb">
+		<% bread_crumbs_actions(action_groups) do |node,is_first,is_last| %>
+			<% if not is_last %>
+				<li>	
+					<% if is_first %>
+						<i class="icon-home"></i>
+					<% end %>
+					<%= link_to node[:name],"#" %>
+					<span class="divider">
+						<i class="icon-angle-right"></i>
+					</span>
+				</li>
+			<% else %>
+				<li class="active"><%= node[:name]%></li>
+			<% end %>
+		<% end %>
+	</ul><!--.breadcrumb-->
+</div>

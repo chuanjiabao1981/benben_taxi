@@ -32,7 +32,7 @@
 	<ul class="nav nav-list">
 		<% action_groups.each do |group| %>
 			<% if side_bar_group_size(group) > 1 %>
-				<% if side_bar_group_match?(group) %>
+				<% if group_match?(group) %>
 					<li class="active open" %>
 				<% else %>
 					<li>
@@ -44,7 +44,7 @@
 					<% end %>
 					<ul class="submenu">
 						<% side_bar_group_actions(group) do |action|%>
-							<% if side_bar_action_match?(action) %>
+							<% if action_match?(action) %>
 								<li class="active"%>
 							<% else %>
 								<li>
@@ -59,7 +59,7 @@
 				</li>
 			<% else %>
 				<% side_bar_group_actions(group) do |action|%>
-					<% if side_bar_action_match?(action) %>
+					<% if action_match?(action) %>
 						<li class="active"%>
 					<% else %>
 						<li>

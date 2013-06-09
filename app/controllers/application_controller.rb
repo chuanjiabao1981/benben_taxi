@@ -24,7 +24,6 @@ class ApplicationController < ActionController::Base
   	  nil
   	end
   	def authorize
-      #Rails.logger.debug("#{params[:controller]} #{params[:action]}")
   	  if current_permission.allow?(params[:controller], params[:action], current_resource)
   	    current_permission.permit_params! params
   	  else

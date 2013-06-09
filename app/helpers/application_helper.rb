@@ -18,7 +18,7 @@ module ApplicationHelper
 					{
 						action:"main::overview",
 						url: [:root],
-						name: "首页"
+						name: "概况"
 					}
 				]
 			},
@@ -51,16 +51,42 @@ module ApplicationHelper
 		return group[:actions].size if group[:actions]
 		return 0
 	end
-	def side_bar_action_match?(action)
+	def action_match?(action)
 		action[:action] == "#{params[:controller]}::#{params[:action]}" 
 	end
-	def side_bar_group_match?(group)
+	def group_match?(group)
 		group[:actions].each do |a|
-			Rails.logger.debug("#{params[:controller]}::#{params[:action]}")
 			if a[:action] == "#{params[:controller]}::#{params[:action]}" 
 				return true
 			end
 		end
 		false
+	end
+
+	def bread_crumbs_actions(groups)
+		g = nil
+		a = nil
+		groups.each do |group|
+			g= group
+			group[:actions].each do |action|
+				if action_match?(action)
+					Rails.logger.debug("#{params[:controller]}::#{params[:action]}" )
+					a = action
+					break
+				end
+			end
+			break if a
+		end
+		#默认第一个group的第一个action为首页
+		#第一个boolean参数表示是否是第一级
+		#第二个boolean参数表示是否是最后一级
+		yield groups[0],true,false
+		Rails.logger.debug(side_bar_group_size(g))
+		if side_bar_group_size(g) > 1
+			yield g,false,false
+			yield a,false,true
+		else
+			yield a,false,true
+		end
 	end
 end
