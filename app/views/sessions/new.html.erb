@@ -1,11 +1,104 @@
-<%= simple_form_for :sessions  ,url: sessions_path, :html => { :class => 'form-horizontal' } do |f| %>
-	<%= f.error_notification %>
-	<%= f.error :base , :error_method => :to_sentence %>
-	<fieldset>
-		<%= f.input :account %>
-		<%= f.input :password%>
-	</fieldset>
-	<div class="form-actions">
-		<%= f.submit '登录' %>
-	</div>
-<% end %>
+
+<div class="row-fluid">
+	<div class="position-relative">
+		<div id="login-box" class="visible widget-box no-border">
+
+
+			<div class="widget-body">
+				<div class="widget-main">
+					<h4 class="header blue lighter bigger">
+											<% flash.each do |key, value| %>
+					<div class="alert alert-<%= key %>"><%= value %></div>
+					<% end %>
+						<i class="icon-coffee green"></i>
+						请输入用户名密码
+					</h4>
+
+					<div class="space-6"></div>
+
+					<%=form_for :sessions,url:sessions_path do |f|%>
+						<fieldset>
+							<label>
+								<span class="block input-icon input-icon-right">
+									<%= f.text_field :account,:class=>"span12",:placeholder => "用户名" %>
+									<i class="icon-user"></i>
+								</span>
+							</label>
+
+							<label>
+								<span class="block input-icon input-icon-right">
+									<%= f.password_field :password,:class=>"span12",:placeholder => "密码" %>
+									<i class="icon-lock"></i>
+								</span>
+							</label>
+
+							<div class="space"></div>
+
+							<div class="row-fluid">
+								<label class="span8">
+									<input type="checkbox" />
+									<span class="lbl"> 记住用户</span>
+								</label>
+								<%=  button_tag(:type => 'submit', :class => 'span4 btn btn-small btn-primary')  do %>
+									<i class="icon-key"></i>
+									登录
+								<% end %>
+							</div>
+						</fieldset>
+					<% end %>
+				</div><!--/widget-main-->
+
+				<div class="toolbar clearfix">
+					<div>
+						<a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
+							<i class="icon-arrow-left"></i>
+							忘记密码
+						</a>
+					</div>
+
+				</div>
+			</div><!--/widget-body-->
+		</div><!--/login-box-->
+
+		<div id="forgot-box" class="widget-box no-border">
+			<div class="widget-body">
+				<div class="widget-main">
+					<h4 class="header red lighter bigger">
+						<i class="icon-key"></i>
+						找回密码
+					</h4>
+
+					<div class="space-6"></div>
+					<p>
+						输入电子邮件地址
+					</p>
+
+					<form>
+						<fieldset>
+							<label>
+								<span class="block input-icon input-icon-right">
+									<input type="email" class="span12" placeholder="Email" />
+									<i class="icon-envelope"></i>
+								</span>
+							</label>
+
+							<div class="row-fluid">
+								<button onclick="return false;" class="span5 offset7 btn btn-small btn-danger">
+									<i class="icon-lightbulb"></i>
+									发送
+								</button>
+							</div>
+						</fieldset>
+					</form>
+				</div><!--/widget-main-->
+
+				<div class="toolbar center">
+					<a href="#" onclick="show_box('login-box'); return false;" class="back-to-login-link">
+						返回登录
+						<i class="icon-arrow-right"></i>
+					</a>
+				</div>
+			</div><!--/widget-body-->
+		</div><!--/forgot-box-->
+	</div><!--/position-relative-->
+</div>

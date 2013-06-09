@@ -1,7 +1,4 @@
 module ApplicationHelper
-  include Rails.application.routes.url_helpers
-
-
 	def delete_link(o)
 	link_to I18n.t('views.text.destroy'), 
 			o, 
@@ -18,7 +15,8 @@ module ApplicationHelper
 					{
 						action:"main::overview",
 						url: [:root],
-						name: "概况"
+						name: "概况",
+						title: "系统概况"
 					}
 				]
 			},
@@ -29,12 +27,14 @@ module ApplicationHelper
 					{
 						action:"zone_admin/users::index",
 						url: [:zone_admin,:users],
-						name: "司机列表"
+						name: "司机列表",
+						title: "全部司机详细情况列表"
 					},
 					{
 						action:"zone_admin/users::new",
 						url: [:new,:zone_admin,:user],
-						name: "新增司机"
+						name: "新增司机",
+						title: "新增加出租车司机"
 					}
 				]
 			}
@@ -62,31 +62,40 @@ module ApplicationHelper
 		end
 		false
 	end
-
+	def page_header(groups)
+		g 	= nil
+		a 	= nil
+		g,a = current_group_and_action(groups)
+		yield g,a
+	end
 	def bread_crumbs_actions(groups)
 		g = nil
 		a = nil
-		groups.each do |group|
-			g= group
-			group[:actions].each do |action|
-				if action_match?(action)
-					Rails.logger.debug("#{params[:controller]}::#{params[:action]}" )
-					a = action
-					break
-				end
-			end
-			break if a
-		end
+		g,a = current_group_and_action(groups)
 		#默认第一个group的第一个action为首页
 		#第一个boolean参数表示是否是第一级
 		#第二个boolean参数表示是否是最后一级
 		yield groups[0],true,false
-		Rails.logger.debug(side_bar_group_size(g))
 		if side_bar_group_size(g) > 1
 			yield g,false,false
 			yield a,false,true
 		else
 			yield a,false,true
 		end
+	end
+	def current_group_and_action(groups)
+		g= nil
+		a= nil
+		groups.each do |group|
+			g= group
+			group[:actions].each do |action|
+				if action_match?(action)
+					a = action
+					break
+				end
+			end
+			break if a
+		end
+		[g,a]
 	end
 end

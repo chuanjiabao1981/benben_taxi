@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>登录 - 奔奔打车</title>
+	<%= render partial:'layouts/header' %>
+	<%= csrf_meta_tags %>
+</head>
+	<body class="login-layout">
+		<div class="container-fluid" id="main-container">
+			<div id="main-content">
+				<div class="row-fluid">
+					<div class="span12">
+						<div class="login-container">
+							<div class="row-fluid">
+								<div class="center">
+									<h1>
+										<i class="icon-leaf green"></i>
+										<span class="red">奔奔</span>
+										<span class="white">出租</span>
+									</h1>
+									<h4 class="blue">&copy; 维幄通达</h4>
+								</div>
+							</div>
+
+							<div class="space-6"></div>
+
+							<%= yield %>	
+
+						</div>
+					</div><!--/span-->
+				</div><!--/row-->
+			</div>
+		</div><!--/.fluid-container-->
+
+		<!--basic scripts-->
+
+		<!--page specific plugin scripts-->
+
+		<!--inline scripts related to this page-->
+
+		<script type="text/javascript">
+			function show_box(id) {
+			 $('.widget-box.visible').removeClass('visible');
+			 $('#'+id).addClass('visible');
+			}
+		</script>
+	</body>
+</html>

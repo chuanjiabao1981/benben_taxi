@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>BenbenTaxi</title>
-	<%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => false %>
-	<%= javascript_include_tag "application", "data-turbolinks-track" => false %>
+	<title>奔奔出租</title>
+	<%= render partial:'layouts/header' %>
 	<script src="http://api.map.baidu.com/api?v=1.5&ak=96fae1b51460b6910217e1b09658fb40" type="text/javascript"></script>
-
 	<%= csrf_meta_tags %>
 </head>
 <body>
@@ -18,15 +16,7 @@
 		<div id="main-content" class="clearfix">
 			<%= render partial:'layouts/breadcrumbs' %>
 			<div id="page-content" class="clearfix">
-				<div class="page-header position-relative">
-					<h1>
-						Dashboard
-						<small>
-							<i class="icon-double-angle-right"></i>
-							overview &amp; stats
-						</small>
-					</h1>
-				</div>
+				<%= render partial: 'layouts/page_header'%>	
 				<div class="row-fluid">
 					<%= yield %>
 				</div>

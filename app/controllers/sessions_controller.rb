@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
 	before_action :already_signin , :only => [:new]
 	def new
+		render 'new',layout:'login'
 	end
 
 	def create
@@ -10,7 +11,7 @@ class SessionsController < ApplicationController
 			return redirect_to root_path
 		else
 			flash.now[:error] = I18n.t('session.errors.account_or_password')
-			render 'new'
+			render 'new',layout:'login'
 		end
 	end
 

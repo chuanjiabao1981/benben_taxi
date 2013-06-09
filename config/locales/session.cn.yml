@@ -1,0 +1,4 @@
+cn:
+  session:
+    errors:
+      account_or_password: 用户名或密码错误
