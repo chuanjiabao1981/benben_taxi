@@ -55,7 +55,7 @@ showLocation = function(map, location,title) {
       position: "relative",
       border: "1px solid",
       padding: "2px",
-      fontSize: "11px",
+      fontSize: "80%",
       color: "white",
       backgroundColor: "#C0605F"
     });

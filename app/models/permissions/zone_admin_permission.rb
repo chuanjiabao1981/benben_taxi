@@ -4,6 +4,7 @@ module Permissions
     	super(user)
     	allow "api/v1/driver_track_points"    , [:index]
     	allow "api/v1/taxi_requests",[:index]
+    	allow "zone_admin/users",[:index]
     end
   end
 end

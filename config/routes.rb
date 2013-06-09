@@ -34,6 +34,9 @@ BenbenTaxi::Application.routes.draw do
 
   root :to => 'main#overview'
   resources :users
+  namespace :zone_admin do
+    resources :users
+  end
 
   get '/signin',  to: 'sessions#new'
   delete '/signout', to: 'sessions#destroy'

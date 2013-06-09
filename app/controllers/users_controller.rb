@@ -10,7 +10,6 @@ class UsersController < ApplicationController
 		if @user.save
 			redirect_to users_path
 		else
-			Rails.logger.debug(@user.errors.full_messages)
 			render 'new'
 		end
 	end

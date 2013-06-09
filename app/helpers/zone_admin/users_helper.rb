@@ -1,0 +1,2 @@
+module ZoneAdmin::UsersHelper
+end

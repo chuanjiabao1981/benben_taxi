@@ -1,0 +1,8 @@
+<tr>
+	<td><%= user.account %></td>
+	<td><%= user.mobile %></td>
+	<td>
+		<%= link_to I18n.t('views.text.edit') , [:edit,:zone_admin,user] %>
+		<%= link_to 'Destroy', [:zone_admin,user], confirm: 'Are you sure?', method: :delete %>
+	</td>
+</tr>
