@@ -55,6 +55,13 @@ class User < ActiveRecord::Base
 		User.build_a_user(params,ROLE_ZONE_ADMIN)
 	end
 
+	def self.drivers_num
+		User.where(role: ROLE_DRIVER).count
+	end
+
+	def self.passengers_num
+		User.where(role: ROLE_PASSENGER).count
+	end
 
 	def self.all_drivers
 		User.where role: User::ROLE_DRIVER

@@ -42,13 +42,13 @@ class DriverTrackPoint < ActiveRecord::Base
 	end
 
 	def self.get_drivers_latest_track_point(params)
-		return [] if params[:driver_ids].nil?
-		r = []
-		params[:driver_ids].each do |i|
-			s = DriverTrackPoint.by_driver_id(i).order('created_at DESC').limit(1)				
-			r<<s[0] if s.size == 1
-		end
+		r = DriverTrackPoint.select("DISTINCT on (driver_id) driver_id,created_at,location,mobile")
+						    .within(DEFAULT_DRIVER_TIME_RANGE)
+						    .order("driver_id,created_at DESC")
 		r.as_json(only:[:id,:driver_id],:methods=>[:lat,:lng,:desc])
+	end
+	def self.get_latest_drivers_num
+		DriverTrackPoint.within(DEFAULT_DRIVER_TIME_RANGE).count(:driver_id,distinct: true)
 	end
 	def desc
 		"#{self.mobile}

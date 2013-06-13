@@ -14,17 +14,6 @@ getLocationIssueInfoWindow = function(location) {
   }
   return null;
 };
-removeLocation = function(map,title)
-{
-  _all_overlays = map.getOverlays();
-  i = 0;
-  while (i < _all_overlays.length) {
-    if ((_all_overlays[i] != null) && _all_overlays[i] instanceof BMap.Marker && _all_overlays[i].getTitle() == title ) {
-      map.removeOverlay(_all_overlays[i]);
-    }
-  i++;
-  }
-}
 showLocationList = function(map,locations,title) {
   if (locations != null) {
     i = 0;
@@ -38,61 +27,19 @@ showLocationList = function(map,locations,title) {
 };
 showLocation = function(map, location,title) {
   var label, marker;
-  label = void 0;
-  marker = void 0;
-  label = void 0;
-  marker = void 0;
-  if (location == null) {
-    return;
-  }
-  marker = new BMap.Marker(new BMap.Point(location.lng, location.lat));
-  //marker.location_info = getLocationIssueInfoWindow(location);
-  label = void 0;
-  if ((location.desc != null) && location.desc !== "") {
-    label = new BMap.Label(location.desc);
-    label.setOffset(new BMap.Size(15, -20));
-    label.setStyle({
-      position: "relative",
-      border: "1px solid",
-      padding: "2px",
-      fontSize: "80%",
-      color: "white",
-      backgroundColor: "#C0605F"
-    });
-    label.enableMassClear();
-    marker.setLabel(label);
-  }
-  marker.setTitle(title);
-
-
-  marker.addEventListener("mouseover", function(e) {
-    return e.target.setTop(true);
-  });
-  marker.addEventListener("mouseout", function(e) {
-    return e.target.setTop(false);
-  });
-  marker.addEventListener("click", function(e) {
-    if (e.target.location_info != null) {
-      return e.target.openInfoWindow(e.target.location_info);
-    }
-  });
+  marker = buildMaker(location,title);
   return map.addOverlay(marker);
 };
 
-showLatestDriverLocation=function(map,driver_ids)
+showLatestTaxi=function(map)
 {
-  removeLocation(map,'taxi');
-  if (driver_ids == null || driver_ids.length == 0){
-    return;
-  }
-
+  LocationUtil.removeLocation(map,'taxi');
   $.ajax({
         url:    '/api/v1/driver_track_points',
         dataType: "json",
-        data: {"driver_ids[]":driver_ids},
         success: function(data,status,jqXHR){
           if (data != null){
-            showLocationList(map,data,'taxi');
+            markerClusterMananger.ShowMakersAsCluster('taxi',data);
           }
         }
       })
@@ -100,14 +47,18 @@ showLatestDriverLocation=function(map,driver_ids)
 
 showLatesTaxiRequests=function(map)
 {
-  removeLocation(map,'taxi_request');
-
+  LocationUtil.removeLocation(map,'taxi_request');
   $.ajax({
     url:     '/api/v1/taxi_requests',
     dataType: "json",
+    beforeSend: function(jqXHR,settings){
+    },
+    error:  function(jqXHR, textStatus, errorThrown ){
+    },
     success : function(data,status,jqXHR){
       if (data != null){
-        showLocationList(map,data,'taxi_request');
+        markerClusterMananger.ShowMakersAsCluster('taxi_request',data);
+      }else{
       }
     }
   }
@@ -115,23 +66,48 @@ showLatesTaxiRequests=function(map)
 }
 
 
-$(function(){
-  $('#drivers_list input:checkbox').click(function(){
-    var driver_ids = $('div#driver_ids').data('driver-ids')
-    if (driver_ids == null){
-      driver_ids = new Array();
-    }
-    check_value = this.value;
-    driver_ids = $.grep(driver_ids,function(value,i){
-      return value != check_value;
-    });
-    if (this.checked == true){
-     driver_ids.push(this.value) 
-    }
-    $('div#driver_ids').data('driver-ids',driver_ids);
-  });
+var markerClusterMananger;
+
+MarkerClusterMananger = function(map)
+{
+  this._cluster = {}
+  this._map     = map;
 }
-)
+
+MarkerClusterMananger.prototype.ShowMakersAsCluster = function(title,locations)
+{
+
+  var markers = [];
+  if (locations != null) {
+    i = 0;
+    while (i < locations.length) {
+      markers.push(LocationUtil.buildMarker(locations[i],title,Icons[title]));
+      i++;
+    }
+  }
+  if (this._cluster[title] == null){
+      this._cluster[title] = new BMapLib.MarkerClusterer(this._map, {markers:markers,styles: ClusterStyle[title]});
+  }else{
+      this._cluster[title].clearMarkers();
+      this._cluster[title] = new BMapLib.MarkerClusterer(this._map, {markers:markers,styles: ClusterStyle[title]});
+  }
+}
+
+var Icons = {
+  "taxi"          : new BMap.Icon('assets/cluster/steering.png',new BMap.Size(32,32)),
+  "taxi_request"  : new BMap.Icon('assets/cluster/passenger.png',new BMap.Size(32, 32))
+}
+var ClusterStyle={
+  "taxi"          :[{
+    url: 'assets/cluster/m2.png',
+    size: new BMap.Size(66,66)
+  }],
+  "taxi_request"  :[{
+    url: 'assets/cluster/m0.png',
+    size: new BMap.Size(53,53)
+  }]
+}
+
 $(function() {
   var map, point;
   map = void 0;
@@ -143,10 +119,9 @@ $(function() {
     map.addControl(new BMap.OverviewMapControl());
     map.addControl(new BMap.MapTypeControl());
     map.centerAndZoom(point, 11);
-    setInterval(function(){
-      showLatestDriverLocation(map,$('div#driver_ids').data('driver-ids'))
-    },
-    1000);
-    setInterval(function(){showLatesTaxiRequests(map)},5000);
+    markerClusterMananger = new MarkerClusterMananger(map);
+
+    setInterval(function(){showLatestTaxi(map) }, 2000);
+    setInterval(function(){showLatesTaxiRequests(map)},2000);
   }
 });

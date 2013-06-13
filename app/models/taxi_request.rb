@@ -53,6 +53,9 @@ class TaxiRequest < ActiveRecord::Base
 			   'Waiting_Passenger_Confirm',
 			   Time.now)
 	}
+	scope :today ,lambda{
+		where('created_at >= ? ',Time.now.beginning_of_day)
+	}
 	def driver_lat
 		self.driver_location.try(:y)
 	end
@@ -163,6 +166,11 @@ class TaxiRequest < ActiveRecord::Base
 		end
 	end
 
+
+	def self.today_success_requests
+		TaxiRequest.today.where(state: 'Success').count
+	end
+	
 
 
 	state_machine :initial => :Waiting_Driver_Response do

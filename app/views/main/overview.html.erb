@@ -1,3 +1,29 @@
+<div class="space-6"></div>
+<div class="space-6"></div>
+<div class="space-6"></div>
+<div class="space-6"></div>
+<div class="space-6"></div>
+<div class="space-6"></div>
+<div class="space-6"></div>
+<div class="space-6"></div>
+
+<div class="row-fluid">
+	<div class="infobox-container">
+		<% @infos.each do |info| %>
+			<div class="infobox <%= info[:color]%>  ">
+				<div class="infobox-icon">
+					<i class="<%= info[:icon]%>"></i>
+				</div>
+				<div class="infobox-data">
+					<span class="infobox-data-number"><%= info[:num]%></span>
+					<div class="infobox-content"><%= info[:content]%></div>
+				</div>
+				<div class="stat stat-success">8%</div>
+			</div>
+		<% end %>
+	</div>
+</div>
+
 <div class="row-fluid">
 	<div class="widget-box transparent">
 		<div class="widget-header widget-header-flat widget-header-small">
@@ -19,27 +45,6 @@
 
 <div class="hr hr-double hr-dotted hr18"></div>
 
-<div class="row-fluid">
-	<div class="span6">
-		<h3 class="header smaller lighter blue">出租车</h3>
-		<div class="table-header">
-			司机列表
-		</div>
-		<table class="table" id="drivers_list">
-			<% @drivers.each do |driver| %>
-			<tr>
-				<td>
-					<%= check_box_tag "driver", driver.id ,false,{:class =>"ace-switch ace-switch-1" }%>
-					<span class="lbl"></span>
-				</td>
-				<td><%= driver.mobile %></td>
-				<td><%= driver.try(:name) %></td>
-			</tr>
-			<% end %>
-		</table>
-	</div>
-	<div class="span6">
-	</div>
-</div>
+
 <%= content_tag "div", id: "driver_ids" do %>
 <% end %>

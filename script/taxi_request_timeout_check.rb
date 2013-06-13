@@ -24,12 +24,13 @@ class TaxiRequestTimeoutCheck
 	end
 	def check
 		loop_counter = 0
+		add_taxi_request_thred = 10
 
 		loop do
 			check_time_out_taxi_requests
 			response_taxi_request
 			add_driver_track_point
-			if (loop_counter % 60 == 0)
+			if (loop_counter % add_taxi_request_thred == 0)
 				add_taxi_requests
 			end
 			loop_counter = loop_counter + 1

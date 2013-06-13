@@ -12,7 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require lib/location
 //= require_tree .
 //= require bootstrap-dropdown
 //= require ace-elements
 //= require ace
+//= require TextIconOverlay_min
+//= require MarkerClusterer_min 
