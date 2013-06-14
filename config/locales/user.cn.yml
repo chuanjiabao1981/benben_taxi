@@ -1,0 +1,14 @@
+cn:
+  activerecord:
+    models:
+      user: 人员
+    attributes:
+      user:
+        name: 姓名
+        mobile: 手机
+        password: 密码
+        password_confirmation: 密码确认
+        register_info: 注册信息
+        taxi_company: 所属公司
+        plate: 车牌号
+        status: 人员状态

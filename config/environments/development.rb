@@ -29,8 +29,4 @@ BenbenTaxi::Application.configure do
   config.assets.logger = false
   config.filter_parameters += [:passenger_voice]
 
-
-  #config.logger = Logger.new(STDOUT) 
-  #config.logger = Logger.new(STDOUT)
-
 end

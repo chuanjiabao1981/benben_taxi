@@ -1,6 +1,6 @@
 class ZoneAdmin::TaxiCompaniesController < ApplicationController
 	def index
-		@taxi_companies = TaxiCompany.all
+		@taxi_companies = TaxiCompany.all.order("created_at")
 	end
 	def new
 		@taxi_company = TaxiCompany.new
@@ -12,6 +12,18 @@ class ZoneAdmin::TaxiCompaniesController < ApplicationController
 			return redirect_to url_for([:zone_admin,:taxi_companies])
 		else
 			render 'new'
+		end
+	end
+	def edit
+		@taxi_company = current_resource
+	end
+	def update
+		@taxi_company = current_resource
+		if @taxi_company.update(params[:taxi_company])
+			flash[:notice] = "成功更新 #{@taxi_company.name}"
+			return redirect_to url_for([:zone_admin,:taxi_companies])
+		else
+			render 'edit'
 		end
 	end
 	def destroy

@@ -31,7 +31,7 @@ module ApplicationHelper
 						title: "司机详细情况列表"
 					},
 					{
-						action:["zone_admin/users::new"],
+						action:["zone_admin/users::new","zone_admin/users::create"],
 						url: [:new,:zone_admin,:user],
 						name: "新增司机",
 						title: "新增加出租车司机"
@@ -53,21 +53,30 @@ module ApplicationHelper
 						url:[:new,:zone_admin,:taxi_company],
 						name: "新增公司",
 						title: "新增加公司"
+					},
+					{
+						action:["zone_admin/taxi_companies::edit","zone_admin/taxi_companies::update"],
+						name: "编辑",
+						title: "公司信息编辑",
+						side_bar: false
 					}
 				]
 			}
 		]
 	end
+	def action_on_side_bar?(a)
+		return a[:side_bar] if not a[:side_bar].nil?
+		return true
+	end
 	def side_bar_group_actions(group)
 		group[:actions].each do |a|
-			if true
+			if action_on_side_bar?(a)
 				yield a
 			end
 		end
 	end
 	def side_bar_group_size(group)
-		return group[:actions].size if group[:actions]
-		return 0
+		group[:actions].inject(0) {|sum,a| action_on_side_bar?(a) ? sum + 1 : sum} if group[:actions]
 	end
 	def action_match?(action)
 		action[:action].include?("#{params[:controller]}::#{params[:action]}")

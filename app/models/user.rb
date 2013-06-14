@@ -10,6 +10,11 @@ class User < ActiveRecord::Base
 	ROLE_PASSENGER 		=  "passenger"
 
 	STATUS_TYPE 		= %w(normal waiting_validate forbidden)
+	STATUS_TYPE_HUMAN   = {:normal => "正常", :waiting_validate => "审核", :forbidden => "封禁"}
+	STATUS_TYPE_CLASS   = {:waiting_validate => "label label-important arrowed-in",
+						   :normal => "label label-success arrowed",
+						   :forbidden => "label label-important arrowed-in"
+						  }
 
 	USER_DEFAULT_STATUS =  {
 							   "super_admin"=> "normal",
@@ -28,19 +33,34 @@ class User < ActiveRecord::Base
 									
 	validates :role           ,:inclusion => {  :in => ROLE_TYPE,:message   => "%{value} 不合法的用户类型!" }
 	validates :status         ,:inclusion => { :in => STATUS_TYPE,:message => "%{value} 不合法的用户状态!"}
-	validates :name			  ,:length=>{:maximum => 8}
+	validates :name			  ,:length=>{:maximum => 10}
 	validates :tenant         ,presence: true, :unless => Proc.new {|u| u.is_super_admin?}
+	validates :register_info  ,:length=>{:maximum => 256}
+	validates :plate		  ,:length=>{:maximum => 20}
 
 	belongs_to :tenant
+	belongs_to :taxi_company
+
 
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
+	def self.driver_status_collections
+		s = []
+		STATUS_TYPE_HUMAN.each_pair {|key, value| s << [value,key] }
+		s
+	end
 	def self.build_a_user(params={},role)
-		a 			= User.new(params)
-		a.role 		= role
-		a.status 	= USER_DEFAULT_STATUS[a.role]
+		a 			  = User.new(params)
+		a.role 		  = role
+		#如果有则用，没有则用默认值（权限控制保证正确性）
+		a.status 	  ||= USER_DEFAULT_STATUS[a.role]
+
 		if role == User::ROLE_DRIVER or role == User::ROLE_PASSENGER
-			a.tenant    = Tenant.find_tenant params
+			if Tenant.current_id
+				a.tenant_id = Tenant.current_id
+			else
+				a.tenant = Tenant.find_tenant params
+			end
 		end
 		a
 	end

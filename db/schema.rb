@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130614080350) do
+ActiveRecord::Schema.define(version: 20130614132915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,9 @@ ActiveRecord::Schema.define(version: 20130614080350) do
     t.string  "status"
     t.string  "password_digest"
     t.string  "remember_token"
+    t.string  "plate"
+    t.integer "taxi_company_id"
+    t.string  "register_info"
   end
 
   add_index "users", ["account"], :name => "index_users_on_account"

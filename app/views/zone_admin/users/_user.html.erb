@@ -1,8 +1,10 @@
 <tr>
-	<td><%= user.account %></td>
 	<td><%= user.mobile %></td>
+	<td><%= user.name %></td>
+	<td><%= user.taxi_company.try(:name)%> </td>
+	<td><span class="<%= User::STATUS_TYPE_CLASS[user.status.to_sym]%>"><%= User::STATUS_TYPE_HUMAN[user.status.to_sym] %></span></td>
 	<td>
-		<%= link_to I18n.t('views.text.edit') , [:edit,:zone_admin,user] %>
-		<%= link_to 'Destroy', [:zone_admin,user], confirm: 'Are you sure?', method: :delete %>
+		<%= render partial:'share/edit',  locals:{edit_url:[:edit,:zone_admin,user]} %>
+		<%= render partial:'share/delete',locals:{delete_url:[:zone_admin,user] }%>
 	</td>
 </tr>
