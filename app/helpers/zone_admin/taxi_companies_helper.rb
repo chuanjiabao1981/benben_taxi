@@ -1,0 +1,2 @@
+module ZoneAdmin::TaxiCompaniesHelper
+end

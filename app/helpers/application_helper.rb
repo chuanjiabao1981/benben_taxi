@@ -13,7 +13,7 @@ module ApplicationHelper
 				url: [:root],
 				actions: [
 					{
-						action:"main::overview",
+						action:["main::overview"],
 						url: [:root],
 						name: "概况",
 						title: "系统概况"
@@ -25,16 +25,34 @@ module ApplicationHelper
 				icon: "icon-desktop",
 				actions:[
 					{
-						action:"zone_admin/users::index",
+						action:["zone_admin/users::index"],
 						url: [:zone_admin,:users],
 						name: "司机列表",
-						title: "全部司机详细情况列表"
+						title: "司机详细情况列表"
 					},
 					{
-						action:"zone_admin/users::new",
+						action:["zone_admin/users::new"],
 						url: [:new,:zone_admin,:user],
 						name: "新增司机",
 						title: "新增加出租车司机"
+					}
+				]
+			},
+			{
+				name: "公司",
+				icon: "icon-group",
+				actions:[
+					{
+						action:["zone_admin/taxi_companies::index"],
+						url:[:zone_admin,:taxi_companies],
+						name: "公司列表",
+						title: "出租车公司详细情况"
+					},
+					{
+						action:["zone_admin/taxi_companies::new","zone_admin/taxi_companies::create"],
+						url:[:new,:zone_admin,:taxi_company],
+						name: "新增公司",
+						title: "新增加公司"
 					}
 				]
 			}
@@ -52,11 +70,11 @@ module ApplicationHelper
 		return 0
 	end
 	def action_match?(action)
-		action[:action] == "#{params[:controller]}::#{params[:action]}" 
+		action[:action].include?("#{params[:controller]}::#{params[:action]}")
 	end
 	def group_match?(group)
 		group[:actions].each do |a|
-			if a[:action] == "#{params[:controller]}::#{params[:action]}" 
+			if action_match?(a)
 				return true
 			end
 		end

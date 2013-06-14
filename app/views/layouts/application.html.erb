@@ -18,11 +18,19 @@
 			<div id="page-content" class="clearfix">
 				<%= render partial: 'layouts/page_header'%>	
 				<div class="row-fluid">
+					<% flash.each do |key, value| %>
+						<div class="alert alert-<%= key %>">
+							<button type="button" class="close" data-dismiss="alert">
+								<i class="icon-remove"></i>
+							</button>
+							<i class="icon-ok green"></i>
+							<%= value %>
+						</div>
+					<% end %>
 					<%= yield %>
 				</div>
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>

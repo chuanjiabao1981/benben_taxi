@@ -48,7 +48,7 @@ class DriverTrackPoint < ActiveRecord::Base
 		r.as_json(only:[:id,:driver_id],:methods=>[:lat,:lng,:desc])
 	end
 	def self.get_latest_drivers_num
-		DriverTrackPoint.within(DEFAULT_DRIVER_TIME_RANGE).count(:driver_id,distinct: true)
+		DriverTrackPoint.within(DEFAULT_DRIVER_TIME_RANGE).distinct.count(:driver_id)
 	end
 	def desc
 		"#{self.mobile}

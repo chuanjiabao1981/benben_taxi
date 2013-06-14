@@ -1,0 +1,8 @@
+cn:
+  activerecord:
+    models:
+      taxi_company: 公司
+    attributes:
+      taxi_company:
+        name: 公司名称
+        boss: 公司负责人

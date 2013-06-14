@@ -1,0 +1,9 @@
+<tr>
+	<td><%= taxi_company_counter + 1 %></td>
+	<td><%= taxi_company.name %></td>
+	<td><%= taxi_company.boss %></td>
+	<td>
+		<%= render partial:'share/edit',  locals:{edit_url:[:edit,:zone_admin,taxi_company]} %>
+		<%= render partial:'share/delete',locals:{delete_url:[:zone_admin,taxi_company]} %>
+	</td>
+</tr>

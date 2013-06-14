@@ -36,6 +36,7 @@ BenbenTaxi::Application.routes.draw do
   resources :users
   namespace :zone_admin do
     resources :users
+    resources :taxi_companies
   end
 
   get '/signin',  to: 'sessions#new'

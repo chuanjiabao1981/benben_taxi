@@ -1,0 +1,10 @@
+<%= simple_form_for [:zone_admin,taxi_company] ,:html => { :class => 'form-horizontal'  } do |f|%>
+<%= f.error_notification %>
+<%= f.error :base , :error_method => :to_sentence %>
+	<%= f.input :name %>
+	<%= f.input :boss %>
+<div class="form-actions">
+	<%= f.button :submit , :class => 'btn btn-primary' %>
+	<%= link_to I18n.t('views.text.cancel'), [:zone_admin,:taxi_companies], :class => 'btn btn-gray' %>
+</div>
+<% end %>

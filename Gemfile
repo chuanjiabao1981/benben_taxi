@@ -41,7 +41,7 @@ gem 'unicorn'
 
 gem 'bcrypt-ruby', '~> 3.0.0'
 
-gem 'simple_form'
+gem 'simple_form', '~> 3.0.0.rc'
 
 gem 'bootstrap-sass', '~> 2.3.1.2'
 
