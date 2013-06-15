@@ -2,7 +2,8 @@
 class TaxiRequest < ActiveRecord::Base
 
 	require 'carrierwave/orm/activerecord'
-
+	
+	self.per_page = 30
 
 	validates_presence_of :passenger_mobile
 	validates_presence_of :passenger_id

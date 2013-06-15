@@ -38,6 +38,7 @@ end
 
 # Use unicorn as the app server
 gem 'unicorn'
+gem 'will_paginate'
 
 gem 'bcrypt-ruby', '~> 3.0.0'
 

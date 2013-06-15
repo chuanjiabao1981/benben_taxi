@@ -19,3 +19,5 @@
 //= require ace
 //= require TextIconOverlay_min
 //= require MarkerClusterer_min 
+//= require jquery.colorbox
+

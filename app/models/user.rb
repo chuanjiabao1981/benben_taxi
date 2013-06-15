@@ -1,5 +1,8 @@
 #encoding: utf-8
 class User < ActiveRecord::Base
+
+	self.per_page = 30
+
 	VALID_MOBILE_REGEX 	= /\A[\d]+\z/
 	VALID_ACCOUNT_REGEX = /\A[a-zA-Z\d_]+\z/i
 

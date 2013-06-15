@@ -1,6 +1,33 @@
-<% @taxi_requests.each do |t| %>
-	<img src="http://api.map.baidu.com/staticimage?center=<%=(t.passenger_location.x + t.driver_location.x)/2.0 %>,<%= (t.passenger_location.y+t.driver_location.y)/2%>&markers=<%= t.passenger_location.x %>,<%= t.passenger_location.y %>|<%= t.driver_location.x%>,<%= t.driver_location.y%>&markerStyles=s,司机," >
-	<br/>
-	<br/>
-	<br/>
+<% @taxi_requests_group.each_pair do |day,taxi_requests| %>
+	<div class="row-fluid">
+		<h3 class="header smaller lighter blue"><%= day.strftime("%Y-%m-%d")%></h3>
+		<ul class="ace-thumbnails">	
+			<% taxi_requests.each do |t| %>
+				<li>
+					<div style="margin:20px">
+						<img src="<%= get_static_image_src(t)%>">
+						<div class="text">	
+							<div class="inner">
+								<span><%= t.driver_mobile%></span>
+								<br/>
+								<%=link_to get_static_image_src(t,false) ,title: t.driver_mobile, data:{rel: "colorbox"} do %>
+									<i class="icon-zoom-in"></i>
+								<% end %>
+								<a href="#">
+									<i class="icon-share-alt"></i>
+								</a>	
+							</div>
+						</div>
+						<div>
+							<span class="label label-success arrowed-in-right" stlye="float:left"><%= t.driver_response_time.strftime("%H:%m")%></span>
+							<span class="label label-important arrowed" style="float:right">5星</span><br/>
+						</div>
+					</div>	
+				</li>
+			<% end %>
+		</ul>
+	</div>
 <% end %>
+
+<%= will_paginate @taxi_requests, :class => 'digg_pagination' %>
+

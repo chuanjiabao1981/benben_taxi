@@ -1,6 +1,7 @@
 <table class="table table-striped table-bordered table-hover">
 	<thead>
 		<tr>
+			<th>#</th>
 			<th>手机</th>
 			<th>上传数据量</th>
 			<th>车牌号</th>
@@ -12,3 +13,5 @@
 	</thead>
 	<%= render @users if @users %>
 </table>
+
+<%= will_paginate @users, :class => 'digg_pagination' %>

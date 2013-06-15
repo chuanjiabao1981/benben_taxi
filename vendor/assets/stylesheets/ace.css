@@ -6450,7 +6450,7 @@ td.td-actions a.td-action {
   position: relative;
   overflow: hidden;
   margin: 2px;
-  border: 2px solid #333;
+  /*border: 2px solid #333;*/
   /* the custom text on hover */
 
 }

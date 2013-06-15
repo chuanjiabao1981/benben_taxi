@@ -1,6 +1,8 @@
 class ZoneAdmin::UsersController < ApplicationController
+	include ZoneAdmin::UsersHelper
 	def index
-		@users = User.all.where  :role => User::ROLE_DRIVER
+		params[:page] ||=1
+		@users = User.all.where(:role => User::ROLE_DRIVER).paginate(:page => params[:page])
 	end
 	def new
 		@user = User.build_driver
@@ -33,7 +35,8 @@ class ZoneAdmin::UsersController < ApplicationController
 		return redirect_to url_for([:zone_admin,:users])
 	end
 	def show
-		@taxi_requests = TaxiRequest.where(driver_id: current_resource.id).order('created_at DESC').limit(20)
+		@taxi_requests = TaxiRequest.where(driver_id: current_resource.id).order('created_at DESC').paginate(:page => params[:page])
+		@taxi_requests_group = @taxi_requests.group_by {|t| t.created_at.beginning_of_day}
 	end
 	private 
 		def current_resource
