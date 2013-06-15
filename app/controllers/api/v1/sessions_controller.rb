@@ -14,7 +14,11 @@ class Api::V1::SessionsController < Api::ApiController
 		p   ||= {}
 		user = User.find_by mobile: p[:mobile], role: role
 		if user && user.authenticate(params[:session][:password])
-			return render json:login_success_json(user)
+			if user.status_is_normal?
+				return render json:login_success_json(user)
+			else
+				return render json:json_base_errors(user.get_status_human)
+			end
 		else
 			return render json:json_base_warns(I18n.t('session.errors.account_or_password'))
 		end

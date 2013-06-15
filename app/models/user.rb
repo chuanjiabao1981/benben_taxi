@@ -10,8 +10,8 @@ class User < ActiveRecord::Base
 	ROLE_PASSENGER 		=  "passenger"
 
 	STATUS_TYPE 		= %w(normal waiting_validate forbidden)
-	STATUS_TYPE_HUMAN   = {:normal => "正常", :waiting_validate => "审核", :forbidden => "封禁"}
-	STATUS_TYPE_CLASS   = {:waiting_validate => "label label-important arrowed-in",
+	STATUS_TYPE_HUMAN   = {:normal => "帐号正常", :waiting_validate => "帐号审核", :forbidden => "帐号封禁"}
+	STATUS_TYPE_CLASS   = {:waiting_validate => "label label-warning arrowed-in",
 						   :normal => "label label-success arrowed",
 						   :forbidden => "label label-important arrowed-in"
 						  }
@@ -64,7 +64,6 @@ class User < ActiveRecord::Base
 		end
 		a
 	end
-
 	def self.build_driver(params={})
 		User.build_a_user(params,ROLE_DRIVER)
 	end
@@ -97,6 +96,12 @@ class User < ActiveRecord::Base
 	end
 	def is_zone_admin?
 		self.role == ROLE_ZONE_ADMIN
+	end
+	def status_is_normal?
+		self.status.to_sym == :normal
+	end
+	def get_status_human
+		User::STATUS_TYPE_HUMAN[self.status.to_sym]
 	end
 	private
 		def create_remember_token

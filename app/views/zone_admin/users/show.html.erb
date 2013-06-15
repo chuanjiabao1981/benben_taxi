@@ -1,0 +1,6 @@
+<% @taxi_requests.each do |t| %>
+	<img src="http://api.map.baidu.com/staticimage?center=<%=(t.passenger_location.x + t.driver_location.x)/2.0 %>,<%= (t.passenger_location.y+t.driver_location.y)/2%>&markers=<%= t.passenger_location.x %>,<%= t.passenger_location.y %>|<%= t.driver_location.x%>,<%= t.driver_location.y%>&markerStyles=s,司机," >
+	<br/>
+	<br/>
+	<br/>
+<% end %>

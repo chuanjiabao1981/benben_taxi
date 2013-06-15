@@ -84,7 +84,7 @@ class TaxiRequest < ActiveRecord::Base
 		s.as_json(DEFUALT_JSON_RESULT)
 	end
 	def self.get_latest_taxi_requests
-		s=TaxiRequest.all.order("created_at DESC").limit(10);
+		s=TaxiRequest.all.within(MAX_WAITING_TIME_RANGE*2).order("created_at DESC").limit(10);
 		#s.as_json(:only=>[:passenger_mobile],:methods=>[:passenger_lng,:passenger_lat,:taxi_request_desc])
 		r = []
 		s.each do |t|

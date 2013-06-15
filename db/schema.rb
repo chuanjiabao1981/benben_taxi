@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130614132915) do
+ActiveRecord::Schema.define(version: 20130615023514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 20130614132915) do
   end
 
   add_index "taxi_requests", ["created_at"], :name => "index_taxi_requests_on_created_at"
+  add_index "taxi_requests", ["driver_id"], :name => "index_taxi_requests_on_driver_id"
+  add_index "taxi_requests", ["passenger_id"], :name => "index_taxi_requests_on_passenger_id"
   add_index "taxi_requests", ["passenger_location"], :name => "index_taxi_requests_on_passenger_location", :spatial => true
   add_index "taxi_requests", ["state"], :name => "index_taxi_requests_on_state"
   add_index "taxi_requests", ["tenant_id"], :name => "index_taxi_requests_on_tenant_id"

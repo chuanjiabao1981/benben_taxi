@@ -35,7 +35,20 @@ module ApplicationHelper
 						url: [:new,:zone_admin,:user],
 						name: "新增司机",
 						title: "新增加出租车司机"
+					},
+					{
+						action:["zone_admin/users::edit","zone_admin/users::update"],
+						name: "编辑",
+						title: "司机信息编辑",
+						side_bar: false
+					},
+					{
+						action:["zone_admin/users::show"],
+						name: "司机",
+						title: "司机服务情况",
+						side_bar: false
 					}
+
 				]
 			},
 			{

@@ -93,6 +93,9 @@ MarkerClusterMananger.prototype.ShowMakersAsCluster = function(title,locations)
   }
 }
 
+
+
+
 var Icons = {
   "taxi"          : new BMap.Icon('assets/cluster/steering.png',new BMap.Size(32,32)),
   "taxi_request"  : new BMap.Icon('assets/cluster/passenger.png',new BMap.Size(32, 32))
@@ -121,7 +124,7 @@ $(function() {
     map.centerAndZoom(point, 11);
     markerClusterMananger = new MarkerClusterMananger(map);
 
-    setInterval(function(){showLatestTaxi(map) }, 2000);
+    setInterval(function(){showLatestTaxi(map)},2000);
     setInterval(function(){showLatesTaxiRequests(map)},2000);
   }
 });

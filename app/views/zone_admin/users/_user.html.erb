@@ -1,6 +1,7 @@
 <tr>
-	<td><%= user.mobile %></td>
-	<td><%= user.name %></td>
+	<td><%= link_to user.mobile , [:zone_admin,user]%></td>
+	<td><%= user.plate %> </td>
+	<td>link_to user.name </td>
 	<td><%= user.taxi_company.try(:name)%> </td>
 	<td><span class="<%= User::STATUS_TYPE_CLASS[user.status.to_sym]%>"><%= User::STATUS_TYPE_HUMAN[user.status.to_sym] %></span></td>
 	<td>
