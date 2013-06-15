@@ -1,5 +1,6 @@
 <tr>
 	<td><%= link_to user.mobile , [:zone_admin,user]%></td>
+	<td><%= DriverTrackPoint.where(driver_id: user.id).count %> </td>
 	<td><%= user.plate %> </td>
 	<td>link_to user.name </td>
 	<td><%= user.taxi_company.try(:name)%> </td>
