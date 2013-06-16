@@ -9,6 +9,14 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 		end
 	end
 	def index
+		if current_user.is_driver?
+			taxi_requests = TaxiRequest.where(driver_id: current_user.id,state: 'Success').order("created_at DESC").paginate(:page => params[:page])
+		elsif current_user.is_passenger?
+			taxi_requests = TaxiRequest.where(passenger_id: current_user.id,state: 'Success').order("created_at DESC").paginate(:page => params[:page])
+		end
+		render json: taxi_requests.as_json(only:[:id,:passenger_mobile,:driver_mobile,:driver_response_time,:created_at],:methods=>[:passenger_voice_url])
+	end
+	def latest 
 		r = TaxiRequest.get_latest_taxi_requests
 		return render json: r
 	end

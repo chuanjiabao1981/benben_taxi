@@ -2,7 +2,7 @@ module Permissions
   class PassengerPermission < BasePermission
     def initialize(user)
       super(user)
-      allow "api/v1/taxi_requests"    , [:create]
+      allow "api/v1/taxi_requests"    , [:create,:index]
       allow "api/v1/taxi_requests" 	  , [:cancel,:confirm] do |t|
       	t && t.tenant_id == user.tenant_id and t.passenger_id == user.id
       end

@@ -49,7 +49,7 @@ showLatesTaxiRequests=function(map)
 {
   LocationUtil.removeLocation(map,'taxi_request');
   $.ajax({
-    url:     '/api/v1/taxi_requests',
+    url:     '/api/v1/taxi_requests/latest',
     dataType: "json",
     beforeSend: function(jqXHR,settings){
     },

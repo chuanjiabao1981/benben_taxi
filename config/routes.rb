@@ -26,6 +26,7 @@ BenbenTaxi::Application.routes.draw do
         end
         collection do
           get 'nearby'
+          get 'latest'
         end
       end
       resources :driver_track_points,only:[:create,:index]

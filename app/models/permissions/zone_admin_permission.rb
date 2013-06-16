@@ -3,7 +3,7 @@ module Permissions
     def initialize(user)
     	super(user)
     	allow "api/v1/driver_track_points"    , [:index]
-    	allow "api/v1/taxi_requests",[:index]
+    	allow "api/v1/taxi_requests",[:latest]
         
     	allow "zone_admin/users",[:index,:new,:create]
         allow "zone_admin/users",[:edit,:update,:destroy,:show] do |k|

@@ -11,11 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130615023514) do
+ActiveRecord::Schema.define(version: 20130616082501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "comments", force: true do |t|
+    t.integer  "author"
+    t.string   "author_role"
+    t.integer  "target"
+    t.string   "target_role"
+    t.text     "content"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "driver_track_points", force: true do |t|
     t.integer  "driver_id"
@@ -58,6 +70,8 @@ ActiveRecord::Schema.define(version: 20130615023514) do
     t.datetime "updated_at"
     t.datetime "passenger_cancel_time"
     t.datetime "passenger_confirm_time"
+    t.integer  "passenger_score",                                                                 default: 5
+    t.integer  "driver_score"
   end
 
   add_index "taxi_requests", ["created_at"], :name => "index_taxi_requests_on_created_at"
