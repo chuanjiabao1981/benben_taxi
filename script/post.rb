@@ -17,8 +17,8 @@ class TestApi
 		body ={
 			taxi_request:{
 				passenger_mobile: "15910676326",
-				passenger_lat: "8",
-				passenger_lng: "8",
+				passenger_lat: get_random_lat,
+				passenger_lng: get_random_lng,
 				passenger_voice: s,
 				passenger_voice_format: 'm4a',
 				waiting_time_range: 12,
@@ -27,6 +27,17 @@ class TestApi
 		}.to_json
 		request_header ={'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
 		self.post_request(path,request_header,body)
+	end
+
+	def get_passenger_taxi_requests_api
+		path 		   = '/api/v1/taxi_requests?page=1'
+		request_header = self.get_passenger_head
+		self.get_request(path,request_header)
+	end
+	def get_driver_taxi_requests_api
+		path 		   = '/api/v1/taxi_requests?page=1'
+		request_header = self.get_driver_head
+		self.get_request(path,request_header)
 	end
 
 	def show_taxi_request_api
@@ -38,7 +49,7 @@ class TestApi
 	end
 
 	def get_latest_drvier_api
-		path 			= "/api/v1/users/nearby_driver?lat=8&lng=8"
+		path 			= "/api/v1/users/nearby_driver?lat=#{get_random_lat}&lng=#{get_random_lng}"
 		#path 			= "/api/v1/users/nearby_driver?lat=22.540545&lng=113.959805"
 		create_driver_track_point_api("15910676326")
 		create_driver_track_point_api("13810025096")
@@ -57,8 +68,8 @@ class TestApi
 		body 		   ={
 			taxi_response:{
 				driver_mobile: mobile,
-				driver_lat:"8",
-				driver_lng:"8"
+				driver_lat:get_random_lat,
+				driver_lng:get_random_lng
 			}
 		}.to_json
 		self.post_request(path,request_header,body)
@@ -82,8 +93,8 @@ class TestApi
 		body   = {
 			driver_track_point:{
 				mobile: mobile,
-				lat:"8",
-				lng:"8",
+				lat: get_random_lat,
+				lng: get_random_lng,
 				radius: 100,
 				coortype: 'gsm'
 			}
@@ -94,7 +105,7 @@ class TestApi
 		#end
 	end
 	def nearby_taxi_requests_api
-		path ="/api/v1/taxi_requests/nearby?lat=8&lng=8&radius=10"
+		path ="/api/v1/taxi_requests/nearby?lat=#{get_random_lat}&lng=#{get_random_lng}&radius=50000"
 		request_header = self.get_driver_head
 		self.get_request(path,request_header)
 	end
@@ -136,20 +147,28 @@ class TestApi
 		response.body
 	end
 
+	def get_random_lat
+		 22.550666 + Random.new.rand(10..400)/10000.0
+	end
+	def get_random_lng
+		113.889800 + Random.new.rand(10..400)/10000.0
+	end	
 
 end
 
 s = TestApi.new
 #s.passenger_signin_api
 #s.driver_signin_api
-s.create_taxi_request_api
-s.create_driver_track_point_api
-s.nearby_taxi_requests_api
+#s.create_taxi_request_api
+#s.create_driver_track_point_api
+#s.nearby_taxi_requests_api
 #s.answer_taxi_request_api
 #s.show_taxi_request_api
 #s.cancel_taxi_request_api
 #s.confirm_taxi_request_api
 #s.answer_taxi_request_twice
 #s.get_latest_drvier_api
+#s.get_passenger_taxi_requests_api
+s.get_driver_taxi_requests_api
 
 
