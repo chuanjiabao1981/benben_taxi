@@ -14,7 +14,8 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 		elsif current_user.is_passenger?
 			taxi_requests = TaxiRequest.where(passenger_id: current_user.id,state: 'Success').order("created_at DESC").paginate(:page => params[:page])
 		end
-		render json: taxi_requests.as_json(only:[:id,:passenger_mobile,:driver_mobile,:driver_response_time,:created_at],:methods=>[:passenger_voice_url])
+		#render json: taxi_requests.as_json(only:[:id,:passenger_mobile,:driver_mobile,:driver_response_time,:created_at],:methods=>[:passenger_voice_url])
+		render json: taxi_requests.as_json(TaxiRequest::DEFUALT_JSON_RESULT)
 	end
 	def latest 
 		r = TaxiRequest.get_latest_taxi_requests
@@ -61,7 +62,7 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 	def comments
 		taxi_request = current_resource
 		if current_user.is_driver?
-			if taxi_request.comment_on_passenger(params[:taxi_request])
+			if taxi_request.comment_on_passenger(params[:taxi_request],current_user)
 				render json: taxi_request.get_json
 			else
 				render json: json_errors(taxi_request.errors)

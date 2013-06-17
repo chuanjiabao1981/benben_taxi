@@ -11,16 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130617090248) do
+ActiveRecord::Schema.define(version: 20130617132641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
 
   create_table "comments", force: true do |t|
-    t.integer  "author"
+    t.integer  "author_id"
     t.string   "author_role"
-    t.integer  "target"
+    t.integer  "target_id"
     t.string   "target_role"
     t.text     "content"
     t.integer  "commentable_id"

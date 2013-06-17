@@ -62,6 +62,36 @@ class TestApi
 		request_header = self.get_passenger_head
 		self.post_request(path,request_header,body)
 	end
+	def driver_comment_on_passenger
+		taxi_request = JSON.parse(self.confirm_taxi_request_api)
+		path         = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
+		body 		 = {
+			taxi_request:{
+				comments_attributes:[
+					{
+						content: "123aaaaa"
+					}
+				]
+			}
+		}.to_json
+		request_header = self.get_driver_head
+		self.post_request(path,request_header,body)
+	end
+	def passenger_comment_on_driver
+		taxi_request = JSON.parse(self.confirm_taxi_request_api)
+		path         = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
+		body 		 = {
+			taxi_request:{
+				comments_attributes:[
+					{
+						content: "123aaaaa"
+					}
+				]
+			}
+		}.to_json
+		request_header = self.get_driver_head
+		self.post_request(path,request_header,body)
+	end
 
 	def show_taxi_request_api
 		taxi_request   = JSON.parse(self.create_taxi_request_api)
@@ -193,7 +223,8 @@ s = TestApi.new
 #s.get_latest_drvier_api
 #s.get_passenger_taxi_requests_api
 #s.get_driver_taxi_requests_api
-#s.driver_score_passenger
-s.passenger_score_driver
-
+s.driver_score_passenger
+#s.passenger_score_driver
+#s.driver_comment_on_passenger
+#s.passenger_comment_on_driver
 

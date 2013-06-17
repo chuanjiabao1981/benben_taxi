@@ -13,12 +13,16 @@ class TaxiRequest < ActiveRecord::Base
 
 
 	mount_uploader :passenger_voice,PassengerVoiceUploader
-
+	has_many :comments,:as => :commentable
 	belongs_to :passenger, 	:class_name=>"User",:foreign_key => "passenger_id"
 	belongs_to :driver,		:class_name=>"User",:foreign_key => "driver_id"
 
 
 	DEFAULT_WAITING_TIME_RANGE = 5
+
+
+	accepts_nested_attributes_for :comments
+
 
 	#5公里
 	DEFAULT_SEARCH_RADIUS 	   				= 5000 
@@ -175,22 +179,34 @@ class TaxiRequest < ActiveRecord::Base
 		end
 	end
 
-	def comment_on_passenger(params)
+	def comment_on_passenger(params,current_user)
 		passenger_score = params[:passenger_score]
 		if (passenger_score and (passenger_score.to_i <1 or passenger_score.to_i > 5) )
 			return true
 		elsif passenger_score
 			params[:passenger_score_time] = Time.now
 		end
+		if params[:comments_attributes] and params[:comments_attributes][0]
+			params[:comments_attributes][0][:author_id] 	= current_user.id
+			params[:comments_attributes][0][:author_role] 	= current_user.role
+			params[:comments_attributes][0][:target_id] 	= self.passenger_id
+			params[:comments_attributes][0][:target_role]   = User::ROLE_PASSENGER
+		end
 		self.update(params)
 	end
 
-	def comment_on_driver(params)
+	def comment_on_driver(params,current_user)
 		driver_score = params[:driver_score]
 		if (driver_score and (driver_score.to_i < 1 or driver_score.to_i > 5))
 			return true
 		elsif driver_score
 			params[:driver_score_time] = Time.now
+		end
+		if params[:comments_attributes] and params[:comments_attributes][0]
+			params[:comments_attributes][0][:author_id] 	= current_user.id
+			params[:comments_attributes][0][:author_role] 	= current_user.role
+			params[:comments_attributes][0][:target_id] 	= self.driver_id
+			params[:comments_attributes][0][:target_role]   = User::ROLE_DIVER
 		end
 		self.update(params)
 	end

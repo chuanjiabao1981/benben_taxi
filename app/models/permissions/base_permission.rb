@@ -45,6 +45,8 @@ module Permissions
       elsif @allowed_params
         @allowed_params.each do |resource, attributes|
           if params[resource].respond_to? :permit
+            Rails.logger.debug(*attributes.to_s)
+            Rails.logger.debug(resource)
             params[resource] = params[resource].permit(*attributes)
           end
         end
