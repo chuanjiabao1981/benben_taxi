@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130616082501) do
+ActiveRecord::Schema.define(version: 20130617090248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,7 +71,9 @@ ActiveRecord::Schema.define(version: 20130616082501) do
     t.datetime "passenger_cancel_time"
     t.datetime "passenger_confirm_time"
     t.integer  "passenger_score",                                                                 default: 5
-    t.integer  "driver_score"
+    t.integer  "driver_score",                                                                    default: 5
+    t.datetime "passenger_score_time"
+    t.datetime "driver_score_time"
   end
 
   add_index "taxi_requests", ["created_at"], :name => "index_taxi_requests_on_created_at"

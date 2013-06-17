@@ -18,11 +18,12 @@ BenbenTaxi::Application.routes.draw do
           post 'signout'
         end
       end
-      resources :taxi_requests,only:[:create,:show,:index] do
+      resources :taxi_requests,shallow:true,only:[:create,:show,:index] do
         member do
           post 'response',action: :answer
           post 'cancel'
           post 'confirm'
+          post 'comments'
         end
         collection do
           get 'nearby'

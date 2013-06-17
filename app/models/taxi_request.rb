@@ -29,8 +29,8 @@ class TaxiRequest < ActiveRecord::Base
 	DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S = 20
 
 	DEFUALT_JSON_RESULT 					 = {
-													:only	 => [:id,:state,:passenger_mobile,:driver_mobile],
-													:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url,:driver_lat,:driver_lng]
+													:only	 => [:id,:state,:passenger_mobile,:driver_mobile,:driver_score,:passenger_score],
+													:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url,:driver_lat,:driver_lng,:passenger_has_score,:driver_has_score]
 											   }
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
@@ -74,6 +74,14 @@ class TaxiRequest < ActiveRecord::Base
 		self.passenger_voice.url
 	end
 
+	def passenger_has_score
+		return true if self.passenger_score_time
+		false	
+	end
+	def driver_has_score
+		return true if self.driver_score_time
+		false
+	end
 	def taxi_request_desc
 	end
 
@@ -167,6 +175,25 @@ class TaxiRequest < ActiveRecord::Base
 		end
 	end
 
+	def comment_on_passenger(params)
+		passenger_score = params[:passenger_score]
+		if (passenger_score and (passenger_score.to_i <1 or passenger_score.to_i > 5) )
+			return true
+		elsif passenger_score
+			params[:passenger_score_time] = Time.now
+		end
+		self.update(params)
+	end
+
+	def comment_on_driver(params)
+		driver_score = params[:driver_score]
+		if (driver_score and (driver_score.to_i < 1 or driver_score.to_i > 5))
+			return true
+		elsif driver_score
+			params[:driver_score_time] = Time.now
+		end
+		self.update(params)
+	end
 
 	def self.today_success_requests
 		TaxiRequest.today.where(state: 'Success').count
