@@ -16,7 +16,7 @@ module Permissions
       allow "api/v1/taxi_requests", [:answer] do |t|
         t && t.tenant_id == user.tenant_id
       end
-      allow "api/v1/taxi_requests", [:comments] do |t|
+      allow "api/v1/comments",[:create] do |t|
         t && t.tenant_id == user.tenant_id && t.driver_id == user.id && t.state == 'Success'
       end
       allow_param :taxi_request,[:driver_mobile,:driver_lng,:driver_lat,:passenger_score,:comments_attributes=>[:content]]

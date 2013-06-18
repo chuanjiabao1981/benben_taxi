@@ -59,25 +59,6 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 		render json:current_resource.get_json
 	end
 
-	def comments
-		taxi_request = current_resource
-		if current_user.is_driver?
-			if taxi_request.comment_on_passenger(params[:taxi_request],current_user)
-				render json: taxi_request.get_json
-			else
-				render json: json_errors(taxi_request.errors)
-			end
-		elsif current_user.is_passenger?
-			if taxi_request.comment_on_driver(params[:taxi_request])
-				render json: taxi_request.get_json
-			else
-				render json: json_errors(taxi_request.errors)
-			end
-		else
-			# 错误 是否是在状态为success 
-			render json:json_base_errors(I18n.t('views.text.unauthorized'))
-		end		
-	end
 
 	private 
 	def current_resource

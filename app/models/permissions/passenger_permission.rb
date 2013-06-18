@@ -6,7 +6,7 @@ module Permissions
       allow "api/v1/taxi_requests" 	  , [:cancel,:confirm] do |t|
       	t && t.tenant_id == user.tenant_id and t.passenger_id == user.id
       end
-      allow "api/v1/taxi_requests", [:comments] do |t|
+      allow "api/v1/comments",[:create] do |t|
         t && t.tenant_id == user.tenant_id && t.passenger_id == user.id && t.state == 'Success'
       end
 

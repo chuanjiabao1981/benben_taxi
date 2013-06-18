@@ -23,8 +23,8 @@ BenbenTaxi::Application.routes.draw do
           post 'response',action: :answer
           post 'cancel'
           post 'confirm'
-          post 'comments'
         end
+        resources :comments,only:[:create]
         collection do
           get 'nearby'
           get 'latest'
