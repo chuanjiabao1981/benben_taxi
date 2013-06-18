@@ -4,7 +4,7 @@ require "base64"
 class TestApi
 	def initialize
 		@host = 'localhost'
-		#@host = 'v2.365check.net'
+		@host = 'v2.365check.net'
 		@port = '8081'
 	end
 
@@ -66,6 +66,7 @@ class TestApi
 		path         = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
 		body 		 = {
 			taxi_request:{
+				passenger_score: 1,
 				comments_attributes:[
 					{
 						content: "123aaaaa"
@@ -81,6 +82,7 @@ class TestApi
 		path         = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
 		body 		 = {
 			taxi_request:{
+				driver_score: 3,
 				comments_attributes:[
 					{
 						content: "ssseeeee"
@@ -236,7 +238,7 @@ s = TestApi.new
 #s.driver_score_passenger
 #s.passenger_score_driver
 #s.driver_comment_on_passenger
-#s.passenger_comment_on_driver
+s.passenger_comment_on_driver
 #s.driver_get_comments
 #s.passenger_get_comments
 

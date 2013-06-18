@@ -20,7 +20,31 @@ class TaxiRequestTimeoutCheck
 						   		lat:22.560666
 						   }	
 		]
+		@drivers 		= [
+			{
+				mobile: "25910676326",
+				lng: 116.522284,
+				lat: 39.938478
+			},
+			{
+				mobile: "15910676326",
+				lng:113.999805,
+				lat:22.550666
+			},
+			{
+				mobile: "23810025096",
+				lng: 116.522284,
+				lat: 39.938478
+			},
+			{
+				mobile: "13810025096",
+				lng:113.999805,
+				lat:22.550666
+			},
+
+		]
 		check_passengers
+		check_drivers
 	end
 	def check
 		loop_counter = 0
@@ -46,6 +70,14 @@ class TaxiRequestTimeoutCheck
 		@passengers.each do |p|
 			if not User.find_by mobile: p[:mobile],role: User::ROLE_PASSENGER
 				User.build_passenger(mobile: p[:mobile],password: '8',password_confirmation: '8').save
+				puts "not found"
+			end
+		end
+	end
+	def check_drivers
+		@drivers.each do |d|
+			if not User.find_by mobile: d[:mobile],role: User::ROLE_DRIVER
+				User.build_driver(mobile: d[:mobile],password: '8',password_confirmation: '8').save
 				puts "not found"
 			end
 		end
@@ -85,12 +117,12 @@ class TaxiRequestTimeoutCheck
 	end
 
 	def add_driver_track_point
-		@driver_mobiles.each do |mobile|
+		@drivers.each do |d|
 			params= {}
-			params[:mobile] = mobile
-			params[:lat] 	= get_random(@driver_lat)
-			params[:lng] 	= get_random(@driver_lng)
-			current_driver  = User.find_by mobile: mobile, role: "driver"
+			params[:mobile] = d[:mobile]
+			params[:lat] 	= get_random(d[:lat])
+			params[:lng] 	= get_random(d[:lng])
+			current_driver  = get_current_driver(params[:mobile])
 			if current_driver
 				params[:tenant_id] = current_driver.tenant_id
 				a=DriverTrackPoint.build_driver_track_point(params,current_driver)
@@ -99,12 +131,30 @@ class TaxiRequestTimeoutCheck
 				end
 			else
 				logger.warn "No Driver Found #{mobile}"
-			end
+			end 	
 		end
 	end
+	#def add_driver_track_point
+	#	@driver_mobiles.each do |mobile|
+	#		params= {}
+	#		params[:mobile] = mobile
+	#		params[:lat] 	= get_random(@driver_lat)
+	#		params[:lng] 	= get_random(@driver_lng)
+	#		current_driver  = User.find_by mobile: mobile, role: "driver"
+	#		if current_driver
+	#			params[:tenant_id] = current_driver.tenant_id
+	#			a=DriverTrackPoint.build_driver_track_point(params,current_driver)
+	#			if not a.save
+	#				logger.warn a.errors
+	#			end
+	#		else
+	#			logger.warn "No Driver Found #{mobile}"
+	#		end
+	#	end
+	#end
 	def response_taxi_request
 		TaxiRequest.by_state.each do |taxi_request|
-			driver_mobile 		 = @driver_mobiles[0]
+			driver_mobile 		 = @drivers[0][:mobile]
 			current_driver	 	 = get_current_driver(driver_mobile)
 			params = {
 						taxi_response:{
