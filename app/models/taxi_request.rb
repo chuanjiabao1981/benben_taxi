@@ -36,6 +36,13 @@ class TaxiRequest < ActiveRecord::Base
 													:only	 => [:id,:state,:passenger_mobile,:driver_mobile,:driver_score,:passenger_score],
 													:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url,:driver_lat,:driver_lng,:passenger_has_score,:driver_has_score]
 											   }
+	DEFAULT_JSON_RESULT_WITH_COMMENTS		 = DEFUALT_JSON_RESULT.merge(
+													{
+														:include=> {
+															:comments=>{:only=>[:author_id,:author_role,:content,:created_at]}
+														}
+													}
+											   )
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
 	attr_accessor :passenger_lng,:passenger_lat,:waiting_time_range,:passenger_voice_format
@@ -206,7 +213,7 @@ class TaxiRequest < ActiveRecord::Base
 			params[:comments_attributes][0][:author_id] 	= current_user.id
 			params[:comments_attributes][0][:author_role] 	= current_user.role
 			params[:comments_attributes][0][:target_id] 	= self.driver_id
-			params[:comments_attributes][0][:target_role]   = User::ROLE_DIVER
+			params[:comments_attributes][0][:target_role]   = User::ROLE_DRIVER
 		end
 		self.update(params)
 	end

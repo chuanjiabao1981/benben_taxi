@@ -1,4 +1,7 @@
 class Api::V1::CommentsController < Api::ApiController
+	def index
+		return render json: current_resource.as_json(TaxiRequest::DEFAULT_JSON_RESULT_WITH_COMMENTS)
+	end
 	def create 
 		taxi_request = current_resource
 		if current_user.is_driver?
@@ -18,6 +21,7 @@ class Api::V1::CommentsController < Api::ApiController
 			render json:json_base_errors(I18n.t('views.text.unauthorized'))
 		end		
 	end
+
 
 	private 
 	def current_resource
