@@ -1,0 +1,113 @@
+<script>
+// 创建地理编码实例  
+var myGeo = new BMap.Geocoder();  
+// 根据坐标得到地址描述
+myGeo.getLocation(new BMap.Point(<%= taxi_request.passenger_location.x %>, <%= taxi_request.passenger_location.y %>), function(result){  
+ if (result){  
+ 	$('td#passenger_location_name').html(result.address)
+ }  
+});
+myGeo.getLocation(new BMap.Point(<%= taxi_request.driver_location.x %>, <%= taxi_request.driver_location.y %>), function(result){  
+ if (result){  
+ 	$('td#driver_location_name').html(result.address)
+ }  
+});
+
+</script>
+<div class="widget-box transparent">
+	<div class="widget-header widget-header-flat">
+		<h4 class="lighter">
+			<i class="icon-star orange"></i>
+			打车详情
+		</h4>
+
+		<div class="widget-toolbar">
+			<a href="#" data-action="collapse">
+				<i class="icon-chevron-up"></i>
+			</a>
+		</div>
+	</div>
+
+	<div class="widget-body"><div class="widget-body-inner">
+		<div class="widget-main no-padding">
+			<table class="table table-bordered table-striped">
+				<tbody>
+					<tr>
+						<td>打车发起时间</td>
+						<td>
+							<span class="label label-info"><%=taxi_request.created_at%></span>
+						</td>
+					</tr>
+					<tr>
+						<td>司机响应时间</td>
+						<td>
+							<span class="label label-success"><%= taxi_request.driver_response_time %></span>
+						</td>
+					</tr>
+					<tr>
+						<td>乘客确认时间</td>
+						<td>
+							<span class="label label-important arrowed"><%= taxi_request.passenger_confirm_time %></span>
+						</td>
+					</tr>
+					<tr>
+						<td>司机汽车牌照</td>
+						<td>
+							<span class="label label-important arrowed"><%= taxi_request.driver.plate %></span>
+						</td>
+					</tr>
+
+					<tr>
+						<td>司机电话号码</td>
+						<td>
+							<span class="label label-important arrowed"><%= taxi_request.driver.mobile %></span>
+						</td>
+					</tr>
+					<tr>
+						<td>乘客电话号码</td>
+						<td>
+							<span class="label label-important arrowed"><%= taxi_request.passenger.mobile %></span>
+						</td>
+					</tr>
+
+					<tr>
+						<td>乘客打车位置</td>
+						<td id="passenger_location_name">
+						</td>
+					</tr>
+					<tr>
+						<td>司机响应位置</td>
+						<td id="driver_location_name">
+						</td>
+					</tr>
+					<tr>
+						<td>司机所属公司</td>
+						<td><%= taxi_request.driver.taxi_company.try(:name)%></td>
+					</tr>
+					<tr>
+						<td>司机注册时间</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>司机得分</td>
+						<td><%= taxi_request.driver_score%></td>
+					</tr>
+					<tr>
+						<td>乘客得分</td>
+						<td>
+							<%= taxi_request.passenger_score%>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							打车音频
+						</td>
+						<td>
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+		</div><!--/widget-main-->
+	</div></div><!--/widget-body-->
+</div>

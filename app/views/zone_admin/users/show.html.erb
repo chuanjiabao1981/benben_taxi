@@ -13,14 +13,14 @@
 								<%=link_to get_static_image_src(t,false) ,title: t.driver_mobile, data:{rel: "colorbox"} do %>
 									<i class="icon-zoom-in"></i>
 								<% end %>
-								<a href="#">
+								<%= link_to [:zone_admin,t] do %>
 									<i class="icon-share-alt"></i>
-								</a>	
+								<% end %>
 							</div>
 						</div>
 						<div>
 							<span class="label label-success arrowed-in-right" stlye="float:left"><%= t.driver_response_time.strftime("%H:%m")%></span>
-							<span class="label label-important arrowed" style="float:right">5星</span><br/>
+							<span class="label label-important arrowed" style="float:right"><%= t.driver_score%>星</span><br/>
 						</div>
 					</div>	
 				</li>

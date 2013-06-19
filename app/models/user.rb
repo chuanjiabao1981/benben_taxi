@@ -18,7 +18,12 @@ class User < ActiveRecord::Base
 						   :normal => "label label-success arrowed",
 						   :forbidden => "label label-important arrowed-in"
 						  }
-
+	ROLE_HUMAN 		    = {
+						   "#{ROLE_SUPER_ADMIN}" => "超级管理员",
+						   "#{ROLE_ZONE_ADMIN}" => "管理员",
+						   "#{ROLE_DRIVER}" => "司机",
+						   "#{ROLE_PASSENGER}" => "乘客"
+	}
 	USER_DEFAULT_STATUS =  {
 							   "super_admin"=> "normal",
 							   "zone_admin"=> "normal",
@@ -106,6 +111,11 @@ class User < ActiveRecord::Base
 	end
 	def get_status_human
 		User::STATUS_TYPE_HUMAN[self.status.to_sym]
+	end
+	def get_role_human
+		Rails.logger.debug(self.role)
+		Rails.logger.debug(ROLE_HUMAN)
+		User::ROLE_HUMAN[self.role]
 	end
 	private
 		def create_remember_token

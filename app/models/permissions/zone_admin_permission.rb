@@ -16,6 +16,10 @@ module Permissions
             k && k.tenant_id == user.tenant_id
         end
     	allow_param :taxi_company,[:name,:boss]
+
+        allow "zone_admin/taxi_requests",[:show] do |t|
+            t && t.tenant_id == user.tenant_id
+        end
     end
   end
 end

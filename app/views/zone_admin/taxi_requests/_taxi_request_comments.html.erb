@@ -1,0 +1,48 @@
+<div class="row-fluid">
+	<div class="widget-box transparent">
+		<div class="widget-header">
+			<h4 class="lighter smaller">
+				<i class="icon-comment blue"></i>
+				评论
+			</h4>
+		</div>
+		<div class="widget-body">
+			<div class="widget-main no-padding">
+				<div class="dialogs">
+					<% taxi_request.comments.each do |c| %>
+						<div class="itemdiv dialogdiv">
+							<div class="user">
+								<% if c.author.is_driver? %>
+									<img alt="司机" src="/assets/avatars/avatar.png" />
+								<% else %>
+									<img alt="乘客" src="/assets/avatars/avatar4.png" />
+								<% end %>
+							</div>
+							<div class="body">
+								<div class="time">
+									<i class="icon-time"></i>
+									<span class="green"><%= time_ago_in_words(c.created_at)%>前</span>
+								</div>
+								<div class="name">
+									<a href="#"><%= c.author.mobile %></a>
+
+									<% if c.author.is_driver? %>
+										<span class="label label-info arrowed arrowed-in-right"><%= c.author.get_role_human %></span>
+									<% else %>
+										<span class="label label-success arrowed arrowed-in-right"><%= c.author.get_role_human %></span>
+									<% end %>
+								</div>
+								<div class="text"><%= c.content%></div>
+								<div class="tools">
+									<a href="#" class="btn btn-minier btn-info">
+										<i class="icon-only icon-share-alt"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+					<% end %>
+				</div>
+			</div><!--/widget-main-->
+		</div><!--/widget-body-->
+	</div><!--/widget-box-->
+</div><!--/span-->

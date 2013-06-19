@@ -74,6 +74,18 @@ module ApplicationHelper
 						side_bar: false
 					}
 				]
+			},
+			{
+				name: "打车",
+				icon: "icon-group",
+				actions: [
+					{
+						action:["zone_admin/taxi_requests::show"],
+						name: "打车",
+						title: "打车详情",
+						side_bar: false
+					}
+				]
 			}
 		]
 	end

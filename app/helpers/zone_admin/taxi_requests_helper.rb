@@ -1,0 +1,2 @@
+module ZoneAdmin::TaxiRequestsHelper
+end

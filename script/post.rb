@@ -4,7 +4,7 @@ require "base64"
 class TestApi
 	def initialize
 		@host = 'localhost'
-		@host = 'v2.365check.net'
+		#@host = 'v2.365check.net'
 		@port = '8081'
 	end
 
@@ -61,37 +61,40 @@ class TestApi
 		request_header = self.get_passenger_head
 		self.post_request(path,request_header,body)
 	end
-	def driver_comment_on_passenger
-		taxi_request = JSON.parse(self.confirm_taxi_request_api)
-		path         = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
-		body 		 = {
+	def driver_comment_on_passenger(taxi_request=nil)
+		taxi_request ||= JSON.parse(self.confirm_taxi_request_api)
+		path           = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
+		body 		   = {
 			taxi_request:{
 				passenger_score: 1,
 				comments_attributes:[
 					{
-						content: "123aaaaa"
+						content: "乘客优秀123aaaaa"
 					}
 				]
 			}
 		}.to_json
 		request_header = self.get_driver_head
 		self.post_request(path,request_header,body)
+		self.passenger_comment_on_driver(taxi_request)
 	end
-	def passenger_comment_on_driver
-		taxi_request = JSON.parse(self.confirm_taxi_request_api)
-		path         = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
-		body 		 = {
+	def passenger_comment_on_driver(taxi_request=nil)
+		taxi_request ||= JSON.parse(self.confirm_taxi_request_api)
+		path           = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
+		body 		   = {
 			taxi_request:{
-				driver_score: 3,
+				driver_score: 1,
 				comments_attributes:[
 					{
-						content: "ssseeeee"
+						content: "司机不错！！ssseeeee"
 					}
 				]
 			}
 		}.to_json
 		request_header = self.get_passenger_head
 		self.post_request(path,request_header,body)
+		#加上死循环
+		#self.driver_comment_on_passenger(taxi_request)
 	end
 
 	def driver_get_comments
@@ -237,8 +240,8 @@ s = TestApi.new
 #s.get_driver_taxi_requests_api
 #s.driver_score_passenger
 #s.passenger_score_driver
-#s.driver_comment_on_passenger
-s.passenger_comment_on_driver
+s.driver_comment_on_passenger
+#s.passenger_comment_on_driver
 #s.driver_get_comments
 #s.passenger_get_comments
 

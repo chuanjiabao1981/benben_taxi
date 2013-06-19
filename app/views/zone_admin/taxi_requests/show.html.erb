@@ -1,0 +1,10 @@
+<div class="row-fluid">
+	<div class="span5">
+		<%= render partial:'taxi_request_info_table',locals:{taxi_request: @taxi_request} %>
+	</div>
+	<div class="span7">
+		<%= render partial:'taxi_request_map',locals:{taxi_request: @taxi_request} %>
+	</div>
+</div>
+<div class="hr hr32 hr-dotted"></div>
+<%= render partial:'taxi_request_comments',locals:{taxi_request: @taxi_request} %>
