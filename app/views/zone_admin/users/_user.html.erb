@@ -6,7 +6,6 @@
 			<%= user.mobile%>
 		<% end %>
 	</td>
-	<td><%= DriverTrackPoint.where(driver_id: user.id).count %> </td>
 	<td><%= user.plate %> </td>
 	<td><%= user.name %></td>
 	<td><%= user.taxi_company.try(:name)%> </td>
