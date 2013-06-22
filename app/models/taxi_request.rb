@@ -227,6 +227,7 @@ class TaxiRequest < ActiveRecord::Base
 	state_machine :initial => :Waiting_Driver_Response do
 		before_transition all => :Canceled_By_Passenger ,:do => :set_passenger_cancel_time
 		before_transition :Waiting_Passenger_Confirm => :Success ,:do => :set_passenger_confirm_time
+		after_transition  :Waiting_Passenger_Confirm => :Success ,:do => :update_statistics_info
 		before_transition :Waiting_Driver_Response   => :Waiting_Passenger_Confirm, :do => :set_response_info
 		around_transition do |taxi_request, transition, block|
 			Rails.logger.debug "before #{transition.event}: #{taxi_request.state} "
@@ -286,5 +287,8 @@ class TaxiRequest < ActiveRecord::Base
 		end
 		self.driver_response_time 		= Time.now
 		self.timeout 					= DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S.seconds.since
+	end
+	def update_statistics_info
+		User.where(:id=>[self.driver_id,self.passenger_id]).update_all("success_taxi_requests = success_taxi_requests + 1")
 	end
 end

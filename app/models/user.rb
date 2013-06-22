@@ -113,8 +113,6 @@ class User < ActiveRecord::Base
 		User::STATUS_TYPE_HUMAN[self.status.to_sym]
 	end
 	def get_role_human
-		Rails.logger.debug(self.role)
-		Rails.logger.debug(ROLE_HUMAN)
 		User::ROLE_HUMAN[self.role]
 	end
 	private
