@@ -20,7 +20,7 @@ class Api::V1::SessionsController < Api::ApiController
 				return render json:json_base_errors(user.get_status_human)
 			end
 		else
-			return render json:json_base_warns(I18n.t('session.errors.account_or_password'))
+			return render json:json_base_errors(I18n.t('session.errors.account_or_password'))
 		end
 
 	end

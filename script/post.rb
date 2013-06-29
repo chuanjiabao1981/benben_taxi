@@ -225,7 +225,7 @@ class TestApi
 end
 
 s = TestApi.new
-#s.passenger_signin_api
+s.passenger_signin_api
 #s.driver_signin_api
 #s.create_taxi_request_api
 #s.create_driver_track_point_api
@@ -233,7 +233,7 @@ s = TestApi.new
 #s.answer_taxi_request_api
 #s.show_taxi_request_api
 #s.cancel_taxi_request_api
-s.confirm_taxi_request_api
+#s.confirm_taxi_request_api
 #s.answer_taxi_request_twice
 #s.get_latest_drvier_api
 #s.get_passenger_taxi_requests_api
