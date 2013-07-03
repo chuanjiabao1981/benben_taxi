@@ -22,7 +22,8 @@ class TestApi
 				passenger_voice: s,
 				passenger_voice_format: 'm4a',
 				waiting_time_range: 12,
-
+				source: "李家庄",
+				destination: "王家堡"
 			}
 		}.to_json
 		request_header ={'Content-Type' =>'application/json',"Cookie" => "remember_token=#{cookie["token_value"]}"}
@@ -138,8 +139,7 @@ class TestApi
 				driver_mobile: mobile,
 				driver_lat:get_random_lat,
 				driver_lng:get_random_lng,
-				source: "李家庄",
-				destination: "王家堡"
+
 			}
 		}.to_json
 		self.post_request(path,request_header,body)
