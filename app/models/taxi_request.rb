@@ -33,7 +33,7 @@ class TaxiRequest < ActiveRecord::Base
 	DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S = 20
 
 	DEFUALT_JSON_RESULT 					 = {
-													:only	 => [:id,:state,:passenger_mobile,:driver_mobile,:driver_score,:passenger_score],
+													:only	 => [:id,:state,:passenger_mobile,:driver_mobile,:driver_score,:passenger_score,:plate,:driver_name,:source,:destination],
 													:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url,:driver_lat,:driver_lng,:passenger_has_score,:driver_has_score]
 											   }
 	DEFAULT_JSON_RESULT_WITH_COMMENTS		 = DEFUALT_JSON_RESULT.merge(
@@ -282,6 +282,10 @@ class TaxiRequest < ActiveRecord::Base
 	def set_response_info
 		self.driver_mobile				= self.response_info[:driver_mobile]
 		self.driver_id 					= self.response_driver.id
+		self.driver_name 				= self.response_driver.name
+		self.plate 						= self.response_driver.plate
+		self.source						= self.response_info[:source]
+		self.destination 				= self.response_info[:destination]
 		if self.response_info and self.response_info[:driver_lng] and self.response_info[:driver_lat]
 			self.driver_location = "POINT(#{self.response_info[:driver_lng]} #{self.response_info[:driver_lat]})"
 		end

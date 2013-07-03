@@ -86,6 +86,24 @@ module ApplicationHelper
 						side_bar: false
 					}
 				]
+			},
+			{
+				name: "地域",
+				icon: "icon-th",
+				actions: [
+					{
+						action:["tenants::index"],
+						url: [:tenants],
+						name: "地域",
+						title: "地域列表"
+					},
+					{
+						action:["tenants::edit"],
+						name: "编辑",
+						title: "编辑地域信息",
+						side_bar: false
+					}
+				]
 			}
 		]
 	end
