@@ -137,7 +137,9 @@ class TestApi
 			taxi_response:{
 				driver_mobile: mobile,
 				driver_lat:get_random_lat,
-				driver_lng:get_random_lng
+				driver_lng:get_random_lng,
+				source: "李家庄",
+				destination: "王家堡"
 			}
 		}.to_json
 		self.post_request(path,request_header,body)
@@ -226,22 +228,22 @@ end
 
 s = TestApi.new
 s.passenger_signin_api
-#s.driver_signin_api
-#s.create_taxi_request_api
-#s.create_driver_track_point_api
-#s.nearby_taxi_requests_api
-#s.answer_taxi_request_api
-#s.show_taxi_request_api
-#s.cancel_taxi_request_api
-#s.confirm_taxi_request_api
-#s.answer_taxi_request_twice
-#s.get_latest_drvier_api
-#s.get_passenger_taxi_requests_api
-#s.get_driver_taxi_requests_api
-#s.driver_score_passenger
-#s.passenger_score_driver
-#s.driver_comment_on_passenger
-#s.passenger_comment_on_driver
-#s.driver_get_comments
-#s.passenger_get_comments
+s.driver_signin_api
+s.create_taxi_request_api
+s.create_driver_track_point_api
+s.nearby_taxi_requests_api
+s.answer_taxi_request_api
+s.show_taxi_request_api
+s.cancel_taxi_request_api
+s.confirm_taxi_request_api
+s.answer_taxi_request_twice
+s.get_latest_drvier_api
+s.get_passenger_taxi_requests_api
+s.get_driver_taxi_requests_api
+s.driver_score_passenger
+s.passenger_score_driver
+s.driver_comment_on_passenger
+s.passenger_comment_on_driver
+s.driver_get_comments
+s.passenger_get_comments
 
