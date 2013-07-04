@@ -284,8 +284,6 @@ class TaxiRequest < ActiveRecord::Base
 		self.driver_id 					= self.response_driver.id
 		self.driver_name 				= self.response_driver.name
 		self.plate 						= self.response_driver.plate
-		self.source						= self.response_info[:source]
-		self.destination 				= self.response_info[:destination]
 		if self.response_info and self.response_info[:driver_lng] and self.response_info[:driver_lat]
 			self.driver_location = "POINT(#{self.response_info[:driver_lng]} #{self.response_info[:driver_lat]})"
 		end
