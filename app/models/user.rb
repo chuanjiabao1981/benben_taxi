@@ -1,11 +1,11 @@
 #encoding: utf-8
-class TenantNameValidator < ActiveModel::Validator
-  def validate(record)
-	if record.tenant_id.nil? and not record.is_super_admin?
-		record.errors[:tenant_name] << '暂不支持此地区!'
-	end
-  end
-end
+#class TenantNameValidator < ActiveModel::Validator
+#  def validate(record)
+#	if record.tenant_id.nil? and not record.is_super_admin?
+#		record.errors[:tenant_name] << '暂不支持此地区!'
+#	end
+#  end
+#end
 class User < ActiveRecord::Base
 
 	self.per_page = 30
@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
 	validates :tenant      	  ,presence: true, :unless => Proc.new {|u| u.is_super_admin?}
 	validates :register_info  ,:length=>{:maximum => 256}
 	validates :plate		  ,:length=>{:maximum => 20}
-	validates_with TenantNameValidator
+	#validates_with TenantNameValidator
 	belongs_to :tenant
 	belongs_to :taxi_company
 	has_many   :comments,:class_name =>"Comment",:foreign_key => "author_id",:dependent => :destroy
