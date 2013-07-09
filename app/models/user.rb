@@ -1,7 +1,7 @@
 #encoding: utf-8
 class TenantNameValidator < ActiveModel::Validator
 	def validate(record)
-		if record.tenant_id.nil? and record.is_super_admin?
+		if record.tenant_id.nil? and not record.is_super_admin?
 			record.errors[:tenant_name] << "暂不支持此地区"
 		end
 	end
