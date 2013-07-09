@@ -42,7 +42,7 @@ class User < ActiveRecord::Base
 	validates :role           ,:inclusion => {  :in => ROLE_TYPE,:message   => "%{value} 不合法的用户类型!" }
 	validates :status         ,:inclusion => { :in => STATUS_TYPE,:message => "%{value} 不合法的用户状态!"}
 	validates :name			  ,:length=>{:maximum => 10}
-	validates :tenant         ,presence: true, :unless => Proc.new {|u| u.is_super_admin?}
+	validates :tenant_id         ,presence: true, :unless => Proc.new {|u| u.is_super_admin?}
 	validates :register_info  ,:length=>{:maximum => 256}
 	validates :plate		  ,:length=>{:maximum => 20}
 
