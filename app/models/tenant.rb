@@ -10,6 +10,8 @@ class Tenant < ActiveRecord::Base
 	end
 
 	def self.find_tenant(params)
-		Tenant.find_by name: "阳泉"
+		s  	= params[:tenant] 
+		s ||= '阳泉'
+		Tenant.find_by name: s
 	end
 end

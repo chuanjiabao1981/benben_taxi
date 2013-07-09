@@ -20,7 +20,7 @@ class TestApi
 				passenger_lat: get_random_lat,
 				passenger_lng: get_random_lng,
 				passenger_voice: s,
-				passenger_voice_format: 'm4a',
+				passenger_voice_format: '3gp',
 				waiting_time_range: 12,
 				source: "李家庄",
 				destination: "王家堡"
@@ -229,7 +229,7 @@ end
 s = TestApi.new
 #s.passenger_signin_api
 #s.driver_signin_api
-#s.create_taxi_request_api
+s.create_taxi_request_api
 #s.create_driver_track_point_api
 #s.nearby_taxi_requests_api
 #s.answer_taxi_request_api
@@ -240,10 +240,10 @@ s = TestApi.new
 #s.get_latest_drvier_api
 #s.get_passenger_taxi_requests_api
 #s.get_driver_taxi_requests_api
-s.driver_score_passenger
-s.passenger_score_driver
-s.driver_comment_on_passenger
-s.passenger_comment_on_driver
-s.driver_get_comments
-s.passenger_get_comments
+#s.driver_score_passenger
+#s.passenger_score_driver
+#s.driver_comment_on_passenger
+#s.passenger_comment_on_driver
+#s.driver_get_comments
+#s.passenger_get_comments
 
