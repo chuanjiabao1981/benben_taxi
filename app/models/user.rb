@@ -50,6 +50,7 @@ class User < ActiveRecord::Base
 	belongs_to :taxi_company
 	has_many   :comments,:class_name =>"Comment",:foreign_key => "author_id",:dependent => :destroy
 
+	attr_accessor :tenant_name
 
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
