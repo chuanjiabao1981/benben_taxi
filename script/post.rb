@@ -238,7 +238,7 @@ s = TestApi.new
 #s.confirm_taxi_request_api
 #s.answer_taxi_request_twice
 #s.get_latest_drvier_api
-#s.get_passenger_taxi_requests_api
+s.get_passenger_taxi_requests_api
 #s.get_driver_taxi_requests_api
 #s.driver_score_passenger
 #s.passenger_score_driver

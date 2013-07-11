@@ -3,7 +3,7 @@ class TaxiRequest < ActiveRecord::Base
 
 	require 'carrierwave/orm/activerecord'
 	
-	self.per_page = 30
+	self.per_page = 10
 
 	validates_presence_of :passenger_mobile
 	validates_presence_of :passenger_id
