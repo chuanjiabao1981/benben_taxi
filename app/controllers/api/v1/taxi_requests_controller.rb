@@ -10,9 +10,9 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 	end
 	def index
 		if current_user.is_driver?
-			taxi_requests = TaxiRequest.where(driver_id: current_user.id,state: 'Success').order("created_at DESC").paginate(:page => params[:page])
+			taxi_requests = TaxiRequest.where(driver_id: current_user.id).order("created_at DESC").paginate(:page => params[:page])
 		elsif current_user.is_passenger?
-			taxi_requests = TaxiRequest.where(passenger_id: current_user.id,state: 'Success').order("created_at DESC").paginate(:page => params[:page])
+			taxi_requests = TaxiRequest.where(passenger_id: current_user.id).order("created_at DESC").paginate(:page => params[:page])
 		end
 		#render json: taxi_requests.as_json(only:[:id,:passenger_mobile,:driver_mobile,:driver_response_time,:created_at],:methods=>[:passenger_voice_url])
 		render json: taxi_requests.as_json(TaxiRequest::DEFUALT_JSON_RESULT)
