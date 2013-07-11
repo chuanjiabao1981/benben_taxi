@@ -33,7 +33,7 @@ class TaxiRequest < ActiveRecord::Base
 	DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S = 20
 
 	DEFUALT_JSON_RESULT 					 = {
-													:only	 => [:id,:state,:passenger_mobile,:driver_mobile,:driver_score,:passenger_score,:plate,:driver_name,:source,:destination],
+													:only	 => [:id,:state,:passenger_mobile,:driver_mobile,:driver_score,:passenger_score,:plate,:driver_name,:source,:destination,:created_at],
 													:methods => [:passenger_lat,:passenger_lng,:passenger_voice_url,:driver_lat,:driver_lng,:passenger_has_score,:driver_has_score]
 											   }
 	DEFAULT_JSON_RESULT_WITH_COMMENTS		 = DEFUALT_JSON_RESULT.merge(
