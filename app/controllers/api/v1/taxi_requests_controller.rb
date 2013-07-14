@@ -3,7 +3,8 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 		return render json: json_params_null_errors if params[:taxi_request].nil?
 		taxi_request = TaxiRequest.build_taxi_request(params[:taxi_request],current_user)
 		if taxi_request.save
-			render json: json_add_data(:id,taxi_request.id)
+			# render json: json_add_data(:id,taxi_request.id)
+			render json: taxi_request.as_json(TaxiRequest::DEFUALT_JSON_RESULT)
 		else
 			render json: json_errors(taxi_request.errors)
 		end
