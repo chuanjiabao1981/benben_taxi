@@ -30,7 +30,7 @@ class TaxiRequest < ActiveRecord::Base
 	TMP_FILE_NAME 			   				= 'benben_taxi'
 	ORIGINAL_FILENAME 		   				= 'benben_taxi_passenger_voice'
 
-	DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S = 20
+	DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S = 50
 
 	DEFUALT_JSON_RESULT 					 = {
 													:only	 => [:id,:state,:passenger_mobile,:driver_mobile,:driver_score,:passenger_score,:plate,:driver_name,:source,:destination,:created_at],
