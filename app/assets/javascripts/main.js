@@ -116,7 +116,8 @@ $(function() {
   map = void 0;
   if ($("#map-container")[0]) {
     map = new BMap.Map("map-container");
-    point = new BMap.Point(113.959845,22.540555);
+    //point = new BMap.Point(113.959845,22.540555);
+    point = new BMap.Point(113.600712,37.854455)
     map.addControl(new BMap.NavigationControl());
     map.addControl(new BMap.ScaleControl());
     map.addControl(new BMap.OverviewMapControl());
