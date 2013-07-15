@@ -122,7 +122,7 @@ $(function() {
     map.addControl(new BMap.ScaleControl());
     map.addControl(new BMap.OverviewMapControl());
     map.addControl(new BMap.MapTypeControl());
-    map.centerAndZoom(point, 11);
+    map.centerAndZoom(point, 13);
     markerClusterMananger = new MarkerClusterMananger(map);
 
     setInterval(function(){showLatestTaxi(map)},2000);
