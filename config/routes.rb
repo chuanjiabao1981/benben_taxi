@@ -40,6 +40,7 @@ BenbenTaxi::Application.routes.draw do
     resources :users
     resources :taxi_companies
     resources :taxi_requests
+    resources :advertisements
   end
 
   get '/signin',  to: 'sessions#new'

@@ -11,11 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130703152436) do
+ActiveRecord::Schema.define(version: 20130721121911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "advertisements", force: true do |t|
+    t.text     "content"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer  "tenant_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "advertisements", ["end_time"], :name => "index_advertisements_on_end_time"
+  add_index "advertisements", ["start_time"], :name => "index_advertisements_on_start_time"
 
   create_table "comments", force: true do |t|
     t.integer  "author_id"

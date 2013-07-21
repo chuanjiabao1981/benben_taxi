@@ -1,3 +1,4 @@
+#encoding:utf-8
 module ApplicationHelper
 	def delete_link(o)
 	link_to I18n.t('views.text.destroy'), 
@@ -85,6 +86,24 @@ module ApplicationHelper
 						title: "打车详情",
 						side_bar: false
 					}
+				]
+			},
+			{
+				name: "广告",
+				icon: "icon-th",
+				actions:[
+					{
+						action:["zone_admin/advertisements::index"],
+						url:[:zone_admin,:advertisements],
+						name: "广告",
+						title: "发布广告列表"
+					},
+					{
+						action:["zone_admin/advertisements::new","zone_admin/advertisements::create"],
+						url:[:new,:zone_admin,:advertisement],
+						name: "发布广告",
+						title: "发布广告"
+					},
 				]
 			},
 			{

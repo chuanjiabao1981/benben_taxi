@@ -1,0 +1,14 @@
+<table class="table table-striped table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>开始日期</th>
+			<th>结束日志</th>
+			<th>广告内容</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<%= render @advertisements if @uadvertisements %>
+</table>
+
+<%= will_paginate @advertisements, :class => 'digg_pagination' %>

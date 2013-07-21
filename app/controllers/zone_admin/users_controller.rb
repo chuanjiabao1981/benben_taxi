@@ -2,7 +2,7 @@ class ZoneAdmin::UsersController < ApplicationController
 	include ZoneAdmin::UsersHelper
 	def index
 		params[:page] ||=1
-		@users = User.all.where(:role => User::ROLE_DRIVER).paginate(:page => params[:page])
+		@users = User.where(:role => User::ROLE_DRIVER).paginate(:page => params[:page])
 	end
 	def new
 		@user = User.build_driver

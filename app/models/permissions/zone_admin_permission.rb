@@ -20,6 +20,8 @@ module Permissions
         allow "zone_admin/taxi_requests",[:show] do |t|
             t && t.tenant_id == user.tenant_id
         end
+
+        allow "zone_admin/advertisements",[:index,:new,:create]
     end
   end
 end
