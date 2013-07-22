@@ -31,6 +31,7 @@ BenbenTaxi::Application.routes.draw do
         end
       end
       resources :driver_track_points,only:[:create,:index]
+      resources :advertisements,only:[:index]
     end
   end
 

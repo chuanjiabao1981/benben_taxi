@@ -4,8 +4,17 @@ require "base64"
 class TestApi
 	def initialize
 		@host = 'localhost'
-		@host = 'v2.365check.net'
+		#@host = 'v2.365check.net'
 		@port = '8081'
+	end
+
+	def passenger_get_advertisement_api
+		path	= "/api/v1/advertisements"
+		self.get_request(path,self.get_passenger_head)
+	end
+	def driver_get_advertisement_api
+		path	= "/api/v1/advertisements"
+		self.get_request(path,self.get_driver_head)
 	end
 
 	def create_taxi_request_api	
@@ -229,7 +238,7 @@ end
 s = TestApi.new
 #s.passenger_signin_api
 #s.driver_signin_api
-s.create_taxi_request_api
+#s.create_taxi_request_api
 #s.create_driver_track_point_api
 #s.nearby_taxi_requests_api
 #s.answer_taxi_request_api
@@ -238,7 +247,7 @@ s.create_taxi_request_api
 #s.confirm_taxi_request_api
 #s.answer_taxi_request_twice
 #s.get_latest_drvier_api
-s.get_passenger_taxi_requests_api
+#s.get_passenger_taxi_requests_api
 #s.get_driver_taxi_requests_api
 #s.driver_score_passenger
 #s.passenger_score_driver
@@ -246,4 +255,7 @@ s.get_passenger_taxi_requests_api
 #s.passenger_comment_on_driver
 #s.driver_get_comments
 #s.passenger_get_comments
+#s.passenger_get_advertisement_api
+s.driver_get_advertisement_api
+
 

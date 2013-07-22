@@ -13,6 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require lib/location
+//= require jquery.ui.datepicker
+//= require jquery.ui.datepicker-zh-CN
 //= require_tree .
 //= require bootstrap-dropdown
 //= require ace-elements

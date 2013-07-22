@@ -54,6 +54,8 @@ gem 'carrierwave'
 
 gem 'daemons'
 
+gem 'jquery-ui-rails'
+
 
 
 

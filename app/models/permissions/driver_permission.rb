@@ -24,6 +24,8 @@ module Permissions
       allow "api/v1/comments",[:create] do |t|
         t && t.tenant_id == user.tenant_id && t.driver_id == user.id && t.state == 'Success'
       end
+
+      allow "api/v1/advertisements",[:index]
     end
   end
 end

@@ -22,6 +22,10 @@ module Permissions
         end
 
         allow "zone_admin/advertisements",[:index,:new,:create]
+        allow "zone_admin/advertisements",[:edit,:update,:destroy] do |k|
+            k && k.tenant_id == user.tenant_id
+        end
+        allow_param :advertisement,[:content,:start_time,:end_time]
     end
   end
 end

@@ -8,7 +8,7 @@
 			<th>操作</th>
 		</tr>
 	</thead>
-	<%= render @advertisements if @uadvertisements %>
+	<%= render @advertisements if @advertisements %>
 </table>
 
 <%= will_paginate @advertisements, :class => 'digg_pagination' %>

@@ -1,8 +1,8 @@
 <tr>
 	<td><%= advertisement_counter + Advertisement.per_page * (params[:page].to_i - 1)  + 1%></td>
-	<td><%= advertisemnet.start_time %></td>
-	<td><%= advertisement.end_time %></td>
-	<td><%= advertisement.content %></td>
+	<td><%= advertisement.start_time.strftime("%Y-%m-%d") %></td>
+	<td><%= advertisement.end_time.strftime("%Y-%m-%d") %></td>
+	<td><%= truncate(advertisement.content,:length => 10) %></td>
 	<td>
 		<%= render partial:'share/edit',  locals:{edit_url:[:edit,:zone_admin,advertisement]} %>
 		<%= render partial:'share/delete',locals:{delete_url:[:zone_admin,advertisement] }%>

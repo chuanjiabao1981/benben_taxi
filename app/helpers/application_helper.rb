@@ -95,7 +95,7 @@ module ApplicationHelper
 					{
 						action:["zone_admin/advertisements::index"],
 						url:[:zone_admin,:advertisements],
-						name: "广告",
+						name: "广告列表",
 						title: "发布广告列表"
 					},
 					{
@@ -104,6 +104,12 @@ module ApplicationHelper
 						name: "发布广告",
 						title: "发布广告"
 					},
+					{
+						action:["zone_admin/advertisements::edit","zone_admin/advertisements::update"],
+						name: "编辑",
+						title: "广告编辑",
+						side_bar: false
+					}
 				]
 			},
 			{

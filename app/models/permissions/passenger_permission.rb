@@ -16,6 +16,7 @@ module Permissions
       end
 
       allow "api/v1/users"           , [:nearby_driver]
+      allow "api/v1/advertisements",[:index]
     end
   end
 end
