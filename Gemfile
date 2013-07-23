@@ -58,6 +58,9 @@ gem 'jquery-ui-rails'
 
 gem 'trollop'
 
+gem 'newrelic_rpm'
+
+
 
 
 
