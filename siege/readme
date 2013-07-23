@@ -1,0 +1,3 @@
+#siege -c 1 -r 1 -f post_body/driver_track.request -b --header="Cookie:remember_token=iSTHbY-tSaJw793fm15faA" --header="Content-Type:application/json"
+获取压力测试命令
+./siege.sh -v -c 1 -r 1 -f post_body/driver_track.request

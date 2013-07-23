@@ -56,6 +56,8 @@ gem 'daemons'
 
 gem 'jquery-ui-rails'
 
+gem 'trollop'
+
 
 
 
