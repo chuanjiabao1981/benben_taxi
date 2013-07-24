@@ -5,7 +5,7 @@ class Api::V1::DriverTrackPointsController <  Api::ApiController
 		if driver_track_point.save
 			render json: json_response_ok
 		else
-			Rails.logger.debug(driver_track_point.errors.full_messages)
+			#Rails.logger.debug(driver_track_point.errors.full_messages)
 			render json: json_errors(driver_track_point.errors)
 		end
 	end
