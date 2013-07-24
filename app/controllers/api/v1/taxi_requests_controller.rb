@@ -25,6 +25,7 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 
 	def nearby
 		r = TaxiRequest.get_nearby_taxi_requests(params)
+		Rails.logger.info("33333:\t"+r.to_json)
 		return render json: r
 	end
 
