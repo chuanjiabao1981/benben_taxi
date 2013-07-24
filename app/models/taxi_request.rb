@@ -98,7 +98,6 @@ class TaxiRequest < ActiveRecord::Base
 
 	def self.get_nearby_taxi_requests(params)
 		return [] if params[:lng].nil? or params[:lat].nil?
-		Rails.logger.info("1. xxxxxxxxxxxx")
 		params[:radius] ||=DEFAULT_SEARCH_RADIUS
 		driver_location = "POINT (#{params[:lng]} #{params[:lat]})"
 		s=TaxiRequest.all.by_distance(driver_location,params[:radius]).by_state.within(MAX_WAITING_TIME_RANGE*2).order("created_at DESC")
