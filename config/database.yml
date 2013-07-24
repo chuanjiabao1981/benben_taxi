@@ -65,7 +65,7 @@ production:
   postgis_extension: true
   schema_search_path: public,postgis
   database: benben_taxi_production
-  pool: 5
+  pool: 10
   username: benben_taxi
   password: 12345
   su_username: benben_taxi_creator
