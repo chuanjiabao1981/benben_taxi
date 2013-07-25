@@ -20,6 +20,9 @@ module SessionsHelper
 	private
 		def user_from_remember_token
 			remember_token = cookies[:remember_token]
-			User.find_by  remember_token: remember_token unless remember_token.nil?
+			return nil if remember_token.nil?
+			Rails.cache.fetch(remember_token)  do		
+				a=User.find_by  remember_token: remember_token
+			end
 		end
 end
