@@ -40,8 +40,11 @@ module Api
       def current_tenant
         return current_user.tenant if current_user 
       end
+      def current_tenant_id
+        return current_user.tenant_id if current_user
+      end
       def scope_current_tenant 
-        Tenant.current_id = current_tenant.nil? ? nil : current_tenant.id
+        Tenant.current_id = current_tenant_id 
         yield
       ensure
         Tenant.current_id = nil 
