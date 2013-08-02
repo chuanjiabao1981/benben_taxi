@@ -32,11 +32,13 @@ BenbenTaxi::Application.routes.draw do
       end
       resources :driver_track_points,only:[:create,:index]
       resources :advertisements,only:[:index]
+      resources :client_exceptions,only:[:create]
     end
   end
 
   root :to => 'main#overview'
   resources :users
+  resources :client_exceptions,only:[:index,:edit,:update,:destroy]
   namespace :zone_admin do
     resources :users
     resources :taxi_companies

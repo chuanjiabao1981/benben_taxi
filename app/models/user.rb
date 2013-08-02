@@ -18,6 +18,7 @@ class User < ActiveRecord::Base
 	ROLE_ZONE_ADMIN		=  "zone_admin"
 	ROLE_DRIVER 		=  "driver"
 	ROLE_PASSENGER 		=  "passenger"
+	ROLE_GUEST			=  "guest"
 
 	STATUS_TYPE 		= %w(normal waiting_validate forbidden)
 	STATUS_TYPE_HUMAN   = {:normal => "帐号正常", :waiting_validate => "帐号审核", :forbidden => "帐号封禁"}

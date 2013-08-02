@@ -1,0 +1,9 @@
+<tr>
+	<td><%= client_exception_counter + 1 %></td>
+	<td><%= client_exception.content %></td>
+	<td><%= client_exception.role %></td>
+	<td>
+		<%= render partial:'share/edit',  locals:{edit_url:[:edit,client_exception]} %>
+		<%= render partial:'share/delete',locals:{delete_url:[client_exception]} %>
+	</td>
+</tr>

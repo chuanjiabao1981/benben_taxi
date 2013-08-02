@@ -113,6 +113,18 @@ module ApplicationHelper
 				]
 			},
 			{
+				name:"异常",
+				icon: "icon-th",
+				actions:[
+					{
+						action:["client_exceptions::index"],
+						url:[:client_exceptions],
+						name: "异常",
+						title: "异常列表",
+					}
+				]
+			},
+			{
 				name: "地域",
 				icon: "icon-th",
 				actions: [
@@ -191,6 +203,11 @@ module ApplicationHelper
 			end
 			break if a
 		end
+		#Rails.logger.debug("B-------#{params[:controller]}::#{params[:action]}")
+		#Rails.logger.debug(g)
+		#Rails.logger.debug(a)
+		#Rails.logger.debug("E-------")
 		[g,a]
+
 	end
 end

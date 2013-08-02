@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130721121911) do
+ActiveRecord::Schema.define(version: 20130801133730) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,16 @@ ActiveRecord::Schema.define(version: 20130721121911) do
 
   add_index "advertisements", ["end_time"], :name => "index_advertisements_on_end_time"
   add_index "advertisements", ["start_time"], :name => "index_advertisements_on_start_time"
+
+  create_table "client_exceptions", force: true do |t|
+    t.string   "client_version"
+    t.string   "android_version"
+    t.string   "ios_version"
+    t.string   "role"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "comments", force: true do |t|
     t.integer  "author_id"
