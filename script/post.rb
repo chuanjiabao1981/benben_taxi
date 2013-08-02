@@ -8,6 +8,16 @@ class TestApi
 		@port = '8081'
 	end
 
+	def client_exceptions_api
+		path  = "/api/v1/client_exceptions"
+		body  = {
+				client_exception:{
+					content:"test some exception"
+				}
+			}.to_json
+		request_header ={'Content-Type' =>'application/json'}
+		self.post_request(path,request_header,body)
+	end
 	def passenger_get_advertisement_api
 		path	= "/api/v1/advertisements"
 		self.get_request(path,self.get_passenger_head)
@@ -239,7 +249,7 @@ s = TestApi.new
 #s.passenger_signin_api
 #s.driver_signin_api
 #s.create_taxi_request_api
-s.create_driver_track_point_api
+#s.create_driver_track_point_api
 #s.nearby_taxi_requests_api
 #s.answer_taxi_request_api
 #s.show_taxi_request_api
@@ -257,5 +267,6 @@ s.create_driver_track_point_api
 #s.passenger_get_comments
 #s.passenger_get_advertisement_api
 #s.driver_get_advertisement_api
+s.client_exceptions_api
 
 
