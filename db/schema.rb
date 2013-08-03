@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130801133730) do
+ActiveRecord::Schema.define(version: 20130803030641) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,11 +33,14 @@ ActiveRecord::Schema.define(version: 20130801133730) do
     t.string   "client_version"
     t.string   "android_version"
     t.string   "ios_version"
-    t.string   "role"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "md5"
+    t.integer  "num",             default: 1
   end
+
+  add_index "client_exceptions", ["md5"], :name => "index_client_exceptions_on_md5"
 
   create_table "comments", force: true do |t|
     t.integer  "author_id"
