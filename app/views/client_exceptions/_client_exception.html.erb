@@ -5,7 +5,7 @@
 			查看
 		<% end %>
 	</td>
-	<td><%= client_exception.role %></td>
+	<td><%= client_exception.created_at %></td>
 	<td>
 		<%= render partial:'share/edit',  locals:{edit_url:[:edit,client_exception]} %>
 		<%= render partial:'share/delete',locals:{delete_url:[client_exception]} %>
