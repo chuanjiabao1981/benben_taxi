@@ -1,0 +1,17 @@
+<table class="table table-striped table-bordered table-hover">
+	<tr>
+		<td>类型</td>
+		<td><%=@client_exception.role%></td>
+	</tr>
+	<tr>
+		<td>版本</td>
+		<td>
+			<%= @client_exception.android_version %>
+			<%= @client_exception.ios_version %>
+		</td>
+	</tr>
+	<tr>
+		<td>内容</td>
+		<td><%=simple_format(@client_exception.content)%></td>
+	</tr>
+</table>

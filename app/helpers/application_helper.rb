@@ -121,6 +121,12 @@ module ApplicationHelper
 						url:[:client_exceptions],
 						name: "异常",
 						title: "异常列表",
+					},
+					{
+						action:["client_exceptions::show"],
+						name: "异常详情",
+						tilte: "异常详情",
+						side_bar: false
 					}
 				]
 			},

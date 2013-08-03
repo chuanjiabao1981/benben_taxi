@@ -38,7 +38,7 @@ BenbenTaxi::Application.routes.draw do
 
   root :to => 'main#overview'
   resources :users
-  resources :client_exceptions,only:[:index,:edit,:update,:destroy]
+  resources :client_exceptions,only:[:index,:show,:update,:edit,:destroy]
   namespace :zone_admin do
     resources :users
     resources :taxi_companies

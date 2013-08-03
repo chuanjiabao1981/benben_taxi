@@ -1,6 +1,10 @@
 <tr>
 	<td><%= client_exception_counter + 1 %></td>
-	<td><%= client_exception.content %></td>
+	<td>
+		<%=link_to client_exception do %>
+			查看
+		<% end %>
+	</td>
 	<td><%= client_exception.role %></td>
 	<td>
 		<%= render partial:'share/edit',  locals:{edit_url:[:edit,client_exception]} %>
