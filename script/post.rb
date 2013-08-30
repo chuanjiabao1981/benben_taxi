@@ -4,7 +4,7 @@ require "base64"
 class TestApi
 	def initialize
 		@host = 'localhost'
-		@host = 'v2.365check.net'
+		#@host = 'v2.365check.net'
 		@port = '8081'
 	end
 
@@ -60,7 +60,7 @@ class TestApi
 		self.get_request(path,request_header)
 	end
 	def driver_score_passenger
-		taxi_request = JSON.parse(self.confirm_taxi_request_api)
+		taxi_request = JSON.parse(self.answer_taxi_request_api)
 		path         = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
 		body 		 ={
 			taxi_request:{
@@ -71,7 +71,7 @@ class TestApi
 		self.post_request(path,request_header,body)
 	end
 	def passenger_score_driver
-		taxi_request = JSON.parse(self.confirm_taxi_request_api)
+		taxi_request = JSON.parse(self.answer_taxi_request_api)
 		path  		 = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
 		body 		 = {
 			taxi_request:{
@@ -82,7 +82,7 @@ class TestApi
 		self.post_request(path,request_header,body)
 	end
 	def driver_comment_on_passenger(taxi_request=nil)
-		taxi_request ||= JSON.parse(self.confirm_taxi_request_api)
+		taxi_request ||= JSON.parse(self.answer_taxi_request_api)
 		path           = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
 		body 		   = {
 			taxi_request:{
@@ -99,7 +99,7 @@ class TestApi
 		self.passenger_comment_on_driver(taxi_request)
 	end
 	def passenger_comment_on_driver(taxi_request=nil)
-		taxi_request ||= JSON.parse(self.confirm_taxi_request_api)
+		taxi_request ||= JSON.parse(self.answer_taxi_request_api)
 		path           = "/api/v1/taxi_requests/#{taxi_request["id"]}/comments"
 		body 		   = {
 			taxi_request:{
@@ -152,7 +152,7 @@ class TestApi
 		request_header ||= self.get_driver_head(mobile)
 		taxi_request   ||= JSON.parse(self.create_taxi_request_api)
 		path           = "/api/v1/taxi_requests/#{taxi_request["id"]}/response"
-		#path           = "/api/v1/taxi_requests/45/response"
+		path           = "/api/v1/taxi_requests/85971/response"
 		body 		   ={
 			taxi_response:{
 				driver_mobile: mobile,
@@ -163,13 +163,13 @@ class TestApi
 		}.to_json
 		self.post_request(path,request_header,body)
 	end
-	def confirm_taxi_request_api
-		request_header = self.get_passenger_head
-		taxi_request   = JSON.parse(self.create_taxi_request_api)
-		answer_taxi_request_api(taxi_request)
-		path 		   = "/api/v1/taxi_requests/#{taxi_request["id"]}/confirm"
-		self.post_request(path,request_header,nil)
-	end
+	#def confirm_taxi_request_api
+	#	request_header = self.get_passenger_head
+	#	taxi_request   = JSON.parse(self.create_taxi_request_api)
+	#	answer_taxi_request_api(taxi_request)
+	#	path 		   = "/api/v1/taxi_requests/#{taxi_request["id"]}/confirm"
+	#	self.post_request(path,request_header,nil)
+	#end
 	def cancel_taxi_request_api
 		taxi_request  = JSON.parse(self.create_taxi_request_api)
 		request_header = self.get_passenger_head
@@ -251,11 +251,11 @@ s = TestApi.new
 #s.create_taxi_request_api
 #s.create_driver_track_point_api
 #s.nearby_taxi_requests_api
-#s.answer_taxi_request_api
+s.answer_taxi_request_api
 #s.show_taxi_request_api
 #s.cancel_taxi_request_api
 #s.confirm_taxi_request_api
-s.answer_taxi_request_twice
+#s.answer_taxi_request_twice
 #s.get_latest_drvier_api
 #s.get_passenger_taxi_requests_api
 #s.get_driver_taxi_requests_api
