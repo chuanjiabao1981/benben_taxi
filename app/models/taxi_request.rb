@@ -30,6 +30,7 @@ class TaxiRequest < ActiveRecord::Base
 	TMP_FILE_NAME 			   				= 'benben_taxi'
 	ORIGINAL_FILENAME 		   				= 'benben_taxi_passenger_voice'
 
+	#TODO:: 删除掉
 	DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S = 50
 
 	DEFUALT_JSON_RESULT 					 = {
@@ -57,7 +58,7 @@ class TaxiRequest < ActiveRecord::Base
 	scope :by_state,lambda {|state='Waiting_Driver_Response'|
 		where('state = ?',state)
 	}
-
+	#TODO:: 这个删除掉
 	scope :timeout_taxi_requests ,lambda {
 		where('(state=? or state=?) and 
 			   (timeout is not null and timeout <= ?)',
@@ -226,8 +227,11 @@ class TaxiRequest < ActiveRecord::Base
 
 	state_machine :initial => :Waiting_Driver_Response do
 		before_transition all => :Canceled_By_Passenger ,:do => :set_passenger_cancel_time
+		#TODO::这个去掉 因为没有人再响应乘客响应时间
 		before_transition :Waiting_Passenger_Confirm => :Success ,:do => :set_passenger_confirm_time
+		#TODO::这个改为 :Waiting_Driver_Response
 		after_transition  :Waiting_Passenger_Confirm => :Success ,:do => :update_statistics_info
+		#TODO::这个改为 Waiting_Passenger_Confirm :Success
 		before_transition :Waiting_Driver_Response   => :Waiting_Passenger_Confirm, :do => :set_response_info
 		around_transition do |taxi_request, transition, block|
 			Rails.logger.debug "before #{transition.event}: #{taxi_request.state} "
@@ -238,6 +242,7 @@ class TaxiRequest < ActiveRecord::Base
 		state :Waiting_Driver_Response do
 			transition :to => :Waiting_Driver_Response      ,:on => :Passenger_Confirm
 			transition :to => :Canceled_By_Passenger 		,:on => :Passenger_Cancel
+			#TODO::这个改为:Success
 			transition :to => :Waiting_Passenger_Confirm 	,:on => :Driver_Confirm
 			transition :to => :TimeOut						,:on => :TimeOut
 		end
@@ -247,7 +252,7 @@ class TaxiRequest < ActiveRecord::Base
 			transition :Success 			  => :Success
 			transition :TimeOut 			  => :TimeOut
 		end
-
+		#TODO:: 这个保持改成Success 去掉transition
 		state :Waiting_Passenger_Confirm do
 			validates_presence_of :driver_id
 			validates_presence_of :driver_mobile
@@ -288,6 +293,8 @@ class TaxiRequest < ActiveRecord::Base
 			self.driver_location = "POINT(#{self.response_info[:driver_lng]} #{self.response_info[:driver_lat]})"
 		end
 		self.driver_response_time 		= Time.now
+		#TODO::这个也应该去掉 response之后就不需要超时时间了
+		#TODO::这个要加上passenger_confirm_time
 		self.timeout 					= DEFAULT_WAITING_PASSENGER_CONFIRM_TIME_S.seconds.since
 	end
 	def update_statistics_info
