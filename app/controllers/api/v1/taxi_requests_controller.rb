@@ -47,15 +47,6 @@ class Api::V1::TaxiRequestsController < Api::ApiController
 		end
 	end
 
-	def confirm
-		taxi_request = current_resource
-		if taxi_request.passenger_confirm(nil,current_user)
-			render json: taxi_request.get_json
-		else
-			render json: json_errors(taxi_request.errors)
-		end
-	end
-
 	def show
 		render json:current_resource.get_json
 	end

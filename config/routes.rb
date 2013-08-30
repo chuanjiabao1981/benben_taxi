@@ -22,7 +22,6 @@ BenbenTaxi::Application.routes.draw do
         member do
           post 'response',action: :answer
           post 'cancel'
-          post 'confirm'
         end
         resources :comments,only:[:create,:index]
         collection do
