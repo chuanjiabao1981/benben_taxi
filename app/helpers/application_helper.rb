@@ -4,7 +4,7 @@ module ApplicationHelper
 	link_to I18n.t('views.text.destroy'), 
 			o, 
 			method: :delete, 
-			confirm: t('views.text.confirm',:model => t("activerecord.models.#{o.class.to_s.underscore}"))
+			data: {confirm: t('views.text.confirm',:model => t("activerecord.models.#{o.class.to_s.underscore}"))}
 	end
 	def action_groups
 		@_action_groups ||=[
@@ -113,6 +113,30 @@ module ApplicationHelper
 				]
 			},
 			{
+				name: "管理",
+				icon: "icon-th",
+				actions:[
+					{
+						action:["users::index"],
+						url:[:users],
+						name:"管理员列表",
+						title:"系统管理员列表"
+					},
+					{
+						action:["users::new","users::create"],
+						url:[:new,:user],
+						name:"新增管理员",
+						title:"新增管理员"
+					},
+					{
+						action:["users::edit","users::update"],
+						name: "编辑",
+						title: "管理员编辑",
+						side_bar: false
+					}
+				]
+			},
+			{
 				name:"异常",
 				icon: "icon-th",
 				actions:[
@@ -130,6 +154,7 @@ module ApplicationHelper
 					}
 				]
 			},
+			
 			{
 				name: "地域",
 				icon: "icon-th",

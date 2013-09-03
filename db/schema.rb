@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130803030641) do
+ActiveRecord::Schema.define(version: 20130902094821) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,22 @@ ActiveRecord::Schema.define(version: 20130803030641) do
     t.datetime "updated_at"
   end
 
+  create_table "delayed_jobs", force: true do |t|
+    t.integer  "priority",   default: 0, null: false
+    t.integer  "attempts",   default: 0, null: false
+    t.text     "handler",                null: false
+    t.text     "last_error"
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+
   create_table "driver_track_points", force: true do |t|
     t.integer  "driver_id"
     t.string   "mobile"
@@ -69,6 +85,18 @@ ActiveRecord::Schema.define(version: 20130803030641) do
   add_index "driver_track_points", ["driver_id"], :name => "index_driver_track_points_on_driver_id"
   add_index "driver_track_points", ["location"], :name => "index_driver_track_points_on_location", :spatial => true
   add_index "driver_track_points", ["tenant_id"], :name => "index_driver_track_points_on_tenant_id"
+
+  create_table "register_verifications", force: true do |t|
+    t.string   "mobile"
+    t.datetime "delivered_time"
+    t.string   "status"
+    t.string   "code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "sms_gate_ret_raw_msg"
+  end
+
+  add_index "register_verifications", ["mobile", "code"], :name => "verification_index"
 
   create_table "taxi_companies", force: true do |t|
     t.string   "name"
@@ -134,6 +162,7 @@ ActiveRecord::Schema.define(version: 20130803030641) do
     t.integer "taxi_company_id"
     t.string  "register_info"
     t.integer "success_taxi_requests", default: 0
+    t.string  "verify_code"
   end
 
   add_index "users", ["account"], :name => "index_users_on_account"

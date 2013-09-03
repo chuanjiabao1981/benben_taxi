@@ -61,6 +61,9 @@ gem 'trollop'
 
 gem 'newrelic_rpm'
 
+gem 'delayed_job_active_record'
+
+
 
 
 

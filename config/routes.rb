@@ -32,6 +32,7 @@ BenbenTaxi::Application.routes.draw do
       resources :driver_track_points,only:[:create,:index]
       resources :advertisements,only:[:index]
       resources :client_exceptions,only:[:create]
+      resources :register_verifications,only:[:create]
     end
   end
 

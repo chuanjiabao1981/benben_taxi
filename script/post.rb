@@ -26,6 +26,31 @@ class TestApi
 		path	= "/api/v1/advertisements"
 		self.get_request(path,self.get_driver_head)
 	end
+	def passenger_register_api(mobile,verify_code)
+		path    = "/api/v1/users/create_passenger"
+		body    ={
+				user:{
+					mobile: mobile,
+					password:"8",
+					password_confirmation: "8",
+					verify_code: verify_code
+				}
+		}.to_json
+		request_header ={'Content-Type' =>'application/json'}
+		self.post_request(path,request_header,body)
+	end
+	def driver_register_api(mobile)
+		path 	= "/api/v1/users/create_driver"
+		body	= {
+				user:{
+					mobile: mobile,
+					password: "8",
+					password_confirmation: "8"
+				}
+		}.to_json
+		request_header ={'Content-Type' =>'application/json'}
+		self.post_request(path,request_header,body)
+	end
 
 	def create_taxi_request_api	
 		cookie = JSON.parse(self.passenger_signin_api)
@@ -193,6 +218,16 @@ class TestApi
 		self.post_request(path,request_header,body)
 		#end
 	end
+	def create_register_verification_api(mobile="15910676326")
+		path = "/api/v1/register_verifications"
+		body = {
+					register_verification:{
+						mobile: mobile
+					}
+			}.to_json
+		request_header = {'Content-Type' =>'application/json'}
+		self.post_request(path,request_header,body)
+	end
 	def nearby_taxi_requests_api
 		path ="/api/v1/taxi_requests/nearby?lat=#{get_random_lat}&lng=#{get_random_lng}&radius=50000"
 		request_header = self.get_driver_head
@@ -246,15 +281,18 @@ class TestApi
 end
 
 s = TestApi.new
+#mobile="95910676326"
+#s.create_register_verification_api(mobile)
+#s.driver_register_api(mobile)
+#s.passenger_register_api(mobile,"8240")
 #s.passenger_signin_api
 #s.driver_signin_api
 #s.create_taxi_request_api
 #s.create_driver_track_point_api
 #s.nearby_taxi_requests_api
-s.answer_taxi_request_api
+#s.answer_taxi_request_api
 #s.show_taxi_request_api
 #s.cancel_taxi_request_api
-#s.confirm_taxi_request_api
 #s.answer_taxi_request_twice
 #s.get_latest_drvier_api
 #s.get_passenger_taxi_requests_api

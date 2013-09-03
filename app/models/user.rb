@@ -6,6 +6,13 @@ class TenantNameValidator < ActiveModel::Validator
 		end
 	end
 end
+class RegisterValidator < ActiveModel::Validator
+	def validate(record)
+		if ! RegisterVerification.verify(record.mobile,record.verify_code)
+			record.errors[:verify_code] << "验证码错误"
+		end
+	end
+end
 class User < ActiveRecord::Base
 
 	self.per_page = 30
@@ -54,6 +61,7 @@ class User < ActiveRecord::Base
 	validates :register_info  ,:length=>{:maximum => 256}
 	validates :plate		  ,:length=>{:maximum => 20}
 	validates_with TenantNameValidator
+	validates_with RegisterValidator,:on=>:create,:if => Proc.new {|u| u.is_passenger?}
 	belongs_to :tenant
 	belongs_to :taxi_company
 	has_many   :comments,:class_name =>"Comment",:foreign_key => "author_id",:dependent => :destroy
