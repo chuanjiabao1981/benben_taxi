@@ -20,8 +20,19 @@ class ZoneAdmin::PassengersController < ApplicationController
 		@passenger = current_resource
 	end
 	def update
+		@passenger = current_resource
+		if @passenger.update(params[:user])
+			flash[:notice] = "成功更新 #{@passenger.name} 信息!"
+			return redirect_to url_for([:zone_admin,:passengers])
+		else
+			render 'edit'
+		end
 	end
 	def destroy
+		@passenger=current_resource
+		@passenger.destroy
+		flash[:notice] = "成功删除 #{@passenger.name}!"
+		return redirect_to url_for([:zone_admin,:passengers])
 	end
 	private 
 		def current_resource
