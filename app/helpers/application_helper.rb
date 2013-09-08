@@ -53,6 +53,24 @@ module ApplicationHelper
 				]
 			},
 			{
+				name:"乘客",
+				icon: "icon-th",
+				actions:[
+					{
+						action:["zone_admin/passengers::index"],
+						url:[:zone_admin,:passengers],
+						name: "乘客列表",
+						title: "乘客列表列表",
+					},
+					{
+						action:["zone_admin/passengers::new","zone_admin/passengers::create"],
+						url: [:new,:zone_admin,:passenger],
+						name: "新增乘客",
+						title: "新增乘客"
+					},
+				]
+			},
+			{
 				name: "公司",
 				icon: "icon-group",
 				actions:[

@@ -41,6 +41,7 @@ BenbenTaxi::Application.routes.draw do
   resources :client_exceptions,only:[:index,:show,:update,:edit,:destroy]
   namespace :zone_admin do
     resources :users
+    resources :passengers
     resources :taxi_companies
     resources :taxi_requests
     resources :advertisements

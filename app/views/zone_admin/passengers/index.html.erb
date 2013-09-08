@@ -1,0 +1,14 @@
+<table class="table table-striped table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>手机</th>
+			<th>姓名</th>
+			<th>状态</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<%= render partial: "passenger", collection: @passengers %>
+</table>
+
+<%= will_paginate @passengers, :class => 'digg_pagination' %>

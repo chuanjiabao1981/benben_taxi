@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
 							   "super_admin"=> "normal",
 							   "zone_admin"=> "normal",
 							   "passenger"=> "normal",
-							   "driver"=> "normal"
+							   "driver"=> "waiting_validate"
 						   }
 	before_save :create_remember_token
 	has_secure_password
@@ -61,16 +61,17 @@ class User < ActiveRecord::Base
 	validates :register_info  ,:length=>{:maximum => 256}
 	validates :plate		  ,:length=>{:maximum => 20}
 	validates_with TenantNameValidator
-	validates_with RegisterValidator,:on=>:create,:if => Proc.new {|u| u.is_passenger?}
+	validates_with RegisterValidator,:on=>:create,:if => Proc.new {|u| u.is_passenger? and u.need_verify_code != false}
 	belongs_to :tenant
 	belongs_to :taxi_company
 	has_many   :comments,:class_name =>"Comment",:foreign_key => "author_id",:dependent => :destroy
 
 	attr_accessor :tenant_name
+	attr_accessor :need_verify_code
 
 	default_scope { where(tenant_id: Tenant.current_id)  if Tenant.current_id }
 
-	def self.driver_status_collections
+	def self.status_collections
 		s = []
 		STATUS_TYPE_HUMAN.each_pair {|key, value| s << [value,key] }
 		s
@@ -95,6 +96,11 @@ class User < ActiveRecord::Base
 	end
 	def self.build_passenger(params={})
 		User.build_a_user(params,ROLE_PASSENGER)
+	end
+	def self.build_passenger_with_no_verify(params={})
+		a = User.build_a_user(params,ROLE_PASSENGER)
+		a.need_verify_code = false
+		a
 	end
 	def self.build_zone_admin(params={})
 		User.build_a_user(params,ROLE_ZONE_ADMIN)

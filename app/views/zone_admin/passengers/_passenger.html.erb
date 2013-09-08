@@ -1,0 +1,15 @@
+<tr>
+	<td><%= passenger_counter + User.per_page * (params[:page].to_i - 1)  + 1%></td>
+	<td>
+			<i class="icon-hand-right"></i>
+			<%= passenger.mobile%>
+	</td>
+	<td><%= passenger.name %></td>
+	<td>
+		<span class="<%= User::STATUS_TYPE_CLASS[passenger.status.to_sym]%>"><%= User::STATUS_TYPE_HUMAN[passenger.status.to_sym] %></span>
+	</td>
+	<td>
+		<%= render partial:'share/edit',  locals:{edit_url:edit_zone_admin_passenger_path(passenger)} %>
+		<%= render partial:'share/delete',locals:{delete_url:zone_admin_passenger_path(passenger) }%>
+	</td>
+</tr>

@@ -1,2 +1,4 @@
 bundle exec rake assets:precompile
+rake db:migrate RAILS_ENV=production
 pg_ctl -D /opt/local/var/db/postgresql92/defaultdb -l logfile start
+./job.sh start
