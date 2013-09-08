@@ -17,9 +17,14 @@ class ZoneAdmin::PassengersController < ApplicationController
 		end
 	end
 	def edit
+		@passenger = current_resource
 	end
 	def update
 	end
 	def destroy
 	end
+	private 
+		def current_resource
+			@current_resource ||= User.find_by(id:params[:id],role: User::ROLE_PASSENGER) if params[:id]
+		end
 end

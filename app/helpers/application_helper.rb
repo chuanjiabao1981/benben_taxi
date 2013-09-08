@@ -68,6 +68,12 @@ module ApplicationHelper
 						name: "新增乘客",
 						title: "新增乘客"
 					},
+					{
+						action:["zone_admin/passengers::edit","zone_admin/passengers::update"],
+						name: "编辑",
+						title: "乘客信息编辑",
+						side_bar: false
+					}
 				]
 			},
 			{
