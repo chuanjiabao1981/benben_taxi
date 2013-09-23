@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130902094821) do
+ActiveRecord::Schema.define(version: 20130923015039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,19 +150,21 @@ ActiveRecord::Schema.define(version: 20130902094821) do
   add_index "tenants", ["name"], :name => "index_tenants_on_name"
 
   create_table "users", force: true do |t|
-    t.string  "name"
-    t.string  "mobile"
-    t.string  "account"
-    t.string  "role"
-    t.integer "tenant_id"
-    t.string  "status"
-    t.string  "password_digest"
-    t.string  "remember_token"
-    t.string  "plate"
-    t.integer "taxi_company_id"
-    t.string  "register_info"
-    t.integer "success_taxi_requests", default: 0
-    t.string  "verify_code"
+    t.string   "name"
+    t.string   "mobile"
+    t.string   "account"
+    t.string   "role"
+    t.integer  "tenant_id"
+    t.string   "status"
+    t.string   "password_digest"
+    t.string   "remember_token"
+    t.string   "plate"
+    t.integer  "taxi_company_id"
+    t.string   "register_info"
+    t.integer  "success_taxi_requests", default: 0
+    t.string   "verify_code"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "users", ["account"], :name => "index_users_on_account"
