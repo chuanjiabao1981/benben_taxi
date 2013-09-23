@@ -17,7 +17,7 @@ class RegisterVerification < ActiveRecord::Base
 
 
 	scope :not_time_out, lambda {
-		where('created_at > ?',2.minutes.ago)
+		where('created_at > ?',4.minutes.ago)
 	}
 
 	def self.generate_verification(params)
