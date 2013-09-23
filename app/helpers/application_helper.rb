@@ -191,7 +191,7 @@ module ApplicationHelper
 					},
 					{
 						action:["tenants::new","tenants::create"],
-						url:[:new,:tenants],
+						url:[:new,:tenant],
 						name:"新增地域",
 						title:"新增地域"
 					},
